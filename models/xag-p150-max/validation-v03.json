@@ -1,0 +1,44 @@
+{
+  "revision": "v03",
+  "motor_diagonal_mm": 2335.0,
+  "rotor_diameters_mm": [
+    1600.044,
+    1600.044,
+    1600.044,
+    1600.044
+  ],
+  "height_mm": 768.25,
+  "tank_outer_volume_l_not_useful_capacity": 110.771,
+  "master_triangles": 189868,
+  "master_objects": 575,
+  "web_objects": 82,
+  "web_meshes": 65,
+  "rotor_spin_tests": [
+    {
+      "node": "v03 | L_FRONT | ROTOR_ANIMATION_ROOT",
+      "quarter_turn_tip_travel_mm": 1131.402,
+      "restore_error_mm": 0.0
+    },
+    {
+      "node": "v03 | L_REAR | ROTOR_ANIMATION_ROOT",
+      "quarter_turn_tip_travel_mm": 1131.402,
+      "restore_error_mm": 0.0
+    },
+    {
+      "node": "v03 | R_FRONT | ROTOR_ANIMATION_ROOT",
+      "quarter_turn_tip_travel_mm": 1131.403,
+      "restore_error_mm": 0.0
+    },
+    {
+      "node": "v03 | R_REAR | ROTOR_ANIMATION_ROOT",
+      "quarter_turn_tip_travel_mm": 1131.402,
+      "restore_error_mm": 0.0
+    }
+  ],
+  "master_glb_bytes": 6521704,
+  "web_qa": "Geometry and pivots checked; browser/mobile frame rate not yet tested.",
+  "web_uncompressed_glb_bytes": 7064944,
+  "web_compressed_glb_bytes": 1887540,
+  "compression": "EXT_meshopt_compression; no geometric simplification",
+  "tank_non_manifold_edges": 0
+}

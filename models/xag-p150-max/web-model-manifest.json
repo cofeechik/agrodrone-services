@@ -1,0 +1,41 @@
+﻿{
+    "revision":  "v03",
+    "model":  "xag-p150-max-v03-web.glb",
+    "animation":  {
+                      "type":  "runtime rotation, no baked clips",
+                      "axis_in_gltf":  [
+                                           0,
+                                           1,
+                                           0
+                                       ],
+                      "units":  "radians per second",
+                      "directions_note":  "Alternating presentation directions, not verified flight control data.",
+                      "rotors":  [
+                                     {
+                                         "node":  "web | v03 | L_FRONT | ROTOR_ANIMATION_ROOT",
+                                         "direction":  1
+                                     },
+                                     {
+                                         "node":  "web | v03 | L_REAR | ROTOR_ANIMATION_ROOT",
+                                         "direction":  -1
+                                     },
+                                     {
+                                         "node":  "web | v03 | R_FRONT | ROTOR_ANIMATION_ROOT",
+                                         "direction":  -1
+                                     },
+                                     {
+                                         "node":  "web | v03 | R_REAR | ROTOR_ANIMATION_ROOT",
+                                         "direction":  1
+                                     }
+                                 ],
+                      "behaviour":  "Keep initial quaternion; multiply by a local-axis spin quaternion. Rotate hubs and blades only.",
+                      "accessibility":  "Stop for reduced motion and while the canvas is off-screen or document hidden."
+                  },
+    "fallback":  "preview-v03-three-quarter.png",
+    "limitations":  [
+                        "No verified transport folding",
+                        "No operational rotor RPM",
+                        "Microtextures are Blender-only; browser PBR appearance requires lighting QA"
+                    ],
+    "decoder":  "MeshoptDecoder required by the future browser loader"
+}

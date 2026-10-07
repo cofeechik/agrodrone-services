@@ -7,3 +7,7 @@ Thumbs.db
 tmp/
 qa/
 *.log
+*.blend1
+*.blend2
+models/xag-p150-max/*-web-uncompressed.glb
+models/xag-p150-max/*-web-welded.glb
