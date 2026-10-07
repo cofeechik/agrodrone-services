@@ -7,12 +7,10 @@ const navigation = document.querySelector('#navigation');
 function closeMenu() {
   navigation.classList.remove('is-open');
   menuButton.setAttribute('aria-expanded', 'false');
-  menuButton.querySelector('span').textContent = '+';
 }
 menuButton.addEventListener('click', () => {
   const open = navigation.classList.toggle('is-open');
   menuButton.setAttribute('aria-expanded', String(open));
-  menuButton.querySelector('span').textContent = open ? '−' : '+';
 });
 navigation.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMenu));
 document.addEventListener('keydown', event => {
@@ -34,59 +32,96 @@ window.addEventListener('scroll', () => {
 }, { passive: true });
 updateHeader();
 
-// One-time, short entrances. No hidden content when JS or motion is unavailable.
-const revealElements = [...document.querySelectorAll('[data-reveal]')];
-let revealObserver;
-function enableReveals() {
-  if (!('IntersectionObserver' in window) || reducedMotion.matches) return;
-  revealObserver = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (!entry.isIntersecting) return;
-      entry.target.classList.add('is-visible');
-      revealObserver.unobserve(entry.target);
-    });
-  }, { threshold: 0.08 });
-  revealElements.forEach((element, index) => {
-    element.style.setProperty('--reveal-delay', `${index % 2 * 70}ms`);
-    element.classList.add('will-reveal');
-    revealObserver.observe(element);
-  });
-}
-enableReveals();
-reducedMotion.addEventListener('change', event => {
-  if (event.matches) {
-    revealObserver?.disconnect();
-    revealElements.forEach(element => element.classList.add('is-visible'));
-  }
-});
+// One entrance for the real machine; the rest of the page is always visible.
+const heroMachine = document.querySelector('.hero-machine');
+const heroImage = heroMachine.querySelector('img');
+heroImage.decode().then(() => {
+  if (!reducedMotion.matches) heroMachine.classList.add('is-ready');
+}).catch(() => { /* A failed image never hides the surrounding content. */ });
 
 document.querySelectorAll('.faq-list details').forEach(details => {
   const summary = details.querySelector('summary');
   let animation;
-  summary.addEventListener('click', event => {
-    if (reducedMotion.matches || !details.animate) return;
-    event.preventDefault();
-    if (animation) return;
-    const closing = details.open;
-    const start = details.getBoundingClientRect().height;
-    if (!closing) details.open = true;
-    const end = closing ? summary.getBoundingClientRect().height + 2 : details.getBoundingClientRect().height;
-    details.style.overflow = 'hidden';
-    animation = details.animate({ height: [`${start}px`, `${end}px`] }, { duration: 240, easing: 'cubic-bezier(.22,.61,.36,1)' });
-    animation.onfinish = () => {
-      if (closing) details.open = false;
-      details.style.overflow = '';
+  let targetOpen = details.open;
+  function finish() {
+    if (animation) {
+      animation.onfinish = null;
+      animation.cancel();
       animation = null;
-    };
+    }
+    details.open = targetOpen;
+    details.style.overflow = '';
+  }
+  summary.addEventListener('click', event => {
+    if (reducedMotion.matches || !details.animate) {
+      targetOpen = !details.open;
+      return;
+    }
+    event.preventDefault();
+    const start = details.getBoundingClientRect().height;
+    targetOpen = animation ? !targetOpen : !details.open;
+    if (animation) {
+      animation.onfinish = null;
+      animation.cancel();
+    }
+    details.open = true;
+    const end = targetOpen ? details.getBoundingClientRect().height : summary.getBoundingClientRect().height + 2;
+    details.style.overflow = 'hidden';
+    animation = details.animate({ height: [`${start}px`, `${end}px`] }, {
+      duration: 240, easing: 'cubic-bezier(.22,.61,.36,1)'
+    });
+    animation.onfinish = finish;
   });
+  reducedMotion.addEventListener('change', event => {
+    if (event.matches && animation) finish();
+  });
+  window.addEventListener('resize', () => { if (animation) finish(); });
 });
 
+const form = document.querySelector('#request-form');
+const service = form.querySelector('#service');
+const area = form.querySelector('#area');
+const crop = form.querySelector('#crop');
+const locationField = form.querySelector('#location');
+const status = form.querySelector('#form-status');
+const retry = form.querySelector('#whatsapp-retry');
+
+function clearPreparedMessage() {
+  status.textContent = '';
+  retry.hidden = true;
+  retry.removeAttribute('href');
+}
+function updateService() {
+  const fieldWork = ['Опрыскивание', 'Удобрения и посев'].includes(service.value);
+  area.required = fieldWork;
+  crop.required = fieldWork;
+  form.querySelector('#area-required').textContent = fieldWork ? 'обязательно' : 'необязательно';
+  form.querySelector('#crop-required').textContent = fieldWork ? 'обязательно' : 'необязательно';
+  form.querySelector('#area-hint').textContent = fieldWork ? 'Укажите площадь обработки'
+    : service.value === 'Доставка грузов' ? 'Для доставки можно пропустить'
+    : service.value ? 'Если площадь известна, укажите её' : 'Зависит от выбранной услуги';
+  clearPreparedMessage();
+}
+service.addEventListener('change', updateService);
+updateService();
+
+for (const input of [locationField, crop]) {
+  input.addEventListener('input', () => {
+    input.setCustomValidity(input.value && !input.value.trim()
+      ? (input === locationField ? 'Укажите район или координаты участка, а не только пробелы.' : 'Укажите культуру или груз, а не только пробелы.')
+      : '');
+  });
+}
+form.addEventListener('input', clearPreparedMessage);
+
 document.querySelectorAll('[data-service]').forEach(link => {
-  link.addEventListener('click', () => { document.querySelector('#service').value = link.dataset.service; });
+  link.addEventListener('click', () => {
+    service.value = link.dataset.service;
+    updateService();
+  });
 });
-document.querySelector('#request-form').addEventListener('submit', event => {
+form.addEventListener('submit', event => {
   event.preventDefault();
-  const form = event.currentTarget;
   if (!form.reportValidity()) return;
   const data = new FormData(form);
   const lines = ['Здравствуйте! Хочу запросить расчёт работ агродроном.'];
@@ -95,5 +130,11 @@ document.querySelector('#request-form').addEventListener('submit', event => {
     const value = String(data.get(key) || '').trim();
     if (value) lines.push(`${label}: ${value}`);
   }
-  window.open(`https://wa.me/${siteConfig.whatsapp}?text=${encodeURIComponent(lines.join('\n'))}`, '_blank', 'noopener,noreferrer');
+  const url = `https://wa.me/${siteConfig.whatsapp}?text=${encodeURIComponent(lines.join('\n'))}`;
+  retry.href = url;
+  retry.hidden = false;
+  status.textContent = 'Сообщение подготовлено. Если WhatsApp не открылся, воспользуйтесь ссылкой ниже.';
+  // noopener may return null even when a new tab opened. Do not infer success.
+  try { window.open(url, '_blank', 'noopener,noreferrer'); }
+  catch { /* The ordinary retry link remains available. */ }
 });
