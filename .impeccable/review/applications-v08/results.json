@@ -1,0 +1,1592 @@
+[
+  {
+    "name": "desktop",
+    "scenarios": [
+      {
+        "key": "spray",
+        "section": "uses",
+        "configuration": "spray",
+        "weights": {
+          "spray": 1,
+          "landing": 1,
+          "spread": 0
+        },
+        "scan": false,
+        "disc": 0,
+        "rotors": [
+          1236.878,
+          -1235.7779999999998,
+          -1235.7779999999998,
+          1236.878
+        ],
+        "payloadReady": true,
+        "spinning": "true",
+        "sprayParticles": true,
+        "spreadParticles": false,
+        "sprayVisible": 17,
+        "legsVisible": 3,
+        "spreadVisible": 0,
+        "air": {
+          "x": 630.71875,
+          "y": 317.75,
+          "width": 751.6875,
+          "height": 580,
+          "top": 317.75,
+          "right": 1382.40625,
+          "bottom": 897.75,
+          "left": 630.71875
+        },
+        "overflow": false,
+        "focus": 0,
+        "bank": 0,
+        "drawCalls": 107,
+        "triangles": 283720
+      },
+      {
+        "key": "spread",
+        "section": "uses",
+        "configuration": "spread",
+        "weights": {
+          "spray": 0.00022486732417884795,
+          "landing": 0.00022486732417884795,
+          "spread": 0.9997751326758212
+        },
+        "scan": false,
+        "disc": 54,
+        "rotors": [
+          2254.7432000000003,
+          -2253.6432000000004,
+          -2253.6432000000004,
+          2254.7432000000003
+        ],
+        "payloadReady": true,
+        "spinning": "true",
+        "sprayParticles": false,
+        "spreadParticles": true,
+        "sprayVisible": 0,
+        "legsVisible": 0,
+        "spreadVisible": 26,
+        "air": {
+          "x": 630.71875,
+          "y": 317.75,
+          "width": 751.6875,
+          "height": 580,
+          "top": 317.75,
+          "right": 1382.40625,
+          "bottom": 897.75,
+          "left": 630.71875
+        },
+        "overflow": false,
+        "focus": 0,
+        "bank": 0,
+        "drawCalls": 113,
+        "triangles": 347876
+      },
+      {
+        "key": "map",
+        "section": "uses",
+        "configuration": "map",
+        "weights": {
+          "spray": 1.102875782344942e-12,
+          "landing": 0.9983651430988156,
+          "spread": 0.0016348569011843117
+        },
+        "scan": true,
+        "disc": 135.75149999999988,
+        "rotors": [
+          2712.9316,
+          -2711.8315999999995,
+          -2711.8315999999995,
+          2712.9316
+        ],
+        "payloadReady": true,
+        "spinning": "true",
+        "sprayParticles": false,
+        "spreadParticles": false,
+        "sprayVisible": 0,
+        "legsVisible": 3,
+        "spreadVisible": 0,
+        "air": {
+          "x": 630.71875,
+          "y": 317.75,
+          "width": 751.6875,
+          "height": 580,
+          "top": 317.75,
+          "right": 1382.40625,
+          "bottom": 897.75,
+          "left": 630.71875
+        },
+        "overflow": false,
+        "focus": 0,
+        "bank": 0,
+        "drawCalls": 96,
+        "triangles": 207652
+      },
+      {
+        "key": "cargo",
+        "section": "uses",
+        "configuration": "spray",
+        "weights": {
+          "spray": 1,
+          "landing": 1,
+          "spread": 0
+        },
+        "scan": false,
+        "disc": 135.75149999999988,
+        "rotors": [
+          3054.163,
+          -3053.0629999999996,
+          -3053.0629999999996,
+          3054.163
+        ],
+        "payloadReady": true,
+        "spinning": "false",
+        "sprayParticles": true,
+        "spreadParticles": false,
+        "sprayVisible": 17,
+        "legsVisible": 3,
+        "spreadVisible": 0,
+        "air": {
+          "x": 630.71875,
+          "y": 317.75,
+          "width": 751.6875,
+          "height": 580,
+          "top": 317.75,
+          "right": 1382.40625,
+          "bottom": 897.75,
+          "left": 630.71875
+        },
+        "overflow": false,
+        "focus": 0,
+        "bank": 0,
+        "drawCalls": 96,
+        "triangles": 207652
+      },
+      {
+        "key": "spread",
+        "section": "uses",
+        "configuration": "spread",
+        "weights": {
+          "spray": 0.0010244835298797194,
+          "landing": 0.0010244835298797194,
+          "spread": 0.9989755164701203
+        },
+        "scan": false,
+        "disc": 180.00299999999976,
+        "rotors": [
+          3302.5886,
+          -3301.4885999999997,
+          -3301.4885999999997,
+          3302.5886
+        ],
+        "payloadReady": true,
+        "spinning": "true",
+        "sprayParticles": false,
+        "spreadParticles": true,
+        "sprayVisible": 0,
+        "legsVisible": 0,
+        "spreadVisible": 26,
+        "air": {
+          "x": 630.71875,
+          "y": 317.75,
+          "width": 751.6875,
+          "height": 580,
+          "top": 317.75,
+          "right": 1382.40625,
+          "bottom": 897.75,
+          "left": 630.71875
+        },
+        "overflow": false,
+        "focus": 0,
+        "bank": 0,
+        "drawCalls": 113,
+        "triangles": 347876
+      },
+      {
+        "key": "spray",
+        "section": "uses",
+        "configuration": "spray",
+        "weights": {
+          "spray": 0.9981636952229715,
+          "landing": 0.9981636952229715,
+          "spread": 0.0018363047770284056
+        },
+        "scan": false,
+        "disc": 321.7574999999994,
+        "rotors": [
+          4286.6282,
+          -4285.5282,
+          -4285.5282,
+          4286.6282
+        ],
+        "payloadReady": true,
+        "spinning": "true",
+        "sprayParticles": true,
+        "spreadParticles": false,
+        "sprayVisible": 17,
+        "legsVisible": 3,
+        "spreadVisible": 0,
+        "air": {
+          "x": 630.71875,
+          "y": 317.75,
+          "width": 751.6875,
+          "height": 580,
+          "top": 317.75,
+          "right": 1382.40625,
+          "bottom": 897.75,
+          "left": 630.71875
+        },
+        "overflow": false,
+        "focus": 0,
+        "bank": 0,
+        "drawCalls": 107,
+        "triangles": 283720
+      }
+    ],
+    "equipment": [
+      {
+        "key": "all",
+        "section": "machine",
+        "configuration": "spray",
+        "weights": {
+          "spray": 0.9999999999999704,
+          "landing": 0.9999999999999704,
+          "spread": 2.9608941544236723e-14
+        },
+        "scan": false,
+        "disc": 321.7574999999994,
+        "rotors": [
+          5020.299200000001,
+          -5019.199200000001,
+          -5019.199200000001,
+          5020.299200000001
+        ],
+        "payloadReady": true,
+        "spinning": "true",
+        "sprayParticles": false,
+        "spreadParticles": false,
+        "sprayVisible": 17,
+        "legsVisible": 3,
+        "spreadVisible": 0,
+        "air": {
+          "x": 57.59375,
+          "y": 359.078125,
+          "width": 957.609375,
+          "height": 580,
+          "top": 359.078125,
+          "right": 1015.203125,
+          "bottom": 939.078125,
+          "left": 57.59375
+        },
+        "overflow": false,
+        "focus": 0,
+        "bank": 0,
+        "drawCalls": 106,
+        "triangles": 283720
+      },
+      {
+        "key": "spray",
+        "section": "machine",
+        "configuration": "spray",
+        "weights": {
+          "spray": 1,
+          "landing": 1,
+          "spread": 1.3242249234560055e-25
+        },
+        "scan": false,
+        "disc": 321.7574999999994,
+        "rotors": [
+          5803.281800000002,
+          -5802.181800000001,
+          -5802.181800000001,
+          5803.281800000002
+        ],
+        "payloadReady": true,
+        "spinning": "true",
+        "sprayParticles": false,
+        "spreadParticles": false,
+        "sprayVisible": 12,
+        "legsVisible": 0,
+        "spreadVisible": 0,
+        "air": {
+          "x": 57.59375,
+          "y": 359.078125,
+          "width": 957.609375,
+          "height": 580,
+          "top": 359.078125,
+          "right": 1015.203125,
+          "bottom": 939.078125,
+          "left": 57.59375
+        },
+        "overflow": false,
+        "focus": 0.9986396319624521,
+        "bank": 0,
+        "drawCalls": 101,
+        "triangles": 283678
+      },
+      {
+        "key": "tank",
+        "section": "machine",
+        "configuration": "spray",
+        "weights": {
+          "spray": 1,
+          "landing": 1,
+          "spread": 8.933231993662663e-35
+        },
+        "scan": false,
+        "disc": 321.7574999999994,
+        "rotors": [
+          6337.833000000001,
+          -6336.733000000001,
+          -6336.733000000001,
+          6337.833000000001
+        ],
+        "payloadReady": true,
+        "spinning": "true",
+        "sprayParticles": false,
+        "spreadParticles": false,
+        "sprayVisible": 5,
+        "legsVisible": 0,
+        "spreadVisible": 0,
+        "air": {
+          "x": 57.59375,
+          "y": 359.078125,
+          "width": 957.609375,
+          "height": 580,
+          "top": 359.078125,
+          "right": 1015.203125,
+          "bottom": 939.078125,
+          "left": 57.59375
+        },
+        "overflow": false,
+        "focus": 0.9999981493988024,
+        "bank": 0,
+        "drawCalls": 92,
+        "triangles": 280606
+      },
+      {
+        "key": "rotors",
+        "section": "machine",
+        "configuration": "spray",
+        "weights": {
+          "spray": 1,
+          "landing": 1,
+          "spread": 4.378293334263597e-43
+        },
+        "scan": false,
+        "disc": 321.7574999999994,
+        "rotors": [
+          7061.841200000001,
+          -7060.7412,
+          -7060.7412,
+          7061.841200000001
+        ],
+        "payloadReady": true,
+        "spinning": "true",
+        "sprayParticles": false,
+        "spreadParticles": false,
+        "sprayVisible": 0,
+        "legsVisible": 0,
+        "spreadVisible": 0,
+        "air": {
+          "x": 57.59375,
+          "y": 359.078125,
+          "width": 957.609375,
+          "height": 580,
+          "top": 359.078125,
+          "right": 1015.203125,
+          "bottom": 939.078125,
+          "left": 57.59375
+        },
+        "overflow": false,
+        "focus": 0.9999999317439663,
+        "bank": 0,
+        "drawCalls": 106,
+        "triangles": 283720
+      },
+      {
+        "key": "battery",
+        "section": "machine",
+        "configuration": "spray",
+        "weights": {
+          "spray": 1,
+          "landing": 1,
+          "spread": 5.423710171064889e-55
+        },
+        "scan": false,
+        "disc": 321.7574999999994,
+        "rotors": [
+          7629.255200000002,
+          -7628.155200000002,
+          -7628.155200000002,
+          7629.255200000002
+        ],
+        "payloadReady": true,
+        "spinning": "true",
+        "sprayParticles": false,
+        "spreadParticles": false,
+        "sprayVisible": 0,
+        "legsVisible": 0,
+        "spreadVisible": 0,
+        "air": {
+          "x": 57.59375,
+          "y": 359.078125,
+          "width": 957.609375,
+          "height": 580,
+          "top": 359.078125,
+          "right": 1015.203125,
+          "bottom": 939.078125,
+          "left": 57.59375
+        },
+        "overflow": false,
+        "focus": 0.9999999974825012,
+        "bank": 0,
+        "drawCalls": 63,
+        "triangles": 237146
+      },
+      {
+        "key": "navigation",
+        "section": "machine",
+        "configuration": "spray",
+        "weights": {
+          "spray": 1,
+          "landing": 1,
+          "spread": 5.526616399603464e-62
+        },
+        "scan": true,
+        "disc": 321.7574999999994,
+        "rotors": [
+          8361.969200000001,
+          -8360.869200000001,
+          -8360.869200000001,
+          8361.969200000001
+        ],
+        "payloadReady": true,
+        "spinning": "true",
+        "sprayParticles": false,
+        "spreadParticles": false,
+        "sprayVisible": 0,
+        "legsVisible": 0,
+        "spreadVisible": 0,
+        "air": {
+          "x": 57.59375,
+          "y": 359.078125,
+          "width": 957.609375,
+          "height": 580,
+          "top": 359.078125,
+          "right": 1015.203125,
+          "bottom": 939.078125,
+          "left": 57.59375
+        },
+        "overflow": false,
+        "focus": 0.9999999999071467,
+        "bank": 0,
+        "drawCalls": 109,
+        "triangles": 284296
+      },
+      {
+        "key": "spread",
+        "section": "machine",
+        "configuration": "spread",
+        "weights": {
+          "spray": 0.0018363047770289052,
+          "landing": 0.0018363047770289052,
+          "spread": 0.9981636952229711
+        },
+        "scan": false,
+        "disc": 362.2574999999994,
+        "rotors": [
+          8890.720400000002,
+          -8889.620400000002,
+          -8889.620400000002,
+          8890.720400000002
+        ],
+        "payloadReady": true,
+        "spinning": "true",
+        "sprayParticles": false,
+        "spreadParticles": false,
+        "sprayVisible": 0,
+        "legsVisible": 0,
+        "spreadVisible": 26,
+        "air": {
+          "x": 57.59375,
+          "y": 359.078125,
+          "width": 957.609375,
+          "height": 580,
+          "top": 359.078125,
+          "right": 1015.203125,
+          "bottom": 939.078125,
+          "left": 57.59375
+        },
+        "overflow": false,
+        "focus": 0.9999999999965753,
+        "bank": 0,
+        "drawCalls": 108,
+        "triangles": 347868
+      }
+    ],
+    "reducedMotion": true,
+    "offscreen": true,
+    "errors": []
+  },
+  {
+    "name": "compact",
+    "scenarios": [
+      {
+        "key": "spray",
+        "section": "uses",
+        "configuration": "spray",
+        "weights": {
+          "spray": 1,
+          "landing": 1,
+          "spread": 0
+        },
+        "scan": false,
+        "disc": 0,
+        "rotors": [
+          1257.1779999999999,
+          -1256.078,
+          -1256.078,
+          1257.1779999999999
+        ],
+        "payloadReady": true,
+        "spinning": "true",
+        "sprayParticles": true,
+        "spreadParticles": false,
+        "sprayVisible": 17,
+        "legsVisible": 3,
+        "spreadVisible": 0,
+        "air": {
+          "x": 412.671875,
+          "y": 283.75,
+          "width": 508.9375,
+          "height": 480,
+          "top": 283.75,
+          "right": 921.609375,
+          "bottom": 763.75,
+          "left": 412.671875
+        },
+        "overflow": false,
+        "focus": 0,
+        "bank": 0,
+        "drawCalls": 107,
+        "triangles": 283720
+      },
+      {
+        "key": "spread",
+        "section": "uses",
+        "configuration": "spread",
+        "weights": {
+          "spray": 0.00022486732417884795,
+          "landing": 0.00022486732417884795,
+          "spread": 0.9997751326758212
+        },
+        "scan": false,
+        "disc": 54,
+        "rotors": [
+          2256.6861999999996,
+          -2255.5861999999997,
+          -2255.5861999999997,
+          2256.6861999999996
+        ],
+        "payloadReady": true,
+        "spinning": "true",
+        "sprayParticles": false,
+        "spreadParticles": true,
+        "sprayVisible": 0,
+        "legsVisible": 0,
+        "spreadVisible": 26,
+        "air": {
+          "x": 412.671875,
+          "y": 283.75,
+          "width": 508.9375,
+          "height": 480,
+          "top": 283.75,
+          "right": 921.609375,
+          "bottom": 763.75,
+          "left": 412.671875
+        },
+        "overflow": false,
+        "focus": 0,
+        "bank": 0,
+        "drawCalls": 113,
+        "triangles": 347876
+      },
+      {
+        "key": "map",
+        "section": "uses",
+        "configuration": "map",
+        "weights": {
+          "spray": 3.6020991288835392e-19,
+          "landing": 0.9985465278517506,
+          "spread": 0.0014534721482494586
+        },
+        "scan": true,
+        "disc": 231.00299999999973,
+        "rotors": [
+          3444.6595999999995,
+          -3443.5595999999996,
+          -3443.5595999999996,
+          3444.6595999999995
+        ],
+        "payloadReady": true,
+        "spinning": "true",
+        "sprayParticles": false,
+        "spreadParticles": false,
+        "sprayVisible": 0,
+        "legsVisible": 3,
+        "spreadVisible": 0,
+        "air": {
+          "x": 412.671875,
+          "y": 283.75,
+          "width": 508.9375,
+          "height": 480,
+          "top": 283.75,
+          "right": 921.609375,
+          "bottom": 763.75,
+          "left": 412.671875
+        },
+        "overflow": false,
+        "focus": 0,
+        "bank": 0,
+        "drawCalls": 96,
+        "triangles": 207652
+      },
+      {
+        "key": "cargo",
+        "section": "uses",
+        "configuration": "spray",
+        "weights": {
+          "spray": 1,
+          "landing": 1,
+          "spread": 0
+        },
+        "scan": false,
+        "disc": 231.00299999999973,
+        "rotors": [
+          3954.1025999999997,
+          -3953.0026,
+          -3953.0026,
+          3954.1025999999997
+        ],
+        "payloadReady": true,
+        "spinning": "false",
+        "sprayParticles": true,
+        "spreadParticles": false,
+        "sprayVisible": 17,
+        "legsVisible": 3,
+        "spreadVisible": 0,
+        "air": {
+          "x": 412.671875,
+          "y": 283.75,
+          "width": 508.9375,
+          "height": 480,
+          "top": 283.75,
+          "right": 921.609375,
+          "bottom": 763.75,
+          "left": 412.671875
+        },
+        "overflow": false,
+        "focus": 0,
+        "bank": 0,
+        "drawCalls": 96,
+        "triangles": 207652
+      },
+      {
+        "key": "spread",
+        "section": "uses",
+        "configuration": "spread",
+        "weights": {
+          "spray": 0.0011512526521699027,
+          "landing": 0.0011512526521699027,
+          "spread": 0.9988487473478301
+        },
+        "scan": false,
+        "disc": 274.5045300000004,
+        "rotors": [
+          4164.830172000001,
+          -4163.7301720000005,
+          -4163.7301720000005,
+          4164.830172000001
+        ],
+        "payloadReady": true,
+        "spinning": "true",
+        "sprayParticles": false,
+        "spreadParticles": true,
+        "sprayVisible": 0,
+        "legsVisible": 0,
+        "spreadVisible": 26,
+        "air": {
+          "x": 412.671875,
+          "y": 283.75,
+          "width": 508.9375,
+          "height": 480,
+          "top": 283.75,
+          "right": 921.609375,
+          "bottom": 763.75,
+          "left": 412.671875
+        },
+        "overflow": false,
+        "focus": 0,
+        "bank": 0,
+        "drawCalls": 113,
+        "triangles": 347876
+      },
+      {
+        "key": "spray",
+        "section": "uses",
+        "configuration": "spray",
+        "weights": {
+          "spray": 0.9981636952229711,
+          "landing": 0.9981636952229711,
+          "spread": 0.0018363047770289034
+        },
+        "scan": false,
+        "disc": 452.25902999999994,
+        "rotors": [
+          5274.526772000002,
+          -5273.426772000002,
+          -5273.426772000002,
+          5274.526772000002
+        ],
+        "payloadReady": true,
+        "spinning": "true",
+        "sprayParticles": true,
+        "spreadParticles": false,
+        "sprayVisible": 17,
+        "legsVisible": 3,
+        "spreadVisible": 0,
+        "air": {
+          "x": 412.671875,
+          "y": 283.75,
+          "width": 508.9375,
+          "height": 480,
+          "top": 283.75,
+          "right": 921.609375,
+          "bottom": 763.75,
+          "left": 412.671875
+        },
+        "overflow": false,
+        "focus": 0,
+        "bank": 0,
+        "drawCalls": 107,
+        "triangles": 283720
+      }
+    ],
+    "equipment": [
+      {
+        "key": "all",
+        "section": "machine",
+        "configuration": "spray",
+        "weights": {
+          "spray": 1,
+          "landing": 1,
+          "spread": 9.110769167824638e-23
+        },
+        "scan": false,
+        "disc": 452.25902999999994,
+        "rotors": [
+          6278.866372000002,
+          -6277.766372000002,
+          -6277.766372000002,
+          6278.866372000002
+        ],
+        "payloadReady": true,
+        "spinning": "true",
+        "sprayParticles": false,
+        "spreadParticles": false,
+        "sprayVisible": 17,
+        "legsVisible": 3,
+        "spreadVisible": 0,
+        "air": {
+          "x": 38.390625,
+          "y": 325.484375,
+          "width": 629.21875,
+          "height": 445.4375,
+          "top": 325.484375,
+          "right": 667.609375,
+          "bottom": 770.921875,
+          "left": 38.390625
+        },
+        "overflow": false,
+        "focus": 0,
+        "bank": 0,
+        "drawCalls": 106,
+        "triangles": 283720
+      },
+      {
+        "key": "spray",
+        "section": "machine",
+        "configuration": "spray",
+        "weights": {
+          "spray": 1,
+          "landing": 1,
+          "spread": 2.4016676441504127e-36
+        },
+        "scan": false,
+        "disc": 452.25902999999994,
+        "rotors": [
+          7029.943172000005,
+          -7028.843172000004,
+          -7028.843172000004,
+          7029.943172000005
+        ],
+        "payloadReady": true,
+        "spinning": "true",
+        "sprayParticles": false,
+        "spreadParticles": false,
+        "sprayVisible": 12,
+        "legsVisible": 0,
+        "spreadVisible": 0,
+        "air": {
+          "x": 38.390625,
+          "y": 325.484375,
+          "width": 629.21875,
+          "height": 445.4375,
+          "top": 325.484375,
+          "right": 667.609375,
+          "bottom": 770.921875,
+          "left": 38.390625
+        },
+        "overflow": false,
+        "focus": 0.9986396319624521,
+        "bank": 0,
+        "drawCalls": 99,
+        "triangles": 283150
+      },
+      {
+        "key": "tank",
+        "section": "machine",
+        "configuration": "spray",
+        "weights": {
+          "spray": 1,
+          "landing": 1,
+          "spread": 1.442429990440249e-45
+        },
+        "scan": false,
+        "disc": 452.25902999999994,
+        "rotors": [
+          7559.657172000004,
+          -7558.557172000003,
+          -7558.557172000003,
+          7559.657172000004
+        ],
+        "payloadReady": true,
+        "spinning": "true",
+        "sprayParticles": false,
+        "spreadParticles": false,
+        "sprayVisible": 5,
+        "legsVisible": 0,
+        "spreadVisible": 0,
+        "air": {
+          "x": 38.390625,
+          "y": 325.484375,
+          "width": 629.21875,
+          "height": 445.4375,
+          "top": 325.484375,
+          "right": 667.609375,
+          "bottom": 770.921875,
+          "left": 38.390625
+        },
+        "overflow": false,
+        "focus": 0.9999981493988024,
+        "bank": 0,
+        "drawCalls": 93,
+        "triangles": 280640
+      },
+      {
+        "key": "rotors",
+        "section": "machine",
+        "configuration": "spray",
+        "weights": {
+          "spray": 1,
+          "landing": 1,
+          "spread": 1.7319282681322817e-58
+        },
+        "scan": false,
+        "disc": 452.25902999999994,
+        "rotors": [
+          8360.039772000006,
+          -8358.939772000005,
+          -8358.939772000005,
+          8360.039772000006
+        ],
+        "payloadReady": true,
+        "spinning": "true",
+        "sprayParticles": false,
+        "spreadParticles": false,
+        "sprayVisible": 0,
+        "legsVisible": 0,
+        "spreadVisible": 0,
+        "air": {
+          "x": 38.390625,
+          "y": 325.484375,
+          "width": 629.21875,
+          "height": 445.4375,
+          "top": 325.484375,
+          "right": 667.609375,
+          "bottom": 770.921875,
+          "left": 38.390625
+        },
+        "overflow": false,
+        "focus": 0.9999999317439663,
+        "bank": 0,
+        "drawCalls": 106,
+        "triangles": 283720
+      },
+      {
+        "key": "battery",
+        "section": "machine",
+        "configuration": "spray",
+        "weights": {
+          "spray": 1,
+          "landing": 1,
+          "spread": 1.3441428310855907e-70
+        },
+        "scan": false,
+        "disc": 452.25902999999994,
+        "rotors": [
+          8995.122372000003,
+          -8994.022372000003,
+          -8994.022372000003,
+          8995.122372000003
+        ],
+        "payloadReady": true,
+        "spinning": "true",
+        "sprayParticles": false,
+        "spreadParticles": false,
+        "sprayVisible": 0,
+        "legsVisible": 0,
+        "spreadVisible": 0,
+        "air": {
+          "x": 38.390625,
+          "y": 325.484375,
+          "width": 629.21875,
+          "height": 445.4375,
+          "top": 325.484375,
+          "right": 667.609375,
+          "bottom": 770.921875,
+          "left": 38.390625
+        },
+        "overflow": false,
+        "focus": 0.9999999431983237,
+        "bank": 0,
+        "drawCalls": 62,
+        "triangles": 229228
+      },
+      {
+        "key": "navigation",
+        "section": "machine",
+        "configuration": "spray",
+        "weights": {
+          "spray": 1,
+          "landing": 1,
+          "spread": 1.3616436449916095e-81
+        },
+        "scan": true,
+        "disc": 452.25902999999994,
+        "rotors": [
+          9662.093372000003,
+          -9660.993372000003,
+          -9660.993372000003,
+          9662.093372000003
+        ],
+        "payloadReady": true,
+        "spinning": "true",
+        "sprayParticles": false,
+        "spreadParticles": false,
+        "sprayVisible": 0,
+        "legsVisible": 0,
+        "spreadVisible": 0,
+        "air": {
+          "x": 38.390625,
+          "y": 325.484375,
+          "width": 629.21875,
+          "height": 445.4375,
+          "top": 325.484375,
+          "right": 667.609375,
+          "bottom": 770.921875,
+          "left": 38.390625
+        },
+        "overflow": false,
+        "focus": 0.9999999979049743,
+        "bank": 0,
+        "drawCalls": 109,
+        "triangles": 284296
+      },
+      {
+        "key": "spread",
+        "section": "machine",
+        "configuration": "spread",
+        "weights": {
+          "spray": 0.0018363047770289052,
+          "landing": 0.0018363047770289052,
+          "spread": 0.9981636952229711
+        },
+        "scan": false,
+        "disc": 492.75902999999994,
+        "rotors": [
+          10250.781772000006,
+          -10249.681772000005,
+          -10249.681772000005,
+          10250.781772000006
+        ],
+        "payloadReady": true,
+        "spinning": "true",
+        "sprayParticles": false,
+        "spreadParticles": false,
+        "sprayVisible": 0,
+        "legsVisible": 0,
+        "spreadVisible": 26,
+        "air": {
+          "x": 38.390625,
+          "y": 325.484375,
+          "width": 629.21875,
+          "height": 445.4375,
+          "top": 325.484375,
+          "right": 667.609375,
+          "bottom": 770.921875,
+          "left": 38.390625
+        },
+        "overflow": false,
+        "focus": 0.9999999999227288,
+        "bank": 0,
+        "drawCalls": 108,
+        "triangles": 347868
+      }
+    ],
+    "reducedMotion": true,
+    "offscreen": true,
+    "errors": []
+  },
+  {
+    "name": "mobile",
+    "scenarios": [
+      {
+        "key": "spray",
+        "section": "uses",
+        "configuration": "spray",
+        "weights": {
+          "spray": 1,
+          "landing": 1,
+          "spread": 0
+        },
+        "scan": false,
+        "disc": 0,
+        "rotors": [
+          1189.5210000000002,
+          -1188.4210000000003,
+          -1188.4210000000003,
+          1189.5210000000002
+        ],
+        "payloadReady": true,
+        "spinning": "true",
+        "sprayParticles": true,
+        "spreadParticles": false,
+        "sprayVisible": 17,
+        "legsVisible": 3,
+        "spreadVisible": 0,
+        "air": {
+          "x": 20,
+          "y": 350.640625,
+          "width": 350,
+          "height": 362.90625,
+          "top": 350.640625,
+          "right": 370,
+          "bottom": 713.546875,
+          "left": 20
+        },
+        "overflow": false,
+        "focus": 0,
+        "bank": 0,
+        "drawCalls": 107,
+        "triangles": 283720
+      },
+      {
+        "key": "spread",
+        "section": "uses",
+        "configuration": "spread",
+        "weights": {
+          "spray": 0.00022486732417884795,
+          "landing": 0.00022486732417884795,
+          "spread": 0.9997751326758212
+        },
+        "scan": false,
+        "disc": 54,
+        "rotors": [
+          2043.5419999999997,
+          -2042.4419999999998,
+          -2042.4419999999998,
+          2043.5419999999997
+        ],
+        "payloadReady": true,
+        "spinning": "true",
+        "sprayParticles": false,
+        "spreadParticles": true,
+        "sprayVisible": 0,
+        "legsVisible": 0,
+        "spreadVisible": 26,
+        "air": {
+          "x": 20,
+          "y": 350.640625,
+          "width": 350,
+          "height": 362.90625,
+          "top": 350.640625,
+          "right": 370,
+          "bottom": 713.546875,
+          "left": 20
+        },
+        "overflow": false,
+        "focus": 0,
+        "bank": 0,
+        "drawCalls": 113,
+        "triangles": 347876
+      },
+      {
+        "key": "map",
+        "section": "uses",
+        "configuration": "map",
+        "weights": {
+          "spray": 1.1502416444021523e-22,
+          "landing": 0.9981636952229711,
+          "spread": 0.0018363047770289052
+        },
+        "scan": true,
+        "disc": 284.2515000000002,
+        "rotors": [
+          3692.6212,
+          -3691.5212000000006,
+          -3691.5212000000006,
+          3692.6212
+        ],
+        "payloadReady": true,
+        "spinning": "true",
+        "sprayParticles": false,
+        "spreadParticles": false,
+        "sprayVisible": 0,
+        "legsVisible": 3,
+        "spreadVisible": 0,
+        "air": {
+          "x": 20,
+          "y": 350.640625,
+          "width": 350,
+          "height": 362.90625,
+          "top": 350.640625,
+          "right": 370,
+          "bottom": 713.546875,
+          "left": 20
+        },
+        "overflow": false,
+        "focus": 0,
+        "bank": 0,
+        "drawCalls": 96,
+        "triangles": 207652
+      },
+      {
+        "key": "cargo",
+        "section": "uses",
+        "configuration": "spray",
+        "weights": {
+          "spray": 1,
+          "landing": 1,
+          "spread": 0
+        },
+        "scan": false,
+        "disc": 284.2515000000002,
+        "rotors": [
+          4175.941,
+          -4174.841,
+          -4174.841,
+          4175.941
+        ],
+        "payloadReady": true,
+        "spinning": "false",
+        "sprayParticles": true,
+        "spreadParticles": false,
+        "sprayVisible": 17,
+        "legsVisible": 3,
+        "spreadVisible": 0,
+        "air": {
+          "x": 20,
+          "y": 350.640625,
+          "width": 325.390625,
+          "height": 362.90625,
+          "top": 350.640625,
+          "right": 345.390625,
+          "bottom": 713.546875,
+          "left": 20
+        },
+        "overflow": false,
+        "focus": 0,
+        "bank": 0,
+        "drawCalls": 96,
+        "triangles": 207652
+      },
+      {
+        "key": "spread",
+        "section": "uses",
+        "configuration": "spread",
+        "weights": {
+          "spray": 0.00015838739374934765,
+          "landing": 0.00015838739374934765,
+          "spread": 0.9998416126062507
+        },
+        "scan": false,
+        "disc": 340.5045000000006,
+        "rotors": [
+          4463.0352,
+          -4461.935200000001,
+          -4461.935200000001,
+          4463.0352
+        ],
+        "payloadReady": true,
+        "spinning": "true",
+        "sprayParticles": false,
+        "spreadParticles": true,
+        "sprayVisible": 0,
+        "legsVisible": 0,
+        "spreadVisible": 26,
+        "air": {
+          "x": 20,
+          "y": 350.640625,
+          "width": 350,
+          "height": 362.90625,
+          "top": 350.640625,
+          "right": 370,
+          "bottom": 713.546875,
+          "left": 20
+        },
+        "overflow": false,
+        "focus": 0,
+        "bank": 0,
+        "drawCalls": 113,
+        "triangles": 347876
+      },
+      {
+        "key": "spray",
+        "section": "uses",
+        "configuration": "spray",
+        "weights": {
+          "spray": 0.9999724635506503,
+          "landing": 0.9999724635506503,
+          "spread": 0.000027536449349747097
+        },
+        "scan": false,
+        "disc": 637.5045000000006,
+        "rotors": [
+          6000.9516,
+          -5999.851600000001,
+          -5999.851600000001,
+          6000.9516
+        ],
+        "payloadReady": true,
+        "spinning": "true",
+        "sprayParticles": true,
+        "spreadParticles": false,
+        "sprayVisible": 17,
+        "legsVisible": 3,
+        "spreadVisible": 0,
+        "air": {
+          "x": 20,
+          "y": 350.640625,
+          "width": 350,
+          "height": 362.90625,
+          "top": 350.640625,
+          "right": 370,
+          "bottom": 713.546875,
+          "left": 20
+        },
+        "overflow": false,
+        "focus": 0,
+        "bank": 0,
+        "drawCalls": 107,
+        "triangles": 283720
+      }
+    ],
+    "equipment": [
+      {
+        "key": "all",
+        "section": "machine",
+        "configuration": "spray",
+        "weights": {
+          "spray": 1,
+          "landing": 1,
+          "spread": 5.820305721443794e-30
+        },
+        "scan": false,
+        "disc": 637.5045000000006,
+        "rotors": [
+          7202.4796000000015,
+          -7201.379600000002,
+          -7201.379600000002,
+          7202.4796000000015
+        ],
+        "payloadReady": true,
+        "spinning": "true",
+        "sprayParticles": false,
+        "spreadParticles": false,
+        "sprayVisible": 17,
+        "legsVisible": 3,
+        "spreadVisible": 0,
+        "air": {
+          "x": 20,
+          "y": 348.65625,
+          "width": 350,
+          "height": 362.90625,
+          "top": 348.65625,
+          "right": 370,
+          "bottom": 711.5625,
+          "left": 20
+        },
+        "overflow": false,
+        "focus": 0,
+        "bank": 0,
+        "drawCalls": 106,
+        "triangles": 283720
+      },
+      {
+        "key": "spray",
+        "section": "machine",
+        "configuration": "spray",
+        "weights": {
+          "spray": 1,
+          "landing": 1,
+          "spread": 9.069744480033753e-44
+        },
+        "scan": false,
+        "disc": 637.5045000000006,
+        "rotors": [
+          7912.962200000001,
+          -7911.862200000001,
+          -7911.862200000001,
+          7912.962200000001
+        ],
+        "payloadReady": true,
+        "spinning": "true",
+        "sprayParticles": false,
+        "spreadParticles": false,
+        "sprayVisible": 12,
+        "legsVisible": 0,
+        "spreadVisible": 0,
+        "air": {
+          "x": 20,
+          "y": 348.65625,
+          "width": 350,
+          "height": 362.90625,
+          "top": 348.65625,
+          "right": 370,
+          "bottom": 711.5625,
+          "left": 20
+        },
+        "overflow": false,
+        "focus": 0.9986396319624521,
+        "bank": 0,
+        "drawCalls": 92,
+        "triangles": 280340
+      },
+      {
+        "key": "tank",
+        "section": "machine",
+        "configuration": "spray",
+        "weights": {
+          "spray": 1,
+          "landing": 1,
+          "spread": 3.745123709629914e-50
+        },
+        "scan": false,
+        "disc": 637.5045000000006,
+        "rotors": [
+          8051.669200000001,
+          -8050.569200000002,
+          -8050.569200000002,
+          8051.669200000001
+        ],
+        "payloadReady": true,
+        "spinning": "true",
+        "sprayParticles": false,
+        "spreadParticles": false,
+        "sprayVisible": 5,
+        "legsVisible": 0,
+        "spreadVisible": 0,
+        "air": {
+          "x": 20,
+          "y": 348.65625,
+          "width": 350,
+          "height": 362.90625,
+          "top": 348.65625,
+          "right": 370,
+          "bottom": 711.5625,
+          "left": 20
+        },
+        "overflow": false,
+        "focus": 0.9999981493988024,
+        "bank": 0,
+        "drawCalls": 84,
+        "triangles": 271446
+      },
+      {
+        "key": "rotors",
+        "section": "machine",
+        "configuration": "spray",
+        "weights": {
+          "spray": 1,
+          "landing": 1,
+          "spread": 1.191579948895921e-55
+        },
+        "scan": false,
+        "disc": 637.5045000000006,
+        "rotors": [
+          8194.732000000002,
+          -8193.632000000001,
+          -8193.632000000001,
+          8194.732000000002
+        ],
+        "payloadReady": true,
+        "spinning": "true",
+        "sprayParticles": false,
+        "spreadParticles": false,
+        "sprayVisible": 0,
+        "legsVisible": 0,
+        "spreadVisible": 0,
+        "air": {
+          "x": 20,
+          "y": 348.65625,
+          "width": 350,
+          "height": 362.90625,
+          "top": 348.65625,
+          "right": 370,
+          "bottom": 711.5625,
+          "left": 20
+        },
+        "overflow": false,
+        "focus": 0.9999999317439663,
+        "bank": 0,
+        "drawCalls": 106,
+        "triangles": 283720
+      },
+      {
+        "key": "battery",
+        "section": "machine",
+        "configuration": "spray",
+        "weights": {
+          "spray": 1,
+          "landing": 1,
+          "spread": 5.356768270440139e-63
+        },
+        "scan": false,
+        "disc": 637.5045000000006,
+        "rotors": [
+          8473.613400000004,
+          -8472.513400000003,
+          -8472.513400000003,
+          8473.613400000004
+        ],
+        "payloadReady": true,
+        "spinning": "true",
+        "sprayParticles": false,
+        "spreadParticles": false,
+        "sprayVisible": 0,
+        "legsVisible": 0,
+        "spreadVisible": 0,
+        "air": {
+          "x": 20,
+          "y": 348.65625,
+          "width": 350,
+          "height": 362.90625,
+          "top": 348.65625,
+          "right": 370,
+          "bottom": 711.5625,
+          "left": 20
+        },
+        "overflow": false,
+        "focus": 0.9999999974825012,
+        "bank": 0,
+        "drawCalls": 54,
+        "triangles": 206196
+      },
+      {
+        "key": "navigation",
+        "section": "machine",
+        "configuration": "spray",
+        "weights": {
+          "spray": 1,
+          "landing": 1,
+          "spread": 6.945977524059146e-83
+        },
+        "scan": true,
+        "disc": 637.5045000000006,
+        "rotors": [
+          9141.077400000004,
+          -9139.977400000003,
+          -9139.977400000003,
+          9141.077400000004
+        ],
+        "payloadReady": true,
+        "spinning": "true",
+        "sprayParticles": false,
+        "spreadParticles": false,
+        "sprayVisible": 0,
+        "legsVisible": 0,
+        "spreadVisible": 0,
+        "air": {
+          "x": 20,
+          "y": 348.65625,
+          "width": 350,
+          "height": 362.90625,
+          "top": 348.65625,
+          "right": 370,
+          "bottom": 711.5625,
+          "left": 20
+        },
+        "overflow": false,
+        "focus": 0.9999999999071467,
+        "bank": 0,
+        "drawCalls": 109,
+        "triangles": 284296
+      },
+      {
+        "key": "spread",
+        "section": "machine",
+        "configuration": "spread",
+        "weights": {
+          "spray": 0.00022486732417884795,
+          "landing": 0.00022486732417884795,
+          "spread": 0.9997751326758212
+        },
+        "scan": false,
+        "disc": 691.5045000000006,
+        "rotors": [
+          10294.7612,
+          -10293.6612,
+          -10293.6612,
+          10294.7612
+        ],
+        "payloadReady": true,
+        "spinning": "true",
+        "sprayParticles": false,
+        "spreadParticles": false,
+        "sprayVisible": 0,
+        "legsVisible": 0,
+        "spreadVisible": 26,
+        "air": {
+          "x": 20,
+          "y": 348.65625,
+          "width": 350,
+          "height": 362.90625,
+          "top": 348.65625,
+          "right": 370,
+          "bottom": 711.5625,
+          "left": 20
+        },
+        "overflow": false,
+        "focus": 0.9999999999965753,
+        "bank": 0,
+        "drawCalls": 105,
+        "triangles": 347306
+      }
+    ],
+    "reducedMotion": true,
+    "offscreen": true,
+    "errors": []
+  }
+]

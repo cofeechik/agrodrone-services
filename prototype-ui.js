@@ -1,9 +1,9 @@
 (() => {
   const scenarios = {
     spray: { title: 'Опрыскивание', description: 'Внесение средств защиты растений и листовых подкормок над посевами, садами и виноградниками.', module: 'RevoSpray 5 · этот модуль показан в 3D', image: 'assets/service-spray.jpg', alt: 'XAG P150 MAX распыляет раствор над посадками', request: 'Рассчитать опрыскивание' },
-    spread: { title: 'Удобрения и посев', description: 'Разбрасывание гранулированных удобрений, семян трав, риса, рапса и сидератов.', module: 'RevoCast 5 · сменный бункер показан на фото; в 3D остаётся RevoSpray', image: 'assets/service-spread.jpg', alt: 'XAG P150 MAX с бункером RevoCast разбрасывает гранулы', request: 'Рассчитать внесение' },
-    cargo: { title: 'Доставка грузов', description: 'Перевозка саженцев, удобрений и урожая на склонах и участках без подъездной дороги.', module: 'Грузовой модуль показан на фото; в 3D остаётся RevoSpray', image: 'assets/service-cargo.jpg', alt: 'XAG P150 MAX с грузовой платформой перевозит груз', request: 'Обсудить маршрут' },
-    map: { title: 'Карты полей', description: 'Съёмка границ и рельефа встроенной камерой для подготовки маршрута обработки.', module: 'Интерфейс планирования маршрута · не карта выполненного заказа', image: 'assets/mapping.png', alt: 'Интерфейс XAG с примером планирования полётного маршрута', request: 'Обсудить съёмку' }
+    spread: { title: 'Удобрения и посев', description: 'Разбрасывание гранулированных удобрений, семян трав, риса, рапса и сидератов.', module: 'RevoCast 5 · внешняя реконструкция сменного модуля в 3D', image: 'assets/service-spread.jpg', alt: 'XAG P150 MAX с бункером RevoCast разбрасывает гранулы', request: 'Рассчитать внесение' },
+    cargo: { title: 'Доставка грузов', description: 'Перевозка саженцев, удобрений и урожая на склонах и участках без подъездной дороги.', module: 'RevoSling · показано настоящее фото производителя, не 3D-реконструкция', image: 'assets/service-cargo.jpg', alt: 'XAG P150 MAX с грузовой платформой перевозит груз', request: 'Обсудить маршрут' },
+    map: { title: 'Карты полей', description: 'Съёмка границ и рельефа встроенной камерой для подготовки маршрута обработки.', module: 'Демонстрационный маршрут над условным полем · не результат съёмки', image: 'assets/mapping.png', alt: 'Интерфейс XAG с примером планирования полётного маршрута', request: 'Обсудить съёмку' }
   };
   const parts = {
     all: { value: '80 <span>кг</span>', title: 'Полезная нагрузка', description: 'Одна платформа для опрыскивания, внесения гранул, карт полей и перевозки грузов. Модуль выбирается под задачу.', stats: [['20 м/с','максимальная скорость платформы'],['13,8 м/с','максимум с RevoSling'],['IPX6K','защита от воды']] },
@@ -12,7 +12,7 @@
     rotors: { value: '1600 <span>мм</span>', title: 'Карбоновые винты', description: 'Четыре складных винта создают подъёмную силу и нисходящий поток для проникновения раствора в растительный полог.', stats: [['4 × 63″','диаметр и количество винтов'],['до 80 кг','полезная нагрузка всей платформы'],['до 20 м/с','скорость платформы, не обороты винтов']] },
     battery: { value: '1050 <span>Вт·ч</span>', title: 'Аккумулятор B141050', description: 'Быстрая смена батарей сокращает паузы между вылетами. В режиме одного аккумулятора бак ограничен 50 л, нагрузка RevoCast — 40 кг.', stats: [['≈7 мин','30–95% с двумя зарядными устройствами'],['≈12 мин','30–95% с одним CM13600S'],['до 1500','циклов; гарантия — 1500 циклов или 12 месяцев']] },
     navigation: { value: '±10 <span>см</span>', title: 'Навигация и препятствия', description: 'RTK помогает точно вести маршрут, а 4D-радар обнаруживает препятствия. Выделены наружные антенны и передний радар; внутренние датчики не воспроизводились.', stats: [['1,5–100 м','дальность обнаружения 4D-радара'],['до 20 га','картографирование за один полёт'],['XRTK 7','мобильная станция для RTK']] },
-    spread: { value: '115 <span>л</span>', title: 'Бункер RevoCast 5', description: 'Сменный модуль для семян и удобрений. Здесь показано настоящее фото производителя: бункер не подменяется баком в 3D.', stats: [['до 300 кг/мин','подача; испытания на комплексном удобрении'],['5–9 м','ширина разбрасывания'],['1–10 мм','размер гранул']] }
+    spread: { value: '115 <span>л</span>', title: 'Бункер RevoCast 5', description: 'Сменный модуль для семян и удобрений. В 3D показана внешняя реконструкция RevoCast 5 с бункером, шнековой подачей и разбрасывающим диском.', stats: [['до 300 кг/мин','подача; испытания на комплексном удобрении'],['5–9 м','ширина разбрасывания'],['1–10 мм','размер гранул']] }
   };
   const stage = document.querySelector('#drone-stage');
   const status = document.querySelector('#model-status');
@@ -26,6 +26,71 @@
   const crop = document.querySelector('#request-crop');
   const requestStatus = document.querySelector('#request-status');
   const retry = document.querySelector('#request-retry');
+  const applicationAirspace = document.querySelector('.scenario-airspace');
+  const applicationStatus = document.querySelector('#application-model-status');
+  const applicationNote = document.querySelector('.application-stage-note');
+  const applicationPhoto = document.querySelector('#application-photo');
+  const machinePhoto = document.querySelector('#machine-photo');
+  let activeScenario = 'spray';
+  let spreadFallback = false;
+  let payloadState = stage.dataset.payloadState || 'loading';
+  const applicationStates = new Map();
+
+  function showApplicationState(state, message) {
+    applicationAirspace.dataset.state = state;
+    const photoOnly = activeScenario === 'cargo';
+    applicationPhoto.hidden = !photoOnly && state !== 'fallback';
+    applicationNote.textContent = scenarios[activeScenario].title + (photoOnly || state === 'fallback'
+      ? ' · фото производителя' : ' · демонстрационная 3D-сцена');
+    document.querySelector('#application-scene-description').textContent = photoOnly || state === 'fallback'
+      ? 'Материал производителя XAG, демонстрация техники.' : activeScenario === 'map'
+      ? 'Условный участок и маршрут. Это иллюстрация прохода съёмки, не реальные данные.'
+      : 'Внешняя 3D-реконструкция техники и иллюстрация её работы.';
+    applicationStatus.hidden = photoOnly || state === 'ready';
+    applicationStatus.textContent = message || (state === 'ready' ? '' : state === 'loading'
+      ? 'Загружаем 3D-сцену. Фото производителя доступно ниже.'
+      : '3D-сцена недоступна. Откройте фото производителя ниже; услуги и форма работают.');
+  }
+  // 3D owns readiness: detail { scenario: key, state: loading|ready|fallback, message? }.
+  window.addEventListener('drone:application-status', event => {
+    const detail = event.detail || {};
+    const key = detail.scenario || activeScenario;
+    if (!scenarios[key] || !['loading', 'ready', 'fallback'].includes(detail.state)) return;
+    applicationStates.set(key, { state: detail.state, message: detail.message });
+    if (key === activeScenario) showApplicationState(detail.state, detail.message);
+  });
+  function updateMachinePhoto() { machinePhoto.hidden = activePart !== 'spread' || !spreadFallback; }
+  function refreshPayloadStatus(message) {
+    const rendererReady=stage.dataset.state==='ready';
+    spreadFallback = payloadState === 'error' || stage.dataset.state==='fallback' || location.protocol==='file:';
+    updateMachinePhoto();
+    if (activePart === 'spread') {
+      status.hidden = payloadState === 'ready' && rendererReady;
+      status.textContent = message || (spreadFallback
+        ? 'Модуль RevoCast 5 не загрузился. Показываем фото производителя.'
+        : 'Загружаем 3D-модуль RevoCast 5.');
+    }
+    if (activeScenario === 'spread') showApplicationState(spreadFallback?'fallback':rendererReady&&payloadState==='ready'?'ready':'loading', message);
+  }
+  window.addEventListener('drone:payload', event => {
+    const detail = event.detail || {};
+    if (!['loading', 'ready', 'error'].includes(detail.state)) return;
+    payloadState = detail.state;
+    refreshPayloadStatus(detail.message);
+  });
+  // A modeled module stays primary; its manufacturer photo appears only on runtime failure.
+  window.addEventListener('drone:module-status', event => {
+    const detail = event.detail || {};
+    if (detail.part !== 'spread' || !['loading', 'ready', 'fallback'].includes(detail.state)) return;
+    spreadFallback = detail.state === 'fallback';
+    updateMachinePhoto();
+    if (activePart === 'spread' && detail.state !== 'ready') {
+      status.hidden = false;
+      status.textContent = detail.message || (spreadFallback
+        ? 'Модуль RevoCast 5 не загрузился. Показываем фото производителя.'
+        : 'Загружаем 3D-модуль RevoCast 5.');
+    }
+  });
 
   function clearMessage() { requestStatus.textContent = ''; retry.hidden = true; retry.removeAttribute('href'); }
   function updateRequirements() {
@@ -40,6 +105,12 @@
   document.querySelectorAll('button[data-scenario]').forEach(button => button.addEventListener('click', () => {
     const key = button.dataset.scenario;
     const item = scenarios[key];
+    activeScenario = key;
+    applicationAirspace.dataset.scenario = key;
+    const knownState = applicationStates.get(key);
+    showApplicationState(knownState?.state || (stage.dataset.state === 'fallback' ? 'fallback' : stage.dataset.state === 'ready' ? 'ready' : 'loading'), knownState?.message);
+    if (key === 'spread' && stage.dataset.state !== 'fallback') refreshPayloadStatus();
+    applicationPhoto.hidden = true; // Never show the previous service photo while decoding a new scenario.
     document.querySelectorAll('button[data-scenario]').forEach(b => b.setAttribute('aria-pressed', String(b === button)));
     document.querySelector('#scenario-title').textContent = item.title;
     document.querySelector('#scenario-description').textContent = item.description;
@@ -55,9 +126,18 @@
       const displayed = document.querySelector('#scenario-image');
       displayed.src = item.image; displayed.alt = item.alt;
       displayed.width = image.naturalWidth; displayed.height = image.naturalHeight;
+      applicationPhoto.src = item.image; applicationPhoto.width = image.naturalWidth; applicationPhoto.height = image.naturalHeight;
+      applicationPhoto.hidden = activeScenario !== 'cargo' && applicationAirspace.dataset.state !== 'fallback';
       document.querySelector('.scenario-photo').dataset.scenario = key;
       document.querySelector('#scenario-credit').textContent = key === 'map' ? 'Материал производителя XAG · демонстрационный интерфейс' : 'Фото производителя XAG · демонстрация работы техники';
-    }).catch(() => { if (sequence === photoRequest) document.querySelector('#scenario-credit').textContent = 'Фото выбранного сценария не загрузилось. Пока показан предыдущий снимок.'; });
+    }).catch(() => {
+      if (sequence !== photoRequest) return;
+      document.querySelector('#scenario-credit').textContent = 'Фото выбранного сценария не загрузилось. Пока показан предыдущий снимок.';
+      if (activeScenario === 'cargo' || applicationAirspace.dataset.state === 'fallback') {
+        applicationStatus.hidden = false;
+        applicationStatus.textContent = 'Фото выбранного сценария не загрузилось. Попробуйте обновить страницу; услуги и форма доступны.';
+      }
+    });
     window.dispatchEvent(new CustomEvent('drone:scenario', { detail: key }));
   }));
   function publishPart() {
@@ -78,22 +158,48 @@
       const row=document.createElement('div'),dt=document.createElement('dt'),dd=document.createElement('dd');
       dt.textContent=label;dd.textContent=value;row.append(dt,dd);return row;
     }));
-    document.querySelector('#machine-photo').hidden=activePart!=='spread';
+    updateMachinePhoto();
+    if (activePart === 'spread') refreshPayloadStatus();
+    preferences();
     publishPart();
   }));
   isolationButton.addEventListener('click', () => { isolation = !isolation; publishPart(); });
   function preferences() {
-    status.hidden = stage.dataset.state === 'ready' || !viewerVisible;
+    const r=document.querySelector('#machine').getBoundingClientRect();
+    const equipmentVisible=r.top<innerHeight&&r.bottom>document.querySelector('.header').offsetHeight;
+    status.hidden = !equipmentVisible || (stage.dataset.state === 'ready' && !(activePart === 'spread' && payloadState !== 'ready'));
   }
+  window.addEventListener('scroll',preferences,{passive:true});
   window.addEventListener('drone:visibility', e => { viewerVisible = e.detail; preferences(); });
-  window.addEventListener('drone:ready', preferences);
+  window.addEventListener('drone:ready', () => {
+    preferences();
+    showApplicationState('ready');
+    payloadState = stage.dataset.payloadState || payloadState;
+    refreshPayloadStatus();
+  });
   // Module loading is blocked by browsers for file://, and a failed module must never hide the page.
-  if (location.protocol === 'file:') status.textContent = 'Для 3D откройте прототип через локальный сервер. Пока показан рендер.';
+  if (location.protocol === 'file:') {
+    status.textContent = 'Для 3D откройте прототип через локальный сервер. Пока показан рендер.';
+    showApplicationState('fallback', 'Для 3D откройте прототип через локальный сервер. Фото производителя доступно ниже.');
+  }
   const loadingDeadline = setTimeout(() => {
     if (!stage.dataset.state) status.textContent = '3D пока не загрузилась. Рендер, услуги и контакты доступны; попробуйте обновить страницу.';
   }, 20000);
+  const applicationDeadline = setTimeout(() => {
+    if (applicationAirspace.dataset.state === 'loading') showApplicationState('fallback', '3D-сцена пока не загрузилась. Фото производителя доступно ниже; попробуйте обновить страницу.');
+  }, 20000);
+  window.addEventListener('drone:application-status', event => {
+    if ((event.detail?.scenario || activeScenario) === activeScenario && event.detail?.state !== 'loading') clearTimeout(applicationDeadline);
+  });
   window.addEventListener('drone:ready', () => clearTimeout(loadingDeadline), { once: true });
-  window.addEventListener('drone:error', () => { clearTimeout(loadingDeadline); status.hidden=false; status.textContent = '3D недоступна в этом браузере. Показываем сохранённый рендер.'; });
+  window.addEventListener('drone:error', () => {
+    clearTimeout(loadingDeadline); clearTimeout(applicationDeadline);
+    applicationStates.clear(); showApplicationState('fallback');
+    spreadFallback = true; updateMachinePhoto();
+    status.hidden=false; status.textContent = activePart === 'spread'
+      ? '3D недоступна в этом браузере. Показываем фото производителя RevoCast 5.'
+      : '3D недоступна в этом браузере. Показываем сохранённый рендер.';
+  });
 
   for (const input of [crop, document.querySelector('#request-location')]) input.addEventListener('input', () => {
     input.setCustomValidity(input.value && !input.value.trim() ? 'Введите данные, а не только пробелы.' : '');

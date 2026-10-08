@@ -53,7 +53,20 @@
             <a class="text-link" id="scenario-request" href="#contact">Рассчитать опрыскивание <span class="direction-icon" aria-hidden="true"></span></a>
           </div>
         </div>
-      <figure class="scenario-photo"><img id="scenario-image" src="assets/service-spray.jpg" width="1500" height="2390" alt="XAG P150 MAX распыляет раствор над посадками" loading="lazy" decoding="async"><figcaption id="scenario-credit">Фото производителя XAG · демонстрация работы техники</figcaption></figure>
+        <div class="scenario-visual">
+          <figure class="scenario-stage">
+            <div class="scenario-airspace" data-scenario="spray" data-state="loading" role="img" aria-labelledby="application-stage-note" aria-describedby="application-scene-description"><img id="application-photo" src="assets/service-spray.jpg" alt="" width="1500" height="2390" loading="lazy" decoding="async" hidden></div>
+            <figcaption>
+              <p class="application-stage-note" id="application-stage-note" aria-live="polite" aria-atomic="true">Опрыскивание · демонстрационная 3D-сцена</p>
+              <p id="application-scene-description">Внешняя 3D-реконструкция техники и иллюстрация её работы.</p>
+            </figcaption>
+          </figure>
+          <p class="model-status" id="application-model-status" role="status">Загружаем 3D-сцену. Фото производителя доступно ниже.</p>
+          <details class="scenario-reference">
+            <summary>Фото и материалы производителя</summary>
+            <figure class="scenario-photo"><img id="scenario-image" src="assets/service-spray.jpg" width="1500" height="2390" alt="XAG P150 MAX распыляет раствор над посадками" loading="lazy" decoding="async"><figcaption id="scenario-credit">Фото производителя XAG · демонстрация работы техники</figcaption></figure>
+          </details>
+        </div>
       </div>
     </section>
 
@@ -69,7 +82,7 @@
           <button type="button" data-part="navigation" aria-pressed="false" aria-controls="part-panel">Навигация</button>
           <button type="button" data-part="spread" aria-pressed="false" aria-controls="part-panel">Разбрасывание</button>
         </div>
-        <div class="machine-airspace"><img id="machine-photo" src="assets/service-spread.jpg" alt="XAG P150 MAX с бункером RevoCast 5 для гранул" loading="lazy" hidden></div>
+        <div class="machine-airspace"><img id="machine-photo" src="assets/service-spread.jpg" alt="XAG P150 MAX с бункером RevoCast 5 для гранул" loading="lazy" hidden><p class="machine-field-note" id="machine-field-note" hidden>Условный участок и проход съёмки — не реальные данные и не LiDAR.</p></div>
         <div class="part-panel" id="part-panel" aria-live="polite" aria-atomic="true"><p class="part-value" id="part-value">80 <span>кг</span></p><h3 id="part-title">Полезная нагрузка</h3><p id="part-description">Одна платформа для опрыскивания, внесения гранул, карт полей и перевозки грузов. Модуль выбирается под задачу.</p><dl class="part-stats" id="part-stats"><div><dt>максимальная скорость платформы</dt><dd>20 м/с</dd></div><div><dt>максимум с RevoSling</dt><dd>13,8 м/с</dd></div><div><dt>защита от воды</dt><dd>IPX6K</dd></div></dl><button class="text-link" id="isolation-toggle" type="button" aria-pressed="true" hidden>Показать остальной дрон</button></div>
       </div>
       <div class="spec-strip"><div><span>Полезная нагрузка</span><strong>до 80 кг</strong></div><div><span>Бункер RevoCast 5</span><strong>115 л</strong></div><div><span>Точность с RTK</span><strong>±10 см</strong></div></div>

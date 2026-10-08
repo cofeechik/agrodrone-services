@@ -1,0 +1,873 @@
+{
+  "schemaVersion": 1,
+  "subject": "P150 Max v07 plus RevoCast 5 v01 exterior mounting",
+  "status": "Native assembly and scoped exterior support check; not engineering-certified mounting",
+  "sources": {
+    "xag-p150-max\\xag-p150-max-v07.blend": "1370750d99f55f27f4f4e0607a9085eacee537ca8e3c42ed78e723d1ca806f0b",
+    "revocast-5\\revocast-5-v01.blend": "90fe210abdf3587e116a57ef3f3e72784bfdfafcae720427dc8da1d5056f4ba8"
+  },
+  "module": {
+    "native": "revocast-5-v01.blend",
+    "web": "revocast-5-v01-web.glb",
+    "root": "REVOCAST_ATTACHMENT_ROOT",
+    "topPlaneMeters": 0
+  },
+  "transform": {
+    "coordinateSpace": "RAW aircraft glTF scene, metres, Y up; BEFORE any website recentering or scale normalization",
+    "position": [
+      0,
+      0.48375,
+      -0.075
+    ],
+    "quaternion": [
+      0,
+      0,
+      0,
+      1
+    ],
+    "quaternionOrder": "xyzw",
+    "scale": [
+      1,
+      1,
+      1
+    ],
+    "ifParentedUnderAircraftRoot": {
+      "node": "v08 web | P150_V03_ROOT",
+      "originalV07Node": "v07 web | P150_V03_ROOT",
+      "position": [
+        0,
+        0.449,
+        -0.075
+      ],
+      "quaternion": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    "blenderPosition": [
+      0,
+      0.075,
+      0.48375
+    ],
+    "rationale": "Module alignment-boss top plane meets underside of native chassis lower equipment tray at world Z=.48375. Module centred on chassis longitudinal rail span (-.195 to .345), at Y=.075. Frame rail X=\u00b1.174 near chassis mounting rails X=\u00b1.170. No scale distortion."
+  },
+  "replacements": {
+    "hideComponentsInConfigurableV08": [
+      "tank",
+      "spray",
+      "landing"
+    ],
+    "nativeObjects": [
+      {
+        "name": "v03 | L_REAR | atomizer hinge",
+        "component": "spray"
+      },
+      {
+        "name": "v03 | L_REAR | atomizer stem",
+        "component": "spray"
+      },
+      {
+        "name": "v03 | L_REAR | atomizer stem collar",
+        "component": "spray"
+      },
+      {
+        "name": "v03 | L_REAR | atomizer stem collar.001",
+        "component": "spray"
+      },
+      {
+        "name": "v03 | L_REAR | atomizer stem collar.002",
+        "component": "spray"
+      },
+      {
+        "name": "v03 | L_REAR | atomizer motor",
+        "component": "spray"
+      },
+      {
+        "name": "v03 | L_REAR | atomizer disc",
+        "component": "spray"
+      },
+      {
+        "name": "v03 | L_REAR | disc centre",
+        "component": "spray"
+      },
+      {
+        "name": "v03 | L_REAR | outer spray hose",
+        "component": "spray"
+      },
+      {
+        "name": "v03 | R_REAR | atomizer hinge",
+        "component": "spray"
+      },
+      {
+        "name": "v03 | R_REAR | atomizer stem",
+        "component": "spray"
+      },
+      {
+        "name": "v03 | R_REAR | atomizer stem collar",
+        "component": "spray"
+      },
+      {
+        "name": "v03 | R_REAR | atomizer stem collar.001",
+        "component": "spray"
+      },
+      {
+        "name": "v03 | R_REAR | atomizer stem collar.002",
+        "component": "spray"
+      },
+      {
+        "name": "v03 | R_REAR | atomizer motor",
+        "component": "spray"
+      },
+      {
+        "name": "v03 | R_REAR | atomizer disc",
+        "component": "spray"
+      },
+      {
+        "name": "v03 | R_REAR | disc centre",
+        "component": "spray"
+      },
+      {
+        "name": "v03 | R_REAR | outer spray hose",
+        "component": "spray"
+      },
+      {
+        "name": "v03 | Pump | impeller housing",
+        "component": "spray"
+      },
+      {
+        "name": "v03 | Pump | side motor",
+        "component": "spray"
+      },
+      {
+        "name": "v03 | Pump | lower supply loop",
+        "component": "spray"
+      },
+      {
+        "name": "v03 | Pump | arm supply line",
+        "component": "spray"
+      },
+      {
+        "name": "v03 | Pump | hose coupling",
+        "component": "spray"
+      },
+      {
+        "name": "v03 | Pump | impeller housing.001",
+        "component": "spray"
+      },
+      {
+        "name": "v03 | Pump | side motor.001",
+        "component": "spray"
+      },
+      {
+        "name": "v03 | Pump | lower supply loop.001",
+        "component": "spray"
+      },
+      {
+        "name": "v03 | Pump | arm supply line.001",
+        "component": "spray"
+      },
+      {
+        "name": "v03 | Pump | hose coupling.001",
+        "component": "spray"
+      },
+      {
+        "name": "v03 | Tank | raised XAG relief",
+        "component": "tank"
+      },
+      {
+        "name": "v03 | Tank | molded neck shoulder",
+        "component": "tank"
+      },
+      {
+        "name": "v03 | Tank | neck seating ring",
+        "component": "tank"
+      },
+      {
+        "name": "v03 | Tank | smoked cap barrel",
+        "component": "tank"
+      },
+      {
+        "name": "v03 | Tank | recessed smoked cap face",
+        "component": "tank"
+      },
+      {
+        "name": "v03 | Tank | red bayonet release",
+        "component": "tank"
+      },
+      {
+        "name": "v03 | Tank | red release grip",
+        "component": "tank"
+      },
+      {
+        "name": "v03 | Tank | cap rim molded grip",
+        "component": "tank"
+      },
+      {
+        "name": "v03 | Tank | cap rim molded grip.001",
+        "component": "tank"
+      },
+      {
+        "name": "v03 | Tank | cap rim molded grip.002",
+        "component": "tank"
+      },
+      {
+        "name": "v03 | Tank | cap rim molded grip.003",
+        "component": "tank"
+      },
+      {
+        "name": "v03 | Tank | cap rim molded grip.004",
+        "component": "tank"
+      },
+      {
+        "name": "v03 | Tank | cap rim molded grip.005",
+        "component": "tank"
+      },
+      {
+        "name": "v03 | Tank | cap rim molded grip.006",
+        "component": "tank"
+      },
+      {
+        "name": "v03 | Tank | cap rim molded grip.007",
+        "component": "tank"
+      },
+      {
+        "name": "v03 | Tank | cap rim molded grip.008",
+        "component": "tank"
+      },
+      {
+        "name": "v03 | Tank | cap rim molded grip.009",
+        "component": "tank"
+      },
+      {
+        "name": "v03 | Tank | cap rim molded grip.010",
+        "component": "tank"
+      },
+      {
+        "name": "v03 | Tank | cap rim molded grip.011",
+        "component": "tank"
+      },
+      {
+        "name": "v03 | Tank | cap rim molded grip.012",
+        "component": "tank"
+      },
+      {
+        "name": "v03 | Tank | cap rim molded grip.013",
+        "component": "tank"
+      },
+      {
+        "name": "v03 | Tank | cap rim molded grip.014",
+        "component": "tank"
+      },
+      {
+        "name": "v03 | Tank | cap rim molded grip.015",
+        "component": "tank"
+      },
+      {
+        "name": "v03 | Tank | cap rim molded grip.016",
+        "component": "tank"
+      },
+      {
+        "name": "v03 | Tank | cap rim molded grip.017",
+        "component": "tank"
+      },
+      {
+        "name": "v03 | Tank | cap rim molded grip.018",
+        "component": "tank"
+      },
+      {
+        "name": "v03 | Tank | cap rim molded grip.019",
+        "component": "tank"
+      },
+      {
+        "name": "v03 | Tank | outlet neck",
+        "component": "tank"
+      },
+      {
+        "name": "v03 | Tank | molded neck shoulder.001",
+        "component": "tank"
+      },
+      {
+        "name": "v03 | Tank | neck seating ring.001",
+        "component": "tank"
+      },
+      {
+        "name": "v03 | Tank | smoked cap barrel.001",
+        "component": "tank"
+      },
+      {
+        "name": "v03 | Tank | recessed smoked cap face.001",
+        "component": "tank"
+      },
+      {
+        "name": "v03 | Tank | red bayonet release.001",
+        "component": "tank"
+      },
+      {
+        "name": "v03 | Tank | red release grip.001",
+        "component": "tank"
+      },
+      {
+        "name": "v03 | Tank | cap rim molded grip.020",
+        "component": "tank"
+      },
+      {
+        "name": "v03 | Tank | cap rim molded grip.021",
+        "component": "tank"
+      },
+      {
+        "name": "v03 | Tank | cap rim molded grip.022",
+        "component": "tank"
+      },
+      {
+        "name": "v03 | Tank | cap rim molded grip.023",
+        "component": "tank"
+      },
+      {
+        "name": "v03 | Tank | cap rim molded grip.024",
+        "component": "tank"
+      },
+      {
+        "name": "v03 | Tank | cap rim molded grip.025",
+        "component": "tank"
+      },
+      {
+        "name": "v03 | Tank | cap rim molded grip.026",
+        "component": "tank"
+      },
+      {
+        "name": "v03 | Tank | cap rim molded grip.027",
+        "component": "tank"
+      },
+      {
+        "name": "v03 | Tank | cap rim molded grip.028",
+        "component": "tank"
+      },
+      {
+        "name": "v03 | Tank | cap rim molded grip.029",
+        "component": "tank"
+      },
+      {
+        "name": "v03 | Tank | cap rim molded grip.030",
+        "component": "tank"
+      },
+      {
+        "name": "v03 | Tank | cap rim molded grip.031",
+        "component": "tank"
+      },
+      {
+        "name": "v03 | Tank | cap rim molded grip.032",
+        "component": "tank"
+      },
+      {
+        "name": "v03 | Tank | cap rim molded grip.033",
+        "component": "tank"
+      },
+      {
+        "name": "v03 | Tank | cap rim molded grip.034",
+        "component": "tank"
+      },
+      {
+        "name": "v03 | Tank | cap rim molded grip.035",
+        "component": "tank"
+      },
+      {
+        "name": "v03 | Tank | cap rim molded grip.036",
+        "component": "tank"
+      },
+      {
+        "name": "v03 | Tank | cap rim molded grip.037",
+        "component": "tank"
+      },
+      {
+        "name": "v03 | Tank | cap rim molded grip.038",
+        "component": "tank"
+      },
+      {
+        "name": "v03 | Tank | cap rim molded grip.039",
+        "component": "tank"
+      },
+      {
+        "name": "v03 | Tank | outlet neck.001",
+        "component": "tank"
+      },
+      {
+        "name": "v03 | Tank | cap reinforcement spoke",
+        "component": "tank"
+      },
+      {
+        "name": "v03 | Tank | cap reinforcement spoke.001",
+        "component": "tank"
+      },
+      {
+        "name": "v03 | Tank | cap reinforcement spoke.002",
+        "component": "tank"
+      },
+      {
+        "name": "v03 | Tank | cap reinforcement spoke.003",
+        "component": "tank"
+      },
+      {
+        "name": "v03 | Tank | cap reinforcement spoke.004",
+        "component": "tank"
+      },
+      {
+        "name": "v03 | Tank | cap reinforcement spoke.005",
+        "component": "tank"
+      },
+      {
+        "name": "v03 | Tank | cap reinforcement spoke.006",
+        "component": "tank"
+      },
+      {
+        "name": "v03 | Tank | cap reinforcement spoke.007",
+        "component": "tank"
+      },
+      {
+        "name": "v03 | Tank | raised cap outer rim",
+        "component": "tank"
+      },
+      {
+        "name": "v03 | Tank | raised cap outer rim.001",
+        "component": "tank"
+      },
+      {
+        "name": "v03 | Tank | molded planar saddle and sump",
+        "component": "tank"
+      },
+      {
+        "name": "Landing | -1_-1 upper shoulder",
+        "component": "landing"
+      },
+      {
+        "name": "Landing | -1_-1 landing strut",
+        "component": "landing"
+      },
+      {
+        "name": "Landing | -1_-1 split clamp 0.12",
+        "component": "landing"
+      },
+      {
+        "name": "Landing | -1_-1 clamp pin 0.12",
+        "component": "landing"
+      },
+      {
+        "name": "Landing | -1_-1 split clamp 0.73",
+        "component": "landing"
+      },
+      {
+        "name": "Landing | -1_-1 clamp pin 0.73",
+        "component": "landing"
+      },
+      {
+        "name": "Landing | -1_-1 rubber foot",
+        "component": "landing"
+      },
+      {
+        "name": "Landing | -1_-1 shoulder pivot",
+        "component": "landing"
+      },
+      {
+        "name": "Landing | -1_1 upper shoulder",
+        "component": "landing"
+      },
+      {
+        "name": "Landing | -1_1 landing strut",
+        "component": "landing"
+      },
+      {
+        "name": "Landing | -1_1 split clamp 0.12",
+        "component": "landing"
+      },
+      {
+        "name": "Landing | -1_1 clamp pin 0.12",
+        "component": "landing"
+      },
+      {
+        "name": "Landing | -1_1 split clamp 0.73",
+        "component": "landing"
+      },
+      {
+        "name": "Landing | -1_1 clamp pin 0.73",
+        "component": "landing"
+      },
+      {
+        "name": "Landing | -1_1 rubber foot",
+        "component": "landing"
+      },
+      {
+        "name": "Landing | -1_1 shoulder pivot",
+        "component": "landing"
+      },
+      {
+        "name": "Landing | -1 lower frame tie",
+        "component": "landing"
+      },
+      {
+        "name": "Landing | 1_-1 upper shoulder",
+        "component": "landing"
+      },
+      {
+        "name": "Landing | 1_-1 landing strut",
+        "component": "landing"
+      },
+      {
+        "name": "Landing | 1_-1 split clamp 0.12",
+        "component": "landing"
+      },
+      {
+        "name": "Landing | 1_-1 clamp pin 0.12",
+        "component": "landing"
+      },
+      {
+        "name": "Landing | 1_-1 split clamp 0.73",
+        "component": "landing"
+      },
+      {
+        "name": "Landing | 1_-1 clamp pin 0.73",
+        "component": "landing"
+      },
+      {
+        "name": "Landing | 1_-1 rubber foot",
+        "component": "landing"
+      },
+      {
+        "name": "Landing | 1_-1 shoulder pivot",
+        "component": "landing"
+      },
+      {
+        "name": "Landing | 1_1 upper shoulder",
+        "component": "landing"
+      },
+      {
+        "name": "Landing | 1_1 landing strut",
+        "component": "landing"
+      },
+      {
+        "name": "Landing | 1_1 split clamp 0.12",
+        "component": "landing"
+      },
+      {
+        "name": "Landing | 1_1 clamp pin 0.12",
+        "component": "landing"
+      },
+      {
+        "name": "Landing | 1_1 split clamp 0.73",
+        "component": "landing"
+      },
+      {
+        "name": "Landing | 1_1 clamp pin 0.73",
+        "component": "landing"
+      },
+      {
+        "name": "Landing | 1_1 rubber foot",
+        "component": "landing"
+      },
+      {
+        "name": "Landing | 1_1 shoulder pivot",
+        "component": "landing"
+      },
+      {
+        "name": "Landing | 1 lower frame tie",
+        "component": "landing"
+      }
+    ],
+    "originalV07WholeNodesSafeToHide": [
+      "v07 web | spray | 41",
+      "v07 web | spray | 42",
+      "v07 web | spray | 43",
+      "v07 web | spray | 44",
+      "v07 web | spray | 73",
+      "v07 web | spray | 74",
+      "v07 web | spray | 75",
+      "v07 web | spray | 76",
+      "v07 web | tank | 77",
+      "v07 web | tank | 78",
+      "v07 web | tank | 79",
+      "v07 web | tank | 80",
+      "v07 web | tank | 81"
+    ],
+    "originalV07MixedNodesCannotHideWhole": [
+      {
+        "originalMergedNode": "v07 web | structure | 0",
+        "newNodes": [
+          {
+            "node": "v08 web | landing | 0",
+            "component": "landing",
+            "nativeObjects": [
+              "Landing | -1_-1 landing strut",
+              "Landing | -1_1 landing strut",
+              "Landing | -1 lower frame tie",
+              "Landing | 1_-1 landing strut",
+              "Landing | 1_1 landing strut",
+              "Landing | 1 lower frame tie"
+            ]
+          },
+          {
+            "node": "v08 web | spray | 0",
+            "component": "spray",
+            "nativeObjects": [
+              "v03 | Pump | side motor",
+              "v03 | Pump | side motor.001"
+            ]
+          },
+          {
+            "node": "v08 web | structure | 0.001",
+            "component": "structure",
+            "nativeObjects": [
+              "v03 | Chassis | lower equipment tray",
+              "v03 | Chassis | lower mounting rail",
+              "v03 | Chassis | lower mounting rail.001",
+              "v03 | L_FRONT | inner arm",
+              "v03 | L_FRONT | root casting",
+              "v03 | L_FRONT | inner hinge flange",
+              "v03 | L_REAR | inner arm",
+              "v03 | L_REAR | root casting",
+              "v03 | L_REAR | inner hinge flange",
+              "v03 | R_FRONT | inner arm",
+              "v03 | R_FRONT | root casting",
+              "v03 | R_FRONT | inner hinge flange",
+              "v03 | R_REAR | inner arm",
+              "v03 | R_REAR | root casting",
+              "v03 | R_REAR | inner hinge flange"
+            ]
+          }
+        ]
+      },
+      {
+        "originalMergedNode": "v07 web | structure | 3",
+        "newNodes": [
+          {
+            "node": "v08 web | spray | 3",
+            "component": "spray",
+            "nativeObjects": [
+              "v03 | Pump | hose coupling",
+              "v03 | Pump | hose coupling.001"
+            ]
+          },
+          {
+            "node": "v08 web | structure | 3.001",
+            "component": "structure",
+            "nativeObjects": [
+              "v03 | Chassis | exposed silver rail",
+              "v03 | Chassis | exposed silver rail.001"
+            ]
+          }
+        ]
+      },
+      {
+        "originalMergedNode": "v07 web | structure | 8",
+        "newNodes": [
+          {
+            "node": "v08 web | landing | 8",
+            "component": "landing",
+            "nativeObjects": [
+              "Landing | -1_-1 rubber foot",
+              "Landing | -1_1 rubber foot",
+              "Landing | 1_-1 rubber foot",
+              "Landing | 1_1 rubber foot"
+            ]
+          },
+          {
+            "node": "v08 web | spray | 8",
+            "component": "spray",
+            "nativeObjects": [
+              "v03 | Pump | lower supply loop",
+              "v03 | Pump | arm supply line",
+              "v03 | Pump | lower supply loop.001",
+              "v03 | Pump | arm supply line.001"
+            ]
+          },
+          {
+            "node": "v08 web | structure | 8.001",
+            "component": "structure",
+            "nativeObjects": [
+              "v03 | Chassis | exposed power cable",
+              "v03 | Chassis | exposed power cable.001",
+              "v03 | Chassis | long rubber handle grip",
+              "v03 | Chassis | long rubber handle grip.001"
+            ]
+          }
+        ]
+      },
+      {
+        "originalMergedNode": "v07 web | structure | 10",
+        "newNodes": [
+          {
+            "node": "v08 web | landing | 10",
+            "component": "landing",
+            "nativeObjects": [
+              "Landing | -1_-1 upper shoulder",
+              "Landing | -1_-1 split clamp 0.12",
+              "Landing | -1_-1 clamp pin 0.12",
+              "Landing | -1_-1 split clamp 0.73",
+              "Landing | -1_-1 clamp pin 0.73",
+              "Landing | -1_-1 shoulder pivot",
+              "Landing | -1_1 upper shoulder",
+              "Landing | -1_1 split clamp 0.12",
+              "Landing | -1_1 clamp pin 0.12",
+              "Landing | -1_1 split clamp 0.73",
+              "Landing | -1_1 clamp pin 0.73",
+              "Landing | -1_1 shoulder pivot",
+              "Landing | 1_-1 upper shoulder",
+              "Landing | 1_-1 split clamp 0.12",
+              "Landing | 1_-1 clamp pin 0.12",
+              "Landing | 1_-1 split clamp 0.73",
+              "Landing | 1_-1 clamp pin 0.73",
+              "Landing | 1_-1 shoulder pivot",
+              "Landing | 1_1 upper shoulder",
+              "Landing | 1_1 split clamp 0.12",
+              "Landing | 1_1 clamp pin 0.12",
+              "Landing | 1_1 split clamp 0.73",
+              "Landing | 1_1 clamp pin 0.73",
+              "Landing | 1_1 shoulder pivot"
+            ]
+          },
+          {
+            "node": "v08 web | spray | 10",
+            "component": "spray",
+            "nativeObjects": [
+              "v03 | Pump | impeller housing",
+              "v03 | Pump | impeller housing.001"
+            ]
+          },
+          {
+            "node": "v08 web | structure | 10.001",
+            "component": "structure",
+            "nativeObjects": [
+              "v03 | Nose | inset badge face",
+              "v03 | L_FRONT | root ring",
+              "v03 | L_REAR | root ring",
+              "v03 | R_FRONT | root ring",
+              "v03 | R_REAR | root ring",
+              "v03 | Chassis | black longitudinal top rail",
+              "v03 | Chassis | black longitudinal top rail.001",
+              "v03 | Chassis | angular long carry handle",
+              "v03 | Chassis | rear handle foot",
+              "v03 | Chassis | angular long carry handle.001",
+              "v03 | Chassis | rear handle foot.001"
+            ]
+          }
+        ]
+      }
+    ],
+    "warning": "Original v07 glTF has no independently hideable leg nodes. Pumps/supply hoses have structure tags. Use v08; do not remove entire material-merged structure nodes or rely on only tank/spray extras."
+  },
+  "configurableAircraft": {
+    "validationReport": "mounting-web-validation.json",
+    "validatedWebSummary": {
+      "bytes": 2941404,
+      "nodes": 111,
+      "meshes": 94,
+      "triangles": 283712,
+      "validatorErrors": 0,
+      "validatorWarnings": 0,
+      "decodedRotorPivots": 4,
+      "originalNativeHashesMatch": true,
+      "componentMeshCounts": {"battery": 5, "landing": 3, "navigation": 2, "spray": 12, "structure": 67, "tank": 5}
+    },
+    "uncompressed": "xag-p150-max-v08-configurable-uncompressed.glb",
+    "web": "xag-p150-max-v08-configurable-web.glb",
+    "separation": "Existing semantic grouping preserved; old landing split to landing, spray pumps and supply hoses split to spray. Original custom normals and contact-occlusion attributes copied by exact original native geometry spans.",
+    "rotorPivots": [
+      {
+        "node": "v08 web | v03 | L_FRONT | ROTOR_ANIMATION_ROOT",
+        "direction": 1
+      },
+      {
+        "node": "v08 web | v03 | L_REAR | ROTOR_ANIMATION_ROOT",
+        "direction": -1
+      },
+      {
+        "node": "v08 web | v03 | R_FRONT | ROTOR_ANIMATION_ROOT",
+        "direction": -1
+      },
+      {
+        "node": "v08 web | v03 | R_REAR | ROTOR_ANIMATION_ROOT",
+        "direction": 1
+      }
+    ]
+  },
+  "artifacts": {
+    "assembledNative": "xag-p150-max-revocast-5-mounted-v01.blend",
+    "comparisonPreview": "mounting-compare-oblique.png"
+  },
+  "clearance": {
+    "method": "Evaluated world-space AABB broad phase; ONLY exterior module frame/landing supports versus retained aircraft. No complete interior or rotor-swept collision simulation.",
+    "supportObjectsChecked": 108,
+    "retainedAircraftMeshObjectsChecked": 418,
+    "candidates": [
+      {
+        "moduleObject": "RevoCast | alignment boss (-1, -1)",
+        "aircraftObject": "v03 | Chassis | lower equipment tray.001",
+        "overlapAxesMm": [
+          6.5,
+          24.0,
+          -0.0
+        ],
+        "interpretation": "Nominal mount contact / AABB candidate, not proven surface penetration"
+      },
+      {
+        "moduleObject": "RevoCast | alignment boss (1, -1)",
+        "aircraftObject": "v03 | Chassis | lower equipment tray.001",
+        "overlapAxesMm": [
+          6.5,
+          24.0,
+          -0.0
+        ],
+        "interpretation": "Nominal mount contact / AABB candidate, not proven surface penetration"
+      },
+      {
+        "moduleObject": "RevoCast | alignment boss (-1, 1)",
+        "aircraftObject": "v03 | Chassis | lower equipment tray.001",
+        "overlapAxesMm": [
+          6.5,
+          24.0,
+          -0.0
+        ],
+        "interpretation": "Nominal mount contact / AABB candidate, not proven surface penetration"
+      },
+      {
+        "moduleObject": "RevoCast | alignment boss (1, 1)",
+        "aircraftObject": "v03 | Chassis | lower equipment tray.001",
+        "overlapAxesMm": [
+          6.5,
+          24.0,
+          -0.0
+        ],
+        "interpretation": "Nominal mount contact / AABB candidate, not proven surface penetration"
+      }
+    ],
+    "assembledBoundsBlenderMeters": {
+      "min": [
+        -1.4082385301589966,
+        -1.3793890476226807,
+        -0.2592499852180481
+      ],
+      "max": [
+        1.4082388877868652,
+        1.3793888092041016,
+        0.7702499628067017
+      ]
+    },
+    "assembledDimensionsMm": [
+      2816.477417945862,
+      2758.777856826782,
+      1029.4999480247498
+    ]
+  },
+  "limitations": [
+    "Both models are photo-reconstructed exteriors, not factory CAD; seating is inferred from native chassis and module top plane.",
+    "Alignment bosses nominally meet tray underside; actual holes, locking interfaces, load transfer and latch engagement are not reconstructed or verified.",
+    "AABB broad phase only checks exterior frame/landing supports against retained aircraft; touching boxes are not automatically penetration. Hopper/internal/rotating/deflected geometry and operational clearance are not certified.",
+    "Lid opening and arm transport motion have not been collision-tested.",
+    "No RevoSling geometry invented; cargo remains manufacturer-photo-only.",
+    "No browser integration, UI change or physical hardware performance claim."
+  ]
+}

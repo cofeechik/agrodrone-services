@@ -20,6 +20,6 @@ The assembled outer envelope is 1119 × 1012 × 743 mm. This is not the hopper s
 
 Two `LID_HINGE` nodes rotate the covers; gaskets travel with them. `DISC` contains the rotating disc/vanes, **not the stationary motor or cable**. Static meshes are joined only within a semantic parent and material to reduce draw calls without losing these pivots. No operational RPM simulation or animation is included yet.
 
-This module includes its own landing gear. Integrating it must replace the existing spray/tank assembly and incompatible landing gear—not stack both assemblies. Aircraft mounting and clearance still need a separate check. Website files and the existing v07 aircraft remain unchanged.
+This module includes its own landing gear. Integration replaces the existing spray/tank assembly and incompatible landing gear—not both assemblies stacked. The original v07 aircraft remains unchanged. `MOUNTING.md` and `mounting.json` describe the new assembled native file, raw mounting transform and configurable v08 aircraft export. Only a scoped exterior/AABB mount check has been performed; factory fit and complete operational clearance remain unverified. The website now uses these separate assets for application/equipment configurations.
 
 References are retained for private reconstruction work; this collection does not grant commercial image-usage rights.

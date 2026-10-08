@@ -1,0 +1,14 @@
+[
+  {
+    "name": "desktop",
+    "moduleFailure": true,
+    "loadingMessage": true,
+    "lateContextLoss": true
+  },
+  {
+    "name": "mobile",
+    "moduleFailure": true,
+    "loadingMessage": true,
+    "lateContextLoss": true
+  }
+]

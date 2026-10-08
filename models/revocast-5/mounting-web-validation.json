@@ -1,0 +1,55 @@
+{
+  "bytes": 2941404,
+  "nodes": 111,
+  "meshes": 94,
+  "triangles": 283712,
+  "components": {
+    "battery": 5,
+    "landing": 3,
+    "navigation": 2,
+    "spray": 12,
+    "structure": 67,
+    "tank": 5
+  },
+  "rotorChecks": [
+    {
+      "node": "v08 web | v03 | L_FRONT | ROTOR_ANIMATION_ROOT",
+      "worldMatrixMaxDelta": 1.2643211022567158e-7,
+      "direction": 1
+    },
+    {
+      "node": "v08 web | v03 | L_REAR | ROTOR_ANIMATION_ROOT",
+      "worldMatrixMaxDelta": 8.621209290904375e-8,
+      "direction": -1
+    },
+    {
+      "node": "v08 web | v03 | R_FRONT | ROTOR_ANIMATION_ROOT",
+      "worldMatrixMaxDelta": 3.0717540678132245e-7,
+      "direction": -1
+    },
+    {
+      "node": "v08 web | v03 | R_REAR | ROTOR_ANIMATION_ROOT",
+      "worldMatrixMaxDelta": 3.0717540678132245e-7,
+      "direction": 1
+    }
+  ],
+  "originalEnvelopeMaxDeltaMeters": 0.000018252300329132942,
+  "validatorErrors": 0,
+  "validatorWarnings": 0,
+  "validatorInfos": [
+    {
+      "code": "UNSUPPORTED_EXTENSION",
+      "message": "Cannot validate an extension as it is not supported by the validator: 'EXT_meshopt_compression'.",
+      "severity": 2,
+      "pointer": "/extensionsUsed/0"
+    },
+    {
+      "code": "UNUSED_OBJECT",
+      "message": "This object may be unused.",
+      "severity": 2,
+      "pointer": "/buffers/0"
+    }
+  ],
+  "originalNativeHashesMatch": true,
+  "scope": "Decoded compressed glTF semantics, rotor pivots and original-aircraft envelope; not browser or physical mounting verification"
+}
