@@ -155,7 +155,7 @@
       {
         "name": "pose-follow",
         "value": "1 - exp(-dt * 11)",
-        "purpose": "Pose/focus smoothing; immediate when paused or reduced."
+        "purpose": "Machine rotation/scale and within-section focus smoothing; hero pose and machine x/y follow scroll directly. Immediate on section reset or reduced motion."
       }
     ],
     "breakpoints": [
@@ -169,8 +169,21 @@
       }
     ],
     "evidence": {
+      "currentDelta": {
+        "scope": "User-approved side-flight, six buyer-feature views and numeric typography; prototype.html only. No new shipping rasters.",
+        "motion": "Hero exits right at constant target y, clipped 12px below heading and above offer. Machine enters from the left inside its bounded viewer; progress is tied to machine section top/heading approaching the header, zero at 45% viewport height and complete at header height, independent of viewer height. Reduced motion uses completed entry. Visible rotation is default; stop toolbar/override removed; system reduced motion automatically stops movement.",
+        "features": "Six choices: platform, tank/spraying, rotors, battery, navigation, spreading; three sourced feature rows each. Only tank/rotors isolate. Battery uses the full platform because the semantic battery group is an upper cover; navigation uses the full platform. Spreading shows the contained manufacturer photo and hides 3D.",
+        "sourceProvenance": "EQUIPMENT-SOURCES.md records exact manufacturer sources and qualifications: PDF indexes 17 technical, 14 energy, 7 spray, 11 navigation; all four indexes visually checked by the main task; official https://xa.com/en/p150max. It records the full-aircraft battery/navigation rationale. No new independent specification audit.",
+        "qa": "Completed .impeccable/review/flight-side/results.json: 1440x1000 and 390x844 both pass sideExit, leftEntry, usesNoModel, parts=6, statsEach=3, noStopControl, spinning and reducedMotion; overflow=false and errors=[] at both sizes.",
+        "arrivalCorrection": "A01: entry progress follows machine section top/heading approach to header height, not viewer height; zero at 45% viewport height, complete at header height.",
+        "fallback": "clipFallback mirrors hero/viewer airspace. On context loss, requestFrame still schedules the DOM-only render branch: desiredPose and positionFallback update placement/clipping without GPU rendering or an automatic loop.",
+        "status": "Loading/error status is actual DOM inside machine after spec-strip; static flow, margin-top 20px, muted 12px text, line-height 1.6; no viewer overlay.",
+        "fallbackQA": "Completed .impeccable/review/flight-side/fallback-results.json: desktop and mobile both report fallbackHeroClip, fallbackMachineClip, midEntryCaptured, photoDecoded, contextLossScroll and statusInFlow true.",
+        "review": "Final reviewer confirmation supplied by the main task: SHIP FOR WORKING PROTOTYPE ONLY for this current delta. A01, F01 and F02 resolved: header-aligned entry, context-loss fallback placement/clipping without a GPU loop, and unobstructed static status. Buyer features, typography and usage photographs passed review. No full-photorealism, factory-CAD or real-device FPS guarantee.",
+        "limits": "Manufacturer maxima and laboratory charging conditions remain qualified; no full-photorealism, factory-CAD or real-device FPS guarantee."
+      },
       "animationCorrection": {
-        "scope": "Animation-only source correction in prototype-3d.js; no visual tokens or components changed.",
+        "scope": "Historical animation-only correction before the latest side-flight/buyer-feature/type delta; its results and approval apply to that earlier source state.",
         "behavior": "Hero pose follows scroll directly without trailing easing; machine x/y follow viewport anchors directly; section changes reset pose/focus. Smoothing remains for machine rotation/scale and within-section part focus.",
         "rendering": "shadowMap.autoUpdate=false; rotation/scale/focus/part changes request expensive depth-map updates. After updating key-light position and target, each visible frame calls keyLight.updateMatrixWorld(), keyLight.target.updateMatrixWorld() and keyLight.shadow.updateMatrices(keyLight), keeping shadow sampling matrices current during translation while reusing cached depth. Blades do not cast shadows; hover translates aircraft and key light together. WebGL requests the high-performance hint.",
         "results": "Final .impeccable/review/motion/results.json: 1556x1516 and 390x844; five reversals each, zero pose-versus-target position lag, stage resets, part transitions, pause, four rotors and empty error lists all passed. Both sizes report shadowTracksHoverAndScroll: true.",
@@ -182,15 +195,15 @@
       "scope": "prototype.html only; index.html is separate legacy",
       "captureRevision": "v06",
       "captureCount": 31,
-      "functionalQA": "Final .impeccable/review/results.json: all three viewport sizes pass approximately 58 rad/s, four rotors, pause, usesNoModel, no horizontal overflow, empty error lists, WhatsApp preparation and reduced motion.",
+      "functionalQA": "Historical .impeccable/review/results.json: all three viewport sizes passed approximately 58 rad/s, four rotors, pause, usesNoModel, no horizontal overflow, empty error lists, WhatsApp preparation and reduced motion. Latest side-flight delta has separate pending QA; manual pause no longer exists.",
       "captureSizes": [
         "1440x1000",
         "390x844",
         "2869x1630"
       ],
-      "visualApproval": "Independent review and documentation-only confirmation approve SHIP FOR WORKING PROTOTYPE ONLY. All 31 v06 captures are valid with no material regression. This does not establish full photorealism, factory-CAD fidelity or guaranteed FPS on real devices.",
+      "visualApproval": "Historical independent review approved SHIP FOR WORKING PROTOTYPE ONLY for the preceding 31-capture v06 state. Latest side-flight/buyer-feature/type delta awaits its own scoped verdict. No full-photorealism, factory-CAD or real-device FPS guarantee.",
       "reviewScope": {
-        "provenance": "Final independent verdict and subsequent documentation-only reviewer confirmation supplied by the main task.",
+        "provenance": "Historical independent verdict and documentation-only confirmation supplied by the main task, before the latest side-flight/buyer-feature/type delta.",
         "R01": "Resolved: continuous tank transition.",
         "R02": "Resolved within exterior-reconstruction scope: open mechanical forks/openings and recesses; small details remain simplified.",
         "F01": "Resolved: whole-drone containment at all three viewport sizes.",
@@ -238,9 +251,16 @@
       "name": "Machine part selector",
       "kind": "custom",
       "refersTo": "part-selector",
-      "description": "Whole-drone default and three optional assembly views; aria-pressed controls underline.",
-      "html": "<div class=\"ds-parts\" role=\"group\" aria-label=\"Выберите часть дрона\"><button type=\"button\" aria-pressed=\"true\">Дрон целиком</button><button type=\"button\" aria-pressed=\"false\">Бак для раствора</button><button type=\"button\" aria-pressed=\"false\">Верхний блок</button><button type=\"button\" aria-pressed=\"false\">Винты</button></div>",
-      "css": ".ds-parts{display:flex;gap:30px;border-top:1px solid var(--line,#c9d3d8);border-bottom:1px solid var(--line,#c9d3d8)}.ds-parts button{font-family:Golos,sans-serif;font-size:16px;line-height:1.55;border:0;background:none;min-height:54px;padding:12px 0;color:var(--muted,#576972);position:relative;cursor:pointer}.ds-parts button[aria-pressed=true]{color:var(--ink,#243640)}.ds-parts button[aria-pressed=true]:after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:2px;background:var(--accent,#bc351e)}.ds-parts button:hover{color:var(--accent,#bc351e)}.ds-parts button:focus-visible{outline:2px solid var(--accent,#bc351e);outline-offset:5px}@media(max-width:700px){.ds-parts{gap:24px;overflow-x:auto;padding:0 3px}.ds-parts button{font-size:13px;white-space:nowrap}}"
+      "description": "Six buyer-feature choices, platform default; only tank/rotors isolate, spreading uses a real photo.",
+      "html": "<div class=\"ds-parts\" role=\"group\" aria-label=\"Выберите часть дрона\"><button type=\"button\" aria-pressed=\"true\">Платформа</button><button type=\"button\" aria-pressed=\"false\">Опрыскивание</button><button type=\"button\" aria-pressed=\"false\">Винты</button><button type=\"button\" aria-pressed=\"false\">Аккумулятор</button><button type=\"button\" aria-pressed=\"false\">Навигация</button><button type=\"button\" aria-pressed=\"false\">Разбрасывание</button></div>",
+      "css": ".ds-parts{display:flex;gap:30px;overflow-x:auto;border-top:1px solid var(--line,#c9d3d8);border-bottom:1px solid var(--line,#c9d3d8)}.ds-parts button{font-family:Golos,sans-serif;font-size:16px;line-height:1.55;border:0;background:none;min-height:54px;padding:12px 0;color:var(--muted,#576972);position:relative;white-space:nowrap;cursor:pointer}.ds-parts button[aria-pressed=true]{color:var(--ink,#243640)}.ds-parts button[aria-pressed=true]:after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:2px;background:var(--accent,#bc351e)}.ds-parts button:hover{color:var(--accent,#bc351e)}.ds-parts button:focus-visible{outline:2px solid var(--accent,#bc351e);outline-offset:5px}@media(max-width:700px){.ds-parts{gap:24px;padding:0 3px}.ds-parts button{font-size:14px}}"
+    },
+    {
+      "name": "Buyer feature panel",
+      "kind": "custom",
+      "description": "Actual platform panel: large numeric value, subordinate unit, explanation and three ruled features.",
+      "html": "<section class=\"ds-feature\"><p class=\"ds-feature-number\">80 <span>кг</span></p><h3>Полезная нагрузка</h3><p class=\"ds-feature-copy\">Одна платформа для опрыскивания, внесения гранул, карт полей и перевозки грузов. Модуль выбирается под задачу.</p><dl><div><dt>максимальная скорость платформы</dt><dd>20 м/с</dd></div><div><dt>максимум с RevoSling</dt><dd>13,8 м/с</dd></div><div><dt>защита от воды</dt><dd>IPX6K</dd></div></dl></section>",
+      "css": ".ds-feature{font-family:Golos,sans-serif;color:var(--ink,#243640);padding:20px 0}.ds-feature-number{font-size:clamp(52px,5.7vw,82px);font-weight:550;line-height:1;letter-spacing:-.04em;margin:0 0 20px;font-variant-numeric:tabular-nums;white-space:nowrap}.ds-feature-number span{font-size:.32em;letter-spacing:0;font-weight:450}.ds-feature h3{font-size:20px;font-weight:450;letter-spacing:-.035em;line-height:1.06;margin:0 0 12px}.ds-feature-copy{font-size:16px;line-height:1.6;max-width:45ch;color:var(--muted,#576972);margin:0}.ds-feature dl{margin:24px 0 0}.ds-feature dl>div{display:flex;flex-direction:column-reverse;gap:5px;padding:12px 0;border-top:1px solid var(--line,#c9d3d8)}.ds-feature dt{font-size:13px;line-height:1.5;color:var(--muted,#576972)}.ds-feature dd{font-size:22px;font-weight:500;line-height:1.25;letter-spacing:-.02em;margin:0;font-variant-numeric:tabular-nums}@media(max-width:700px){.ds-feature{padding:8px 0;display:block}.ds-feature-number{font-size:64px}.ds-feature h3{font-size:22px;margin-bottom:12px}.ds-feature dl{margin-top:20px}.ds-feature dd{font-size:24px}}"
     }
   ],
   "narrative": {
@@ -261,7 +281,7 @@
     "dos": [
       "Do preserve the approved spatial-flight direction and the separate legacy surface.",
       "Do keep photographs contained, credited and separate from machine airspace.",
-      "Do keep whole-drone default, visible focus, pause and reduced-motion opt-in."
+      "Do keep platform default, visible focus and automatic system reduced motion without override."
     ],
     "donts": [
       "Don't describe functional QA as an independent visual approval or hardware FPS guarantee.",

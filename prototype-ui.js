@@ -6,18 +6,16 @@
     map: { title: 'Карты полей', description: 'Съёмка границ и рельефа встроенной камерой для подготовки маршрута обработки.', module: 'Интерфейс планирования маршрута · не карта выполненного заказа', image: 'assets/mapping.png', alt: 'Интерфейс XAG с примером планирования полётного маршрута', request: 'Обсудить съёмку' }
   };
   const parts = {
-    tank: { value: '80 <span>л</span>', title: 'Бак для раствора', description: 'Модуль RevoSpray 5 для жидких растворов. Остальные части модели приглушены, чтобы рассмотреть форму бака.' },
-    battery: { value: 'Верхний<br>блок', title: 'Серый корпус оборудования', description: 'Рассмотрите верхний блок и его расположение над баком. Внутреннее устройство не моделировалось: это внешний корпус по фотографиям.' },
-    rotors: { value: '4 <span>винта</span>', title: 'Винты и ступицы', description: 'Четыре узла вращаются отдельно. Скорость здесь демонстрационная, не рабочие обороты настоящего дрона.' },
-    all: { value: 'XAG<br>P150 MAX', title: 'Дрон целиком', description: 'Наша модель с баком RevoSpray 5. Восстановлена по фотографиям для сайта, не является заводским CAD.' }
+    all: { value: '80 <span>кг</span>', title: 'Полезная нагрузка', description: 'Одна платформа для опрыскивания, внесения гранул, карт полей и перевозки грузов. Модуль выбирается под задачу.', stats: [['20 м/с','максимальная скорость платформы'],['13,8 м/с','максимум с RevoSling'],['IPX6K','защита от воды']] },
+    tank: { value: '80 <span>л</span>', title: 'Бак и распыление', description: 'RevoSpray 5: меньше остановок на заправку, размер капли под культуру и норму внесения.', stats: [['32 л/мин','подача с двумя форсунками'],['46 л/мин','с комплектом из четырёх форсунок'],['5–10 м / 60–500 мкм','ширина обработки / размер капли']] },
+    rotors: { value: '1600 <span>мм</span>', title: 'Карбоновые винты', description: 'Четыре складных винта создают подъёмную силу и нисходящий поток для проникновения раствора в растительный полог.', stats: [['4 × 63″','диаметр и количество винтов'],['до 80 кг','полезная нагрузка всей платформы'],['до 20 м/с','скорость платформы, не обороты винтов']] },
+    battery: { value: '1050 <span>Вт·ч</span>', title: 'Аккумулятор B141050', description: 'Быстрая смена батарей сокращает паузы между вылетами. В режиме одного аккумулятора бак ограничен 50 л, нагрузка RevoCast — 40 кг.', stats: [['≈7 мин','30–95% с двумя зарядными устройствами'],['≈12 мин','30–95% с одним CM13600S'],['до 1500','циклов; гарантия — 1500 циклов или 12 месяцев']] },
+    navigation: { value: '±10 <span>см</span>', title: 'Навигация и препятствия', description: 'RTK помогает точно вести маршрут, а 4D-радар обнаруживает препятствия. Показана вся платформа: внутренние датчики в 3D не воспроизводились.', stats: [['1,5–100 м','дальность обнаружения 4D-радара'],['до 20 га','картографирование за один полёт'],['XRTK 7','мобильная станция для RTK']] },
+    spread: { value: '115 <span>л</span>', title: 'Бункер RevoCast 5', description: 'Сменный модуль для семян и удобрений. Здесь показано настоящее фото производителя: бункер не подменяется баком в 3D.', stats: [['до 300 кг/мин','подача; испытания на комплексном удобрении'],['5–9 м','ширина разбрасывания'],['1–10 мм','размер гранул']] }
   };
   const stage = document.querySelector('#drone-stage');
   const status = document.querySelector('#model-status');
-  const motion = document.querySelector('#motion-toggle');
-  const reduced = matchMedia('(prefers-reduced-motion: reduce)');
-  let motionOverride = null;
   let viewerVisible = true;
-  const toolbar = document.querySelector('.model-toolbar');
   let activePart = 'all';
   let isolation = true;
   const isolationButton = document.querySelector('#isolation-toggle');
@@ -62,7 +60,7 @@
     window.dispatchEvent(new CustomEvent('drone:scenario', { detail: key }));
   }));
   function publishPart() {
-    isolationButton.hidden = activePart === 'all';
+    isolationButton.hidden = ['all','battery','navigation','spread'].includes(activePart);
     isolationButton.setAttribute('aria-pressed', String(isolation));
     isolationButton.textContent = isolation ? 'Показать остальной дрон' : 'Выделить выбранную часть';
     window.dispatchEvent(new CustomEvent('drone:part', { detail: { part: activePart, isolation } }));
@@ -75,25 +73,18 @@
     document.querySelector('#part-value').innerHTML = item.value;
     document.querySelector('#part-title').textContent = item.title;
     document.querySelector('#part-description').textContent = item.description;
+    document.querySelector('#part-stats').replaceChildren(...item.stats.map(([value,label]) => {
+      const row=document.createElement('div'),dt=document.createElement('dt'),dd=document.createElement('dd');
+      dt.textContent=label;dd.textContent=value;row.append(dt,dd);return row;
+    }));
+    document.querySelector('#machine-photo').hidden=activePart!=='spread';
     publishPart();
   }));
   isolationButton.addEventListener('click', () => { isolation = !isolation; publishPart(); });
-  motion.addEventListener('click', () => {
-    const enabled = motionOverride === null ? !reduced.matches : motionOverride;
-    motionOverride = !enabled;
-    preferences();
-    window.dispatchEvent(new CustomEvent('drone:motion', { detail: { enabled: motionOverride } }));
-  });
   function preferences() {
-    const enabled = motionOverride === null ? !reduced.matches : motionOverride;
-    motion.hidden = stage.dataset.state !== 'ready';
-    motion.setAttribute('aria-pressed', String(!enabled));
-    motion.textContent = enabled ? 'Остановить вращение' : 'Включить вращение';
-    toolbar.hidden = !viewerVisible;
-    if (stage.dataset.state === 'ready') status.textContent = enabled ? 'XAG P150 MAX · винты вращаются' : reduced.matches && motionOverride === null ? 'Вращение отключено настройками устройства' : 'Вращение остановлено';
+    status.hidden = stage.dataset.state === 'ready' || !viewerVisible;
   }
-  reduced.addEventListener('change', () => { motionOverride = null; preferences(); });
-  window.addEventListener('drone:visibility', e => { if (viewerVisible !== e.detail) { viewerVisible = e.detail; toolbar.hidden = !viewerVisible; } });
+  window.addEventListener('drone:visibility', e => { viewerVisible = e.detail; preferences(); });
   window.addEventListener('drone:ready', preferences);
   // Module loading is blocked by browsers for file://, and a failed module must never hide the page.
   if (location.protocol === 'file:') status.textContent = 'Для 3D откройте прототип через локальный сервер. Пока показан рендер.';
@@ -101,7 +92,7 @@
     if (!stage.dataset.state) status.textContent = '3D пока не загрузилась. Рендер, услуги и контакты доступны; попробуйте обновить страницу.';
   }, 20000);
   window.addEventListener('drone:ready', () => clearTimeout(loadingDeadline), { once: true });
-  window.addEventListener('drone:error', () => { clearTimeout(loadingDeadline); motion.hidden = true; status.textContent = '3D недоступна в этом браузере. Показываем сохранённый рендер.'; });
+  window.addEventListener('drone:error', () => { clearTimeout(loadingDeadline); status.hidden=false; status.textContent = '3D недоступна в этом браузере. Показываем сохранённый рендер.'; });
 
   for (const input of [crop, document.querySelector('#request-location')]) input.addEventListener('input', () => {
     input.setCustomValidity(input.value && !input.value.trim() ? 'Введите данные, а не только пробелы.' : '');

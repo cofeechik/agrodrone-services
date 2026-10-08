@@ -44,6 +44,31 @@ typography:
     fontFamily: "Golos, sans-serif"
     fontSize: "13px"
     fontWeight: 400
+  machine-value:
+    fontFamily: "Golos, sans-serif"
+    fontSize: "clamp(52px,5.7vw,82px)"
+    fontWeight: 550
+    lineHeight: 1
+    letterSpacing: "-.04em"
+  machine-unit:
+    fontFamily: "Golos, sans-serif"
+    fontSize: ".32em"
+    fontWeight: 450
+    letterSpacing: "0"
+  feature-body:
+    fontFamily: "Golos, sans-serif"
+    fontSize: "16px"
+    lineHeight: 1.6
+  feature-label:
+    fontFamily: "Golos, sans-serif"
+    fontSize: "13px"
+    lineHeight: 1.5
+  feature-value:
+    fontFamily: "Golos, sans-serif"
+    fontSize: "22px"
+    fontWeight: 500
+    lineHeight: 1.25
+    letterSpacing: "-.02em"
 rounded:
   square: "0"
 spacing:
@@ -96,7 +121,7 @@ This is the approved visual world for `prototype.html`. The separate legacy `ind
 - Self-hosted Golos, slate ink and restrained red interaction states.
 - Explicit limits on reconstruction, motion and message preparation.
 
-Evidence: extracted from `prototype.html`, `prototype.css`, `prototype-ui.js`, `prototype-3d.js` and `prototype-studio.js`, with the approved surface brief. Final v06 `.impeccable/review/results.json` and 31 PNG captures replace the previous matrix at 1440×1000, 390×844 and 2869×1630. All three report approximately 58 rad/s, four rotors, working pause, no model in applications, no horizontal overflow, empty error lists, WhatsApp preparation and reduced-motion checks passed. Current source and fallback use v06; final compressed-model validation passed with 0 errors and 0 warnings. The final independent verdict and documentation-only confirmation, supplied by the main task, resolve R01 (continuous tank transition), R02 (external mechanical forks/openings and recesses within exterior-reconstruction scope; small details remain simplified), F01 (whole-drone containment at all three sizes) and D01 (documentation correctly records v06, 31 captures and all three sizes). All 31 captures are valid with no material regression. Confirmed disposition: SHIP FOR WORKING PROTOTYPE ONLY. This approval does not establish full photorealism, factory-CAD fidelity or guaranteed FPS on real devices.
+Evidence: current behavior is extracted from `prototype.html`, `prototype.css`, `prototype-ui.js` and `prototype-3d.js`; the model/studio remain v06. Earlier `.impeccable/review/results.json` (31 captures, three sizes) and `motion/results.json` approvals are historical. Current `.impeccable/review/flight-side/results.json` confirms completed QA at 1440×1000 and 390×844: side exit, left entry, no model in applications, six views with three feature rows each, no stop control, visible spinning and automatic reduced motion all pass; neither size has horizontal overflow or recorded errors. A01 entry uses the section-top/heading approach to header height, independent of viewer height. Targeted `flight-side/fallback-results.json` now passes hero/machine fallback clipping, intermediate entry capture, decoded photo, context-loss scrolling and status-in-flow at both sizes. Final reviewer confirmation supplied by the main task: SHIP FOR WORKING PROTOTYPE ONLY for this current delta. A01, F01 and F02 are resolved; buyer features, typography and usage photographs passed review. Context-loss fallback follows position/clipping without a GPU loop, and static status remains unobstructed. No new shipping rasters are introduced. `EQUIPMENT-SOURCES.md` records exact manufacturer sources and qualifications: PDF indexes 17 (technical), 14 (energy), 7 (spray), 11 (navigation), with all four indexes visually checked by the main task, plus https://xa.com/en/p150max. It explains why battery/navigation retain the full aircraft. This documents supplied sourcing, not a new independent specification audit. No full-photorealism, factory-CAD or real-device FPS guarantee is made.
 
 ## Colors
 
@@ -110,13 +135,15 @@ Golos is loaded locally from `assets/golos-variable.ttf`, variable weights 100�
 
 Body paragraphs cap at 70ch; the service explanation at 39ch (45ch on mobile). Mobile uses a 50px flight phrase, 32px offer and 16px service copy. Contact h2 is a separate observed clamp(46px,5vw,76px), overridden to 52px on mobile. Headings balance lines rather than imposing extra tracking.
 
+Machine values use the new frontmatter role with tabular figures and unbroken value/unit lines; mobile value size is 64px. Units are subordinate at .32em. Feature prose remains 16px on desktop and mobile with a 45ch cap. Three ruled feature rows use 13px labels and 22px values, increasing values to 24px on mobile.
+
 ## Layout
 
 Sticky header is 76px, changing to 64px at 700px; gutter follows the frontmatter. Sections use its desktop/mobile vertical spacing. At 1000px the service gap tightens and the machine side column becomes 230px; at 700px navigation links disappear while brand and contact CTA remain.
 
-Prototype composition: flight → photographic applications → machine inspection → contact. The sticky flight viewport sits inside a 195svh chapter (160svh mobile; 100svh under reduced motion). Scrolling authors a descending departure. Applications have their own two-column copy/photo area and no adjacent 3D model. Photographs use contain, centred, with attribution below; mobile orders selector, photograph, explanation.
+Prototype composition: flight → photographic applications → machine inspection → contact. The sticky flight viewport sits inside a 195svh chapter (160svh mobile; 100svh under reduced motion). Hero scroll moves the aircraft right at constant target y, clipped below the decorative heading and above the offer (12px clearances). Machine entry comes from the left, clipped to its viewer; progress follows the machine section top/heading approach to the header: zero at 45% of viewport height and complete at header height, independent of viewer height. Reduced motion places it at the completed entry position. Applications have their own two-column copy/photo area and no adjacent 3D model. Photographs use contain, centred, with attribution below; mobile orders selector, photograph, explanation.
 
-The machine has a dedicated airspace and 270px explanation column, then three ruled specifications. Mobile stacks selector, minimum-300px/43svh airspace and explanation. Contact is two columns, becoming one; paired form fields retain two columns. Horizontal service and part selectors scroll on mobile. These compositions describe this prototype, not mandatory layouts for every future surface.
+The machine has dedicated airspace with a minmax(290px,25%) explanation column and a minimum-440px/58svh viewer; the existing 1000px breakpoint narrows the side column to 230px. Mobile stacks selector, minimum-300px/43svh viewer and full-width feature panel. Six machine choices can scroll horizontally at every size; each explanation carries three ruled buyer-feature rows, followed by the existing three platform specifications. Contact is two columns, becoming one; paired form fields retain two columns. These compositions describe this prototype, not mandatory layouts for every future surface.
 
 ## Elevation & Depth
 
@@ -134,16 +161,17 @@ Controls and fields are square; thin straight dividers organise sections. Servic
 - **Input/select:** transparent, 1px pale border, square, 52px minimum height, 16px text. Focus changes the border to ink and retains the visible red outline; caret is red. Required fields use native validation; no custom error-card or disabled visual system is implemented.
 - **Navigation:** muted text links with 12px vertical padding and 30px gaps (18px below 1000px); hover turns ink and underlines. A skip link appears on focus. Mobile retains the contact CTA, with no invented menu drawer.
 - **Service selector:** four real tasks, pressed state in ink plus red dot, red hover. Changes explanation, manufacturer image/credit and form service. Photograph failure keeps the previous image with an honest status. It does not swap the RevoSpray 3D module.
-- **Part selector:** whole drone selected initially; tank, upper block and four rotor assemblies are optional views. Pressed state has red underline; other assemblies ghost toward opacity .025 with depthWrite off. Whole-machine framing fits actual perspective-projected model corners and full rotor sweeps to 94% of the allocated frame; .95 is only the initial zoom estimate. Detail framing may crop ghost arms, and rendering is clipped to machine airspace. The upper block is an external enclosure, not modeled internals. The separate toggle restores the rest of the drone.
-- **Motion toolbar:** normal preference enables four rotors at demonstration speed 58 rad/s plus a transparent shader swept footprint and slight float. Pause stops rotation/float; reduced motion defaults them off and shortens flight, with explicit rotation opt-in. Reduced-motion scrolling stays discrete/static even after rotation opt-in. Hidden/offscreen views stop continuous rendering. A saved render/status handles unavailable WebGL/GLB; HTTP is required for modules.
-- **Animation-only correction:** hero pose follows scroll directly without trailing easing; machine x/y follow the viewport anchor directly. Section changes reset pose and focus; smoothing remains for machine rotation/scale and within-section part focus. Shadow auto-update is disabled: rotation, scale, focus or part changes request a new depth map; blades do not cast shadows, and hover translates aircraft and key light together. After updating the key-light position and target, every visible frame calls `keyLight.updateMatrixWorld()`, `keyLight.target.updateMatrixWorld()` and `keyLight.shadow.updateMatrices(keyLight)` so cached depth is sampled with current shadow matrices during translation. WebGL requests the high-performance hint. Final recorded checks in `.impeccable/review/motion/results.json` at 1556×1516 and 390×844 passed five scroll reversals each with zero pose-versus-target position lag, stage resets, part transitions, pause, four rotors and empty error lists. Both sizes also report `shadowTracksHoverAndScroll: true`, passing shadow-matrix invariance during hover and scroll at epsilon 1e-6. Final reviewer confirmation supplied by the main task: SHIP FOR ANIMATION QUICKFIX ONLY, covering shadow matrices, hover/scroll invariance at both sizes, pause, part transitions and stage resets. These checks do not measure or guarantee real-device FPS. No visual tokens or components changed.
+- **Machine feature selector:** six pressed-state choices, in order: platform, spraying/tank, rotors, battery, navigation, spreading. Platform is the default; each view has a numeric headline, short explanation and three sourced feature rows. Tank/rotors alone enable ghost isolation and the restore toggle. Battery shows the full platform without isolation: the existing semantic battery group is actually an upper cover, so it must not be presented as a battery highlight. Navigation also shows the full platform without claiming modeled internal sensors. Spreading shows contained `assets/service-spread.jpg` manufacturer photography and hides 3D; it does not substitute a fictional modeled hopper. Platform/navigation framing fits perspective corners and full rotor sweeps to 94% of the allocated frame. Detail views remain clipped to viewer airspace.
+- **Buyer features:** platform pairs load with platform/RevoSling speed and water protection; spraying pairs tank volume with flow, swath and droplet range; rotors pair diameter with count and platform limits; battery pairs energy with charging times/cycle limits and the single-battery load restriction; navigation pairs RTK accuracy with radar range/mapping/station; spreading pairs hopper volume with feed/swath/granule size. Values describe manufacturer configurations and test conditions, not guaranteed field productivity. The visible note qualifies laboratory 30–95% charging, swath conditions and granule-dependent feed.
+- **Automatic motion:** four visible rotors run at demonstration speed 58 rad/s with a transparent swept footprint and slight float under normal preference. Stop toolbar and override are removed; system reduced motion automatically stops rotation/float and spatial travel, with no opt-in. Loading/error status is actual DOM inside the machine section after the specification strip, in static flow with 20px top margin, 12px muted type and line-height 1.6; it does not overlay the viewer. Hidden/offscreen views stop continuous rendering and spread photo hides the 3D stage. HTTP is required for modules.
+- **Scroll/shadow behavior:** hero pose follows scroll without trailing easing; machine x/y track their viewport anchor plus the authored left entry. Section changes reset pose/focus; machine rotation/scale and within-section focus can smooth. Shadow auto-update stays off: rotation/scale/focus/part changes request new depth. Blades do not cast shadows; aircraft/key light translate together. Each visible frame updates light/target world matrices and `keyLight.shadow.updateMatrices(keyLight)` for current sampling of cached depth. WebGL retains the high-performance hint. The fallback clip helper mirrors the same hero/viewer airspace and updates clipping on context loss. After context loss, requestFrame still schedules the DOM-only render branch: desiredPose and positionFallback update placement/clipping on scroll, without GPU rendering or an automatic loop. Two-size side-flight and targeted fallback QA are complete; final scoped review confirms SHIP FOR WORKING PROTOTYPE ONLY. Earlier shadow invariance checks are historical evidence for the retained matrix mechanism, not a new FPS measurement.
 - **Request form:** prepares a WhatsApp message for the named recipient, with a retry link and local status. Area/crop are required for spray/spread; service/location always required. Whitespace-only text is rejected; editing clears stale message links. Never show “sent” merely because a message was prepared.
 
 ## Do's and Don'ts
 
 - Do preserve the approved spatial-flight direction and the separate legacy surface.
 - Do keep photographs contained, credited and separate from machine airspace.
-- Do keep whole-drone default, visible focus, pause and reduced-motion opt-in.
+- Do keep platform default, visible focus and automatic system reduced motion without override.
 - Don't describe functional QA as an independent visual approval or hardware FPS guarantee.
 - Don't claim factory CAD, modeled internals, photorealism or guaranteed device FPS.
 - Don't invent portfolio proof, prices, extra cards/chips or a sent-request state.

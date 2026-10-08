@@ -7,18 +7,16 @@ related_targets: ["prototype.css","prototype-3d.js","prototype-ui.js"]
 
 # Prototype: flight → application → equipment
 
-Mode: Persuade. This session is code-led, approved by the user's “давай начинай”. Scope: replace the prototype structure and improve the XAG reconstruction; preserve the incumbent index route and contact functionality.
+Mode: Persuade. User-approved code-led revision: sideways departure, left-side equipment arrival, buyer-focused specifications, no visible rotation controls. Preserve actual XAG anatomy, services, contact workflow and legacy index.
 
-## Direction contract
+THESIS: Give the aircraft its own airspace and explain what its components do for a field operator.
 
-THESIS: A working agricultural aircraft has its own airspace. Separate the flight chapter from the photographic service chapter, rather than dragging a floating product beside every paragraph.
+OWN-WORLD: Cold white, slate ink, local Golos, restrained XAG red, actual manufacturer photographs and clear numerical type.
 
-OWN-WORLD: Cold white, slate ink, self-hosted Golos, restrained XAG red. Broad open stages, compact controls, actual manufacturer photography, no invented field-work portfolio.
+STORY: Understand the service, watch the aircraft leave sideways before the application photos, then see it enter the equipment viewer from the left. Compare six capability areas and prepare a WhatsApp request.
 
-STORY: Understand the service immediately, see the aircraft descend out of the viewport, choose an application from fully visible photographs, inspect the machine, then prepare a WhatsApp request.
+FIRST VIEWPORT: A large XAG centered between heading and offer. Horizontal departure is clipped to this airspace, never through text. Equipment is a separate viewer: platform, spraying, propellers, battery, navigation and spreading. Show the real module photograph where the 3D module is absent.
 
-FIRST VIEWPORT: Large centered XAG occupies the middle of an open full-height flight stage. Offer and action occupy its lower edge, navigation its upper edge. Scroll gives the aircraft an authored downward departure before the photographs arrive. Equipment has a separate generous viewer with whole-drone default and optional transparent assemblies.
-
-FORM: User-pinned Riotters spatial-flight direction, first and only approved direction; seed key not applicable because the user supplied the direction. Reference evidence: four user screenshots under design-references/2026-10-08-user-riotters, not automated blank screenshots. Session code-led; no standing workflow preference inferred.
+FORM: User-pinned Riotters spatial-flight direction, revised explicitly by the user's latest request. Seed key not applicable; no new visual-world tournament. One Golos family with confident numeric hierarchy and readable 16px feature prose.
 
 FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance

@@ -1,0 +1,32 @@
+[
+  {
+    "name": "desktop",
+    "width": 1440,
+    "height": 1000,
+    "sideExit": true,
+    "leftEntry": true,
+    "usesNoModel": true,
+    "parts": 6,
+    "statsEach": 3,
+    "noStopControl": true,
+    "spinning": true,
+    "reducedMotion": true,
+    "overflow": false,
+    "errors": []
+  },
+  {
+    "name": "mobile",
+    "width": 390,
+    "height": 844,
+    "sideExit": true,
+    "leftEntry": true,
+    "usesNoModel": true,
+    "parts": 6,
+    "statsEach": 3,
+    "noStopControl": true,
+    "spinning": true,
+    "reducedMotion": true,
+    "overflow": false,
+    "errors": []
+  }
+]

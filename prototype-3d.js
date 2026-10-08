@@ -16,8 +16,7 @@ const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
 const mix = (a, b, t) => a + (b - a) * t;
 const smooth = t => t * t * (3 - 2 * t);
 let renderer, scene, camera, model, corners, meshBounds = [], rotors = [], meshes = [];
-let paused = false, activePart = 'all', isolate = true;
-let motionOverride = null;
+let activePart = 'all', isolate = true;
 let frame = 0, previousTime = 0, elapsed = 0, dirty = true;
 let width = innerWidth, height = innerHeight, headerHeight = 76;
 let currentPose = null, currentFocus = 0, targetFocus = 0;
@@ -31,11 +30,24 @@ const projectedPoint = new THREE.Vector3();
 let boundsCache = null;
 let lastVisible = null;
 let renderedSection = null, shadowPoseKey = '';
-const motionEnabled = () => motionOverride === null ? !reduced.matches : motionOverride;
+const motionEnabled = () => !reduced.matches;
+function clipFallback() {
+  if (stage.dataset.state === 'ready') {stage.style.clipPath='';return;}
+  let left=0,rightEdge=width,top=0,bottom=height;
+  if(stage.dataset.section==='hero'){
+    top=clamp(document.querySelector('.flight-heading').getBoundingClientRect().bottom-headerHeight+12,0,height);
+    bottom=clamp(document.querySelector('.flight-bottom').getBoundingClientRect().top-headerHeight-12,top,height);
+  }else{
+    const r=machineArea.getBoundingClientRect();
+    left=clamp(r.left,0,width);rightEdge=clamp(r.right,0,width);
+    top=clamp(r.top-headerHeight,0,height);bottom=clamp(r.bottom-headerHeight,top,height);
+  }
+  stage.style.clipPath=`inset(${top}px ${width-rightEdge}px ${height-bottom}px ${left}px)`;
+}
 
 function requestFrame() {
   dirty = true;
-  if (!frame && !document.hidden && !contextLost) frame = requestAnimationFrame(render);
+  if (!frame && !document.hidden) frame = requestAnimationFrame(render);
 }
 function resize() {
   headerHeight = document.querySelector('.header').offsetHeight;
@@ -63,23 +75,20 @@ function desiredPose() {
   let pose;
   if (heroVisible) {
     const t = reduced.matches ? 0 : exit;
-    pose = {x:width*.5, y:height*(mobile.matches ? .43 : .43)+t*height*1.12,
+    pose = {x:width*(.5+t*1.8), y:height*.43,
       w:width*(mobile.matches ? 1.35 : .9), h:height*(mobile.matches ? .48 : .53),
-      rx:mix(.06,-.05,t),ry:mix(-.28,.05,t),rz:mix(0,.06,t),zoom:mobile.matches?1.3:1.12};
+      rx:.06,ry:mix(-.28,-.55,t),rz:mix(0,-.08,t),zoom:mobile.matches?1.3:1.12};
   } else {
+    const entry = reduced.matches ? 1 : smooth(clamp((innerHeight*.45-machine.getBoundingClientRect().top)/Math.max(1,innerHeight*.45-headerHeight)));
     pose = {...detail,rx:activePart==='battery'?.22:activePart==='rotors'?.4:.03,
-      ry:activePart==='tank'?-.4:-.2,rz:0,zoom:activePart==='all'?.95:.9};
+      x:detail.x-(1-entry)*(width+detail.w)*1.2,
+      ry:activePart==='tank'?-.4:-.2,rz:0,zoom:['all','navigation','spread'].includes(activePart)?.95:.9};
   }
-  targetFocus = !heroVisible && machineVisible && isolate && activePart !== 'all' ? 1 : 0;
-  const visible = heroVisible && exit < .92 || !heroVisible && machineVisible;
+  targetFocus = !heroVisible && machineVisible && isolate && ['tank','rotors'].includes(activePart) ? 1 : 0;
+  const visible = heroVisible && exit < .98 || !heroVisible && machineVisible && activePart!=='spread';
   stage.classList.toggle('is-offscreen', !visible);
   stage.dataset.section = heroVisible ? 'hero' : machineVisible ? 'machine' : 'uses';
-  const toolbar = document.querySelector('.model-toolbar');
-  if (machineVisible && !heroVisible) {
-    const r=machineArea.getBoundingClientRect();
-    toolbar.style.top=`${clamp(r.bottom-56,headerHeight+8,innerHeight-56)}px`;
-    toolbar.style.right=`${Math.max(10,width-r.right+12)}px`;
-  } else {toolbar.style.top='';toolbar.style.right='';}
+  clipFallback();
   if (lastVisible !== visible) {
     lastVisible = visible;
     window.dispatchEvent(new CustomEvent('drone:visibility', { detail: visible }));
@@ -148,7 +157,7 @@ function applyPose(pose, floating) {
   const offsetY = (height / 2 - pose.y - floating) / pxPerUnit - (minY + maxY) * .5 * scale;
   // Translate along the camera plane, preserving perspective within the aircraft.
   model.position.copy(right).multiplyScalar(offsetX).addScaledVector(up, offsetY);
-  if (stage.dataset.section === 'machine' && activePart === 'all' && currentFocus < .001) {
+  if (stage.dataset.section === 'machine' && ['all','navigation'].includes(activePart) && currentFocus < .001) {
     // Inspection must contain the entire aircraft, including the nearer foot.
     // Fit perspective-projected corners and full rotor sweeps, not an
     // orthographic estimate or a viewport-specific magic magnification.
@@ -170,19 +179,26 @@ function applyPose(pose, floating) {
 }
 function render(time) {
   frame = 0;
-  if (document.hidden || contextLost) { previousTime = 0; return; }
+  if (document.hidden) { previousTime = 0; return; }
+  if(contextLost){
+    previousTime=0;
+    const {pose}=desiredPose();
+    positionFallback(pose);
+    dirty=false;
+    return;
+  }
   const wallDelta = previousTime ? (time - previousTime) / 1000 : 0;
   const dt = Math.min(wallDelta || 1 / 60, .3);
   previousTime = time;
   const { pose, visible } = desiredPose();
   const sectionChanged = renderedSection !== stage.dataset.section;
   renderedSection = stage.dataset.section;
-  const moving = visible && motionEnabled() && !paused;
+  const moving = visible && motionEnabled();
   if (moving) elapsed += wallDelta;
   stage.dataset.spinning = String(moving && !!model);
   // Scroll owns screen position: a second easing layer trails the wheel and
   // keeps flying after direction reversals. Separate stages never share a pose.
-  if (!currentPose || sectionChanged || reduced.matches || paused || renderedSection === 'hero') currentPose = { ...pose };
+  if (!currentPose || sectionChanged || reduced.matches || renderedSection === 'hero') currentPose = { ...pose };
   currentPose.x = pose.x;
   currentPose.y = pose.y;
   let unsettled = false;
@@ -191,7 +207,7 @@ function render(time) {
     currentPose[key] = mix(currentPose[key], pose[key], easing);
     if (Math.abs(currentPose[key] - pose[key]) > (['rx', 'ry', 'rz'].includes(key) ? .001 : .15)) unsettled = true;
   }
-  const nextFocus = sectionChanged || reduced.matches || paused ? targetFocus : mix(currentFocus, targetFocus, easing);
+  const nextFocus = sectionChanged || reduced.matches ? targetFocus : mix(currentFocus, targetFocus, easing);
   if (Math.abs(nextFocus - currentFocus) > .0005 || dirty) { currentFocus = nextFocus; applyFocus(); }
   if (Math.abs(currentFocus - targetFocus) > .001) unsettled = true;
   if (model) {
@@ -223,6 +239,13 @@ function render(time) {
       if (shadowKey !== shadowPoseKey) {renderer.shadowMap.needsUpdate=true;shadowPoseKey=shadowKey;}
       renderer.setScissorTest(false);
       renderer.clear();
+      if (stage.dataset.section === 'hero') {
+        // Fly sideways through allocated airspace, never through either copy block.
+        const top=clamp(document.querySelector('.flight-heading').getBoundingClientRect().bottom-headerHeight+12,0,height);
+        const bottom=clamp(document.querySelector('.flight-bottom').getBoundingClientRect().top-headerHeight-12,top,height);
+        renderer.setScissor(0,height-bottom,width,bottom-top);
+        renderer.setScissorTest(true);
+      }
       if (stage.dataset.section === 'machine') {
         // Detail views are an authored crop, not ghost geometry behind the copy.
         const r = machineArea.getBoundingClientRect();
@@ -238,12 +261,15 @@ function render(time) {
     }
   } else {
     // Saved render follows the same allocated space when WebGL or the GLB is unavailable.
-    fallback.style.left = `${pose.x - pose.w / 2}px`; fallback.style.top = `${pose.y - pose.h / 2}px`;
-    fallback.style.width = `${pose.w}px`; fallback.style.height = `${pose.h}px`;
+    positionFallback(pose);
   }
   dirty = false;
   if (moving && model || visible && unsettled) frame = requestAnimationFrame(render);
   else previousTime = 0;
+}
+function positionFallback(pose){
+  fallback.style.left=`${pose.x-pose.w/2}px`;fallback.style.top=`${pose.y-pose.h/2}px`;
+  fallback.style.width=`${pose.w}px`;fallback.style.height=`${pose.h}px`;
 }
 function fail() {
   stage.dataset.state = 'fallback';
@@ -345,13 +371,12 @@ async function init() {
 window.addEventListener('scroll', requestFrame, { passive: true });
 window.addEventListener('resize', resize);
 window.addEventListener('drone:part', e => { activePart = e.detail.part; isolate = e.detail.isolation; requestFrame(); });
-window.addEventListener('drone:motion', e => { paused = !e.detail.enabled; motionOverride = e.detail.enabled; previousTime = 0; currentPose = null; requestFrame(); });
-reduced.addEventListener('change', () => { motionOverride = null; paused = false; previousTime = 0; currentPose = null; requestFrame(); });
+reduced.addEventListener('change', () => { previousTime = 0; currentPose = null; requestFrame(); });
 document.addEventListener('visibilitychange', () => {
   if (document.hidden) { cancelAnimationFrame(frame); frame = 0; previousTime = 0; }
   else requestFrame();
 });
-canvas.addEventListener('webglcontextlost', event => { event.preventDefault(); contextLost = true; cancelAnimationFrame(frame); frame = 0; stage.classList.remove('is-ready'); stage.dataset.state = 'fallback'; window.dispatchEvent(new Event('drone:error')); });
+canvas.addEventListener('webglcontextlost', event => { event.preventDefault(); contextLost = true; cancelAnimationFrame(frame); frame = 0; stage.classList.remove('is-ready'); stage.dataset.state = 'fallback'; clipFallback(); requestFrame(); window.dispatchEvent(new Event('drone:error')); });
 canvas.addEventListener('webglcontextrestored', () => { contextLost = false; shadowPoseKey=''; if (model) { stage.classList.add('is-ready'); stage.dataset.state = 'ready'; window.dispatchEvent(new Event('drone:ready')); requestFrame(); } });
 resize();
 init();
