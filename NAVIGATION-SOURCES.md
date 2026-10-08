@@ -1,5 +1,13 @@
 # Kokshetau demonstration — 2026-10-08
 
+## Current v10 regional viewer
+
+The shipped viewer now uses `region-terrain.json` and `region-features.json`: bounds 69.26–69.58 E, 53.245–53.43 N (roughly 21 × 21 km), four bounded Terrarium zoom-11 tiles, 129 × 129 DEM samples (about 166 m grid interval), heights 206–349 m. This replaces the insufficient northern close-up; older input files remain historical, not current viewer data. Sources and transformations are recorded in the acquisition script and JSON. Approximate regional heights are not centimetre-level RTK or new scan data.
+
+696 actual OSM vector features include the mapped Lake Kopa shoreline, roads, residential areas, farmland and woods. Field A/Б/В boundaries remain invented demo mission areas at different places outside the city. Map labels use local coordinates: Kopa around 53.309 N / 69.344 E, Kokshetau around 53.283 N / 69.397 E. No positions of individual trees or real survey results are inferred. Data acquisition used one bounded Overpass request after failed endpoints; fallback code supports bounded OSM API partitions. No OSM raster tiles are archived.
+
+Approach now travels from the left side of the regional overview to the selected field, then follows the aircraft from behind/above. Controls become a small upper strip during approach/flight rather than covering the scan below. Credits remain visible. Heights still exaggerated ×12. Original data attribution and demo limits below remain applicable.
+
 This is a local extension of the existing prototype, not an actual aircraft mission or an operational navigation system.
 
 ## Actual geographic inputs

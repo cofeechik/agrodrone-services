@@ -37,6 +37,8 @@ let flightBank = 0, inputBank = 0, bankInputTime = 0, lastInputX = null, lastInp
 let pendingBank = false, bankRenderTime = 0;
 let activeScenario='spray', payload, sprayAssembly, landingAssembly, payloadReady=false;
 let cargo, cargoReady=false, navigationViewer, navigationMode='map';
+let introStarted=-1, introElapsed=0, applicationFlightStart=0, applicationFlight='', nextScenario=null;
+let cargoPickupStart=-1, cargoPickupDone=false, cargoBox, cargoHook=[],cargoRope=[];
 let payloadMount, aircraftContent, aircraftCenter, fieldStudy, sprayParticles, spreadParticles;
 let configuration='spray', configurationMoving=false;
 const assemblyWeights={spray:1,landing:1,spread:0,cargo:0};
@@ -86,7 +88,7 @@ function desiredPose() {
   const detail = anchor(machineArea, .93);
   const machineVisible = machine.getBoundingClientRect().top < innerHeight * .45 && detail.y + detail.h / 2 > 0 && detail.y - detail.h / 2 < height;
   const application=applicationArea();
-  const applicationAnchor=application?anchor(application,.98):null;
+  const applicationAnchor=application?anchor(application,1.04):null;
   const applicationsVisible=applicationAnchor && applicationAnchor.y+applicationAnchor.h/2>0 && applicationAnchor.y-applicationAnchor.h/2<height && !machineVisible;
   const inApplications=!heroVisible&&applicationsVisible;
   let pose;
@@ -96,9 +98,20 @@ function desiredPose() {
     const bottom=document.querySelector('.flight-bottom').getBoundingClientRect().top-headerHeight-20;
     pose = {x:width*.55, heroExit:t, y:(top+bottom)/2,
       w:width*(mobile.matches?.96:.87), h:Math.max(90,bottom-top),
-      rx:.06,ry:mix(-.28,-.55,t),rz:mix(0,-.08,t),zoom:1};
+      rx:.06+.05*Math.sin(t*Math.PI),ry:mix(-.28,-.55,t),rz:-.18*Math.sin(t*Math.PI),zoom:1};
+    if(introStarted>=0&&!reduced.matches){
+      const arrival=clamp(introElapsed/.85),settle=1-Math.pow(1-arrival,3);
+      pose.zoom=.12+.88*settle;pose.x+=Math.sin(arrival*Math.PI*2)*width*.13*(1-arrival);
+      pose.y+=height*.06*(1-settle);pose.rz+=Math.sin(arrival*Math.PI*2)*.28*(1-arrival);pose.ry+=.4*(1-settle);
+      if(arrival>=1){introStarted=-1;hero.classList.remove('is-arriving');}
+    }
   } else if(inApplications){
     pose={...applicationAnchor,y:applicationAnchor.y-18,h:applicationAnchor.h*.96,rx:.11,ry:activeScenario==='spread'?2.65:activeScenario==='spray'?2.9:-.22,rz:0,zoom:1.08};
+    if(applicationFlight&&!reduced.matches){
+      const duration=applicationFlight==='out'?220:520,t=clamp((performance.now()-applicationFlightStart)/duration);
+      const distance=applicationFlight==='out'?smooth(t):-(1-Math.pow(t,0.45));
+      pose.x+=distance*(applicationAnchor.w+width*.3);pose.rz=-.18*Math.sin(t*Math.PI);pose.rx+=.06*Math.sin(t*Math.PI);
+    }
   } else {
     const entry = reduced.matches ? 1 : smooth(clamp((innerHeight*.45-machine.getBoundingClientRect().top)/Math.max(1,innerHeight*.45-headerHeight)));
     pose = {...detail,rx:activePart==='battery'?.22:activePart==='rotors'?.4:.03,
@@ -138,7 +151,7 @@ function applyFocus() {
     const ghost = !selected && currentFocus > .002;
     const rotatingBlade=stage.dataset.spinning==='true'&&/Carbon composite blades/.test(material.name);
     const weight=mesh.userData.payload?assemblyWeights[mesh.userData.payload]:1;
-    mesh.visible=weight>.002;
+    mesh.visible=weight>.002&&!mesh.userData.hiddenRope;
     const wantedOpacity = (selected ? mesh.userData.baseOpacity : mix(mesh.userData.baseOpacity, .025, currentFocus))*weight;
     const fading=weight<.998;
     if (material.transparent !== (ghost || fading || rotatingBlade || mesh.userData.baseTransparent)) {
@@ -263,9 +276,34 @@ async function loadCargo(){
   try{
     const gltf=await new GLTFLoader().setMeshoptDecoder(MeshoptDecoder).loadAsync('./models/revosling/revosling-v01-compressed.glb');
     cargo=gltf.scene;cargo.position.set(0,.48375,-.075);aircraftContent.add(cargo);
+    cargo.traverse(node=>{
+      const name=node.name.replaceAll('_',' ');
+      if(node.isMesh&&/smart hook|cover seam|release button|status indicator|charging port|upper rope eye|cargo safety hook|safety latch|hook casing screw/i.test(name))cargoHook.push({node,y:node.position.y});
+      if(node.isMesh&&/display rope/i.test(name)){node.userData.hiddenRope=true;node.visible=false;}
+    });
+    cargoBox=new THREE.Group();cargoBox.name='Illustrative wooden cargo crate';cargoBox.position.set(0,-1.346,0);cargo.add(cargoBox);
+    const timber=new THREE.MeshStandardMaterial({color:0xa18055,roughness:.83}),strap=new THREE.MeshStandardMaterial({color:0x4a5149,roughness:.82});
+    const box=(size,position,mat)=>{const m=new THREE.Mesh(new THREE.BoxGeometry(...size),mat);m.position.set(...position);cargoBox.add(m);};
+    box([.27,.15,.22],[0,0,0],timber);
+    for(const x of [-.11,.11])for(const z of [-.112,.112])box([.024,.17,.014],[x,0,z],strap);
+    for(const x of [-.085,.085])box([.015,.01,.23],[x,.08,0],strap);
+    const ropeLine=new THREE.Line(new THREE.BufferGeometry(),new THREE.LineBasicMaterial({color:0x82867a}));cargo.add(ropeLine);cargoRope=[ropeLine];
     registerPayloadMeshes(cargo,'cargo');cargoReady=true;stage.dataset.cargoState='ready';
     window.dispatchEvent(new CustomEvent('drone:application-status',{detail:{scenario:'cargo',state:'ready'}}));requestFrame();
   }catch(error){stage.dataset.cargoState='error';window.dispatchEvent(new CustomEvent('drone:application-status',{detail:{scenario:'cargo',state:'fallback'}}));}
+}
+function updateCargoPickup(time){
+  if(!cargoReady)return;
+  const t=cargoPickupDone?1:cargoPickupStart<0?0:clamp((time-cargoPickupStart)/3200);
+  const lower=t<.4?smooth(t/.4):t<.55?1:1-smooth((t-.55)/.45);
+  const drop=cargoPickupStart<0&&!cargoPickupDone?0:lower*.30;
+  for(const part of cargoHook)part.node.position.y=part.y-drop;
+  const lifted=t>.55?.30*smooth((t-.55)/.45):0;
+  cargoBox.position.y=-1.346+lifted;
+  const line=cargoRope[0];if(line.userData.drop!==drop){line.geometry.dispose();line.geometry=new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(0,-.30,0),new THREE.Vector3(0,-.67-drop,0)]);line.userData.drop=drop;}
+  line.visible=assemblyWeights.cargo>.01;line.material.transparent=true;line.material.opacity=assemblyWeights.cargo;
+  if(t>=1&&cargoPickupStart>=0){cargoPickupDone=true;cargoPickupStart=-1;window.dispatchEvent(new CustomEvent('drone:cargo-status',{detail:'complete'}));}
+  stage.dataset.pickup=cargoPickupDone?'complete':cargoPickupStart>=0?'lifting':'ready';
 }
 function prepareConfigurations(content,center){
   aircraftContent=content;aircraftCenter=center;
@@ -358,8 +396,14 @@ function render(time) {
   const wallDelta = previousTime ? (time - previousTime) / 1000 : 0;
   const dt = Math.min(wallDelta || 1 / 60, .3);
   previousTime = time;
+  if(introStarted>=0)introElapsed+=Math.min(wallDelta||1/60,1/30);
+  if(applicationFlight==='out'&&time-applicationFlightStart>=220){activeScenario=nextScenario;nextScenario=null;applicationFlight='in';applicationFlightStart=time;boundsCache=null;}
+  if(applicationFlight==='in'&&time-applicationFlightStart>=520)applicationFlight='';
   const { pose, visible } = desiredPose();
   const sectionChanged = renderedSection !== stage.dataset.section;
+  if(sectionChanged&&stage.dataset.section==='uses'&&!reduced.matches&&!applicationFlight&&activeScenario!=='map'){
+    applicationFlight='in';applicationFlightStart=time;pose.x-=pose.w+width*.3;
+  }
   renderedSection = stage.dataset.section;
   const moving = visible && motionEnabled();
   // Bank toward horizontal acceleration, recover to level on release. Vertical
@@ -388,6 +432,7 @@ function render(time) {
   if (Math.abs(currentFocus - targetFocus) > .001) unsettled = true;
   if (model) {
     updateApplications(dt,moving);
+    updateCargoPickup(time);
     applyPose({...currentPose,rz:currentPose.rz+flightBank,rx:currentPose.rx+Math.abs(flightBank)*.25}, moving ? Math.sin(elapsed * 1.25) * (mobile.matches ? 3 : 5) : 0);
     for (const rotor of rotors) {
       // Real elapsed time: slow frames must not turn rotation into slow motion.
@@ -413,7 +458,9 @@ function render(time) {
       keyLight.target.updateMatrixWorld();
       keyLight.shadow.updateMatrices(keyLight);
       const shadowKey = [model.rotation.x,model.rotation.y,model.rotation.z,model.scale.x,currentFocus,assemblyWeights.spray,assemblyWeights.spread].map(v=>v.toFixed(4)).join(':')+activePart;
-      if (shadowKey !== shadowPoseKey) {renderer.shadowMap.needsUpdate=true;shadowPoseKey=shadowKey;}
+      // Inspection ghosts do not need a full 2K shadow pass on every focus frame.
+      const inspectionMoving=stage.dataset.section==='machine'&&Math.abs(currentFocus-targetFocus)>.015;
+      if (!inspectionMoving&&shadowKey !== shadowPoseKey) {renderer.shadowMap.needsUpdate=true;shadowPoseKey=shadowKey;}
       renderer.setScissorTest(false);
       renderer.clear();
       if (stage.dataset.section === 'hero') {
@@ -544,8 +591,13 @@ async function init() {
       blur.rotation.x=-Math.PI/2;blur.position.y=.002;blur.visible=false;
       rotor.node.add(blur);rotor.blur=blur;
     }
+    // Prepare the actual spinning/blended scene variants before the arrival clock.
+    for(const rotor of rotors)rotor.blur.visible=true;
+    for(const mesh of meshes)if(/Carbon composite blades/.test(mesh.material.name)){mesh.material.transparent=true;mesh.material.opacity=.07;mesh.material.depthWrite=false;}
+    await renderer.compileAsync(scene,camera);
     stage.dataset.state = 'ready'; stage.dataset.rotors = String(rotors.length);
     stage.classList.add('is-ready');
+    if(!reduced.matches&&scrollY<100){introElapsed=0;previousTime=0;introStarted=performance.now();hero.classList.add('is-arriving');}
     window.dispatchEvent(new Event('drone:ready'));
     requestFrame();
     loadPayload();
@@ -555,12 +607,14 @@ async function init() {
   } catch (error) { console.warn('3D preview unavailable:', error.message); fail(); }
 }
 window.addEventListener('scroll', () => {
+  if(introStarted>=0&&scrollY>10){introStarted=-1;hero.classList.remove('is-arriving');}
   // Sample input before drawing: missed GPU frames must not lose a reversal.
   const now=performance.now(), {pose,visible}=desiredPose(), section=stage.dataset.section;
   const previousX=lastInputSection===section ? lastInputX : renderedSection===section ? currentPose?.x : null;
-  const velocity=previousX!==null&&visible ? (pose.x-previousX)/clamp((now-bankInputTime)/1000,1/60,.12)/width : 0;
+  const logicalX=pose.x+(pose.heroExit||0)*width;
+  const velocity=previousX!==null&&visible ? (logicalX-previousX)/clamp((now-bankInputTime)/1000,1/60,.12)/width : 0;
   inputBank=motionEnabled()?clamp(-velocity*.18,-.28,.28):0;
-  bankInputTime=now;lastInputX=pose.x;lastInputSection=section;
+  bankInputTime=now;lastInputX=logicalX;lastInputSection=section;
   pendingBank=true;
   requestFrame();
 }, { passive: true });
@@ -568,10 +622,24 @@ window.addEventListener('resize', resize);
 const airspaceResize=new ResizeObserver(()=>{boundsCache=null;requestFrame();});
 airspaceResize.observe(machineArea);if(applicationArea())airspaceResize.observe(applicationArea());
 window.addEventListener('drone:part', e => { activePart = e.detail.part; isolate = e.detail.isolation; requestFrame(); });
-window.addEventListener('drone:scenario',e=>{activeScenario=e.detail;boundsCache=null;requestFrame();});
+window.addEventListener('drone:scenario',e=>{
+  if(e.detail===activeScenario&&!applicationFlight)return;
+  if(!reduced.matches&&stage.dataset.section==='uses'&&activeScenario!=='map'){
+    nextScenario=e.detail;applicationFlight='out';applicationFlightStart=performance.now();
+  }else{activeScenario=e.detail;applicationFlight='in';applicationFlightStart=performance.now();}
+  cargoPickupStart=-1;cargoPickupDone=false;boundsCache=null;requestFrame();
+});
 window.addEventListener('drone:navigation-mode',e=>{navigationMode=e.detail;boundsCache=null;requestFrame();});
+window.addEventListener('drone:cargo-pickup',()=>{
+  if(!cargoReady||activeScenario!=='cargo')return;
+  cargoPickupDone=false;cargoPickupStart=reduced.matches?performance.now()-3200:performance.now();requestFrame();
+});
 window.addEventListener('drone:error',()=>{if(stage.dataset.section==='uses')stage.classList.add('is-offscreen');});
-reduced.addEventListener('change', () => { previousTime = 0; currentPose = null; requestFrame(); });
+reduced.addEventListener('change', () => {
+  previousTime=0;currentPose=null;
+  if(reduced.matches){introStarted=-1;hero.classList.remove('is-arriving');if(nextScenario){activeScenario=nextScenario;nextScenario=null;}applicationFlight='';if(cargoPickupStart>=0)cargoPickupStart=performance.now()-3200;}
+  requestFrame();
+});
 document.addEventListener('visibilitychange', () => {
   if (document.hidden) { cancelAnimationFrame(frame); frame = 0; previousTime = 0; }
   else requestFrame();

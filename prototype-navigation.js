@@ -7,7 +7,7 @@ export function createNavigationViewer(template){
   const reduced=matchMedia('(prefers-reduced-motion: reduce)');
   const wrap=document.createElement('div');wrap.className='navigation-viewer';wrap.hidden=true;
   wrap.innerHTML=`<canvas aria-label="Карта северных окрестностей Кокшетау; выберите демонстрационный участок кнопками ниже"></canvas>
-    <div class="navigation-heading"><span>Окрестности Кокшетау</span><span class="navigation-coordinate">53,40° N · 69,41° E</span></div>
+    <div class="navigation-heading"><span>Кокшетау · озеро Копа</span><span class="navigation-coordinate">53,33° N · 69,42° E</span></div>
     <div class="navigation-controls"><div class="navigation-fields" role="group" aria-label="Демонстрационные участки"><button type="button" data-field="0" aria-pressed="false">Участок А</button><button type="button" data-field="1" aria-pressed="false">Участок Б</button><button type="button" data-field="2" aria-pressed="false">Участок В</button></div>
     <p class="navigation-status" role="status">Загружаем карту и рельеф…</p><button class="navigation-back" type="button" hidden>Обзор участков</button>
     <p class="navigation-disclaimer">Настоящий рельеф. Границы и сканирование — пример; дрон увеличен для показа.</p>
@@ -15,12 +15,32 @@ export function createNavigationViewer(template){
   const canvas=wrap.querySelector('canvas'),status=wrap.querySelector('.navigation-status'),back=wrap.querySelector('.navigation-back');
   let host=null,renderer=null,scene,camera,aircraft,terrain,voxels,scan,routeLine,terrainData;
   let ready=false,failed=false,frame=0,previous=0,clock=0,missionTime=0,state='overview',selected=-1,path;
-  let observed=false,viewportW=0,viewportH=0;
-  const fields=[{name:'А',x:-.83,z:-.68,w:.60,d:.46},{name:'Б',x:-.72,z:.43,w:.72,d:.52},{name:'В',x:.40,z:.84,w:.58,d:.56}];
-  const outlines=[],rotors=[],axis=new THREE.Vector3(0,1,0),q=new THREE.Quaternion();
+  let observed=false,viewportW=0,viewportH=0,lastViewOffset=null;
+  const fields=[{name:'А',lon:69.41,lat:53.402,w:.38,d:.28},{name:'Б',lon:69.525,lat:53.36,w:.40,d:.30},{name:'В',lon:69.52,lat:53.27,w:.38,d:.28}];
+  const outlines=[],labels=[],rotors=[],axis=new THREE.Vector3(0,1,0),q=new THREE.Quaternion();
   const dummy=new THREE.Object3D(),blue=new THREE.Color(0x468392),teal=new THREE.Color(0x739a91),white=new THREE.Color(0xc5ded9);
   const raycaster=new THREE.Raycaster(),pointer=new THREE.Vector2();
   const cameraTarget=new THREE.Vector3(),lookTarget=new THREE.Vector3(),displayLook=new THREE.Vector3(),dronePoint=new THREE.Vector3();
+  const projected=new THREE.Vector3();let aircraftRadius=.13;
+  function containScan(){
+    const controls=wrap.querySelector('.navigation-controls'),top=controls.offsetTop+controls.offsetHeight+14,bottom=viewportH-20;
+    const points=[];
+    for(const x of [-1,1])for(const y of [-1,1])for(const z of [-1,1])points.push(dronePoint.clone().add(new THREE.Vector3(x,y,z).multiplyScalar(aircraftRadius)));
+    const vertices=scan.geometry.attributes.position;
+    for(let i=0;i<vertices.count;i++)points.push(new THREE.Vector3().fromBufferAttribute(vertices,i).add(scan.position));
+    const bounds=()=>{
+      const b={left:Infinity,right:-Infinity,top:Infinity,bottom:-Infinity};
+      for(const point of points){projected.copy(point).project(camera);const x=(projected.x+1)*viewportW/2,y=(1-projected.y)*viewportH/2;b.left=Math.min(b.left,x);b.right=Math.max(b.right,x);b.top=Math.min(b.top,y);b.bottom=Math.max(b.bottom,y);}return b;
+    };
+    let ox=0,oy=0;camera.setViewOffset(viewportW,viewportH,0,0,viewportW,viewportH);camera.updateProjectionMatrix();
+    for(let pass=0;pass<3;pass++){
+      camera.updateMatrixWorld();const b=bounds(),factor=Math.max(1,(b.right-b.left)/(viewportW-32),(b.bottom-b.top)/Math.max(80,bottom-top));
+      if(factor>1){camera.position.sub(displayLook).multiplyScalar(factor*1.03).add(displayLook);camera.lookAt(displayLook);camera.updateMatrixWorld();}
+      const fitted=bounds();ox+=(fitted.left+fitted.right)/2-viewportW/2;oy+=(fitted.top+fitted.bottom)/2-(top+bottom)/2;
+      camera.setViewOffset(viewportW,viewportH,ox,oy,viewportW,viewportH);camera.updateProjectionMatrix();
+    }
+    camera.updateMatrixWorld();const b=bounds();wrap.dataset.scanBounds=JSON.stringify({...b,safeTop:top,safeBottom:bottom});lastViewOffset=null;
+  }
   for(const b of wrap.querySelectorAll('[data-field]'))b.disabled=true;
   const observer=new IntersectionObserver(entries=>{observed=entries[0]?.isIntersecting||false;if(observed)request();else stop();},{threshold:.01});
   observer.observe(wrap);
@@ -33,12 +53,17 @@ export function createNavigationViewer(template){
     const value=THREE.MathUtils.lerp(THREE.MathUtils.lerp(a[z0*n+x0],a[z0*n+x1],u-x0),THREE.MathUtils.lerp(a[z1*n+x0],a[z1*n+x1],u-x0),v-z0);
     return (value-terrainData.minimum)*4/terrainData.spanM*12-.28;
   }
+  function overviewPosition(){
+    const controls=wrap.querySelector('.navigation-controls').offsetHeight;
+    const distance=Math.max(4/Math.max(.2,camera.aspect),4*.86*viewportH/Math.max(160,viewportH-controls-60))*1.06/(2*Math.tan(THREE.MathUtils.degToRad(21)));
+    return new THREE.Vector3(0,distance*.86,distance*.52);
+  }
   function resize(){
     if(!host||!renderer)return;
     const w=host.clientWidth,h=host.clientHeight;
     if(viewportW===w&&viewportH===h)return;
     viewportW=w;viewportH=h;renderer.setSize(w,h,false);camera.aspect=w/Math.max(1,h);
-    camera.setViewOffset(w,h,0,wrap.querySelector('.navigation-controls').offsetHeight/2,w,h);camera.updateProjectionMatrix();request();
+    lastViewOffset=null;camera.updateProjectionMatrix();request();
   }
   const resizeObserver=new ResizeObserver(resize);
   function overview(){state='overview';selected=-1;missionTime=0;back.hidden=true;status.textContent=ready?'Выберите участок на карте или кнопкой.':'Загружаем карту и рельеф…';for(const b of wrap.querySelectorAll('[data-field]'))b.setAttribute('aria-pressed','false');if(aircraft)aircraft.visible=false;wrap.dataset.state=state;request();}
@@ -74,16 +99,17 @@ export function createNavigationViewer(template){
   async function init(){
     if(renderer||failed)return;
     try{
-      const response=await Promise.all(['terrain','features'].map(name=>fetch(`./assets/kokschetau/${name}.json`).then(r=>{if(!r.ok)throw Error('Geodata missing');return r.json();})));
+    const response=await Promise.all(['region-terrain','region-features'].map(name=>fetch(`./assets/kokschetau/${name}.json`).then(r=>{if(!r.ok)throw Error('Geodata missing');return r.json();})));
       terrainData=response[0];terrainData.minimum=Math.min(...terrainData.elevations);
       const [west,south,east,north]=terrainData.bounds;
+      for(const f of fields){f.x=(f.lon-west)/(east-west)*4-2;f.z=(north-f.lat)/(north-south)*4-2;}
       terrainData.spanM=(east-west)*111320*Math.cos((south+north)*Math.PI/360);
       renderer=new THREE.WebGLRenderer({canvas,antialias:true,powerPreference:'high-performance'});renderer.setPixelRatio(Math.min(devicePixelRatio||1,1.35));
       renderer.setClearColor(0xedf2f4);renderer.toneMapping=THREE.ACESFilmicToneMapping;
       scene=new THREE.Scene();scene.environment=createStudioEnvironment(renderer).texture;
       scene.add(new THREE.HemisphereLight(0xffffff,0x94a38e,1.5));const key=new THREE.DirectionalLight(0xfffcf2,2);key.position.set(-2,6,3);scene.add(key);
       camera=new THREE.PerspectiveCamera(42,1,.005,30);camera.position.set(0,3.8,4.5);camera.lookAt(0,0,0);
-      const geo=new THREE.PlaneGeometry(4,4,64,64);geo.rotateX(-Math.PI/2);
+      const geo=new THREE.PlaneGeometry(4,4,128,128);geo.rotateX(-Math.PI/2);
       const pos=geo.attributes.position,colors=[];
       for(let i=0;i<pos.count;i++){const x=pos.getX(i),z=pos.getZ(i);pos.setY(i,h(x,z));const c=new THREE.Color(0xb9c3a6).lerp(new THREE.Color(0x879c86),(h(x,z)+.28)/.32);colors.push(c.r,c.g,c.b);}
       geo.setAttribute('color',new THREE.Float32BufferAttribute(colors,3));geo.computeVertexNormals();
@@ -92,18 +118,23 @@ export function createNavigationViewer(template){
       // canvas clipping also prevents long OSM ways floating beyond the tile.
       const mapCanvas=document.createElement('canvas');mapCanvas.width=mapCanvas.height=1024;
       const mapContext=mapCanvas.getContext('2d');mapContext.fillStyle='#c6cfb9';mapContext.fillRect(0,0,1024,1024);
-      for(const way of response[1].elements){
+      const ordered=response[1].elements.slice().sort((a,b)=>Number(!!a.tags.highway)-Number(!!b.tags.highway));
+      for(const way of ordered){
         if(way.geometry.length<2)continue;mapContext.beginPath();
         way.geometry.forEach((p,i)=>{const x=(p.lon-west)/(east-west)*1024,y=(north-p.lat)/(north-south)*1024;i?mapContext.lineTo(x,y):mapContext.moveTo(x,y);});
-        if(!way.tags.highway){mapContext.fillStyle=way.tags.natural==='water'?'#8fb4bd':way.tags.landuse==='residential'?'#d8d5c9':'#91ac8d';mapContext.fill();}
+        if(!way.tags.highway){mapContext.fillStyle=way.tags.natural==='water'?'#6b9fad':way.tags.landuse==='residential'?'#d8d5c9':way.tags.landuse==='farmland'?'#b8c59c':'#91ac8d';mapContext.fill();}
         else{mapContext.strokeStyle='#8b958b';mapContext.lineWidth=way.tags.highway==='trunk'?5:3;mapContext.stroke();mapContext.strokeStyle='#f1e8d1';mapContext.lineWidth=way.tags.highway==='trunk'?3:1.5;mapContext.stroke();}
       }
+      mapContext.font='500 30px sans-serif';mapContext.textAlign='center';mapContext.fillStyle='#294d5a';
+      mapContext.fillText('оз. Копа',(69.344-west)/(east-west)*1024,(north-53.309)/(north-south)*1024);
+      mapContext.font='500 32px sans-serif';mapContext.fillStyle='#34434a';
+      mapContext.fillText('Кокшетау',(69.397-west)/(east-west)*1024,(north-53.283)/(north-south)*1024);
       const mapTexture=new THREE.CanvasTexture(mapCanvas);mapTexture.colorSpace=THREE.SRGBColorSpace;terrain.material.map=mapTexture;terrain.material.needsUpdate=true;
       for(let i=0;i<fields.length;i++){
         const f=fields[i],pts=[];for(const [a,b]of[[-1,-1],[1,-1],[1,1],[-1,1],[-1,-1]]){const x=f.x+a*f.w/2,z=f.z+b*f.d/2;pts.push(new THREE.Vector3(x,h(x,z)+.008,z));}
         const outline=new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts),new THREE.LineBasicMaterial({color:0x345762}));scene.add(outline);outlines.push(outline);
         const label=document.createElement('canvas');label.width=label.height=128;const ctx=label.getContext('2d');ctx.fillStyle='#f7fafb';ctx.fillRect(12,12,104,104);ctx.fillStyle='#243640';ctx.font='64px sans-serif';ctx.textAlign='center';ctx.fillText(f.name,64,86);
-        const sprite=new THREE.Sprite(new THREE.SpriteMaterial({map:new THREE.CanvasTexture(label),depthTest:false}));sprite.position.set(f.x,h(f.x,f.z)+.045,f.z);sprite.scale.set(.16,.16,1);scene.add(sprite);
+        const sprite=new THREE.Sprite(new THREE.SpriteMaterial({map:new THREE.CanvasTexture(label),depthTest:false}));sprite.position.set(f.x,h(f.x,f.z)+.045,f.z);sprite.scale.set(.16,.16,1);scene.add(sprite);labels.push(sprite);
       }
       voxels=new THREE.InstancedMesh(new THREE.BoxGeometry(1,1,1),new THREE.MeshBasicMaterial({transparent:true,opacity:.62}),576);voxels.frustumCulled=false;voxels.visible=false;scene.add(voxels);
       scan=new THREE.Mesh(new THREE.ConeGeometry(.17,.17,4,1,true),new THREE.MeshBasicMaterial({color:0x77c3ce,transparent:true,opacity:.12,side:THREE.DoubleSide,depthWrite:false}));scene.add(scan);
@@ -115,6 +146,7 @@ export function createNavigationViewer(template){
         if(node.userData.animation_role==='propeller_spin')rotors.push({node,initial:node.quaternion.clone()});
       });
       aircraft=new THREE.Group();aircraft.add(content);aircraft.scale.setScalar(.038);aircraft.visible=false;scene.add(aircraft);
+      aircraftRadius=new THREE.Box3().setFromObject(aircraft).getSize(new THREE.Vector3()).length()/2;
       canvas.addEventListener('pointerup',event=>{
         if(state!=='overview')return;const r=canvas.getBoundingClientRect();pointer.set((event.clientX-r.left)/r.width*2-1,1-(event.clientY-r.top)/r.height*2);raycaster.setFromCamera(pointer,camera);
         const hit=raycaster.intersectObject(terrain)[0];if(!hit)return;
@@ -126,12 +158,16 @@ export function createNavigationViewer(template){
   function render(time){
     frame=0;if(!host||document.hidden||!observed||!ready){previous=0;return;}
     const dt=previous?Math.min((time-previous)/1000,1):0;previous=time;clock+=dt;
-    const f=fields[selected],progress=state==='result'?1:Math.min(1,Math.max(0,(missionTime-1.3)/16));
+    const f=fields[selected],progress=state==='result'?1:Math.min(1,Math.max(0,(missionTime-3.2)/16));
     if(selected>=0){
       missionTime+=dt;
-      if(state==='approach'&&missionTime>=1.3){state='flight';status.textContent=`Участок ${f.name}: демонстрационный проход со съёмкой.`;}
-      if(state==='flight'&&missionTime>=17.3){state='result';status.textContent=`Участок ${f.name}: проход завершён. Показаны покрытие и открытый рельеф, не результат реальной съёмки.`;}
+      if(state==='approach'&&missionTime>=3.2){state='flight';status.textContent=`Участок ${f.name}: сканируем · демонстрация`;}
+      if(state==='flight'&&missionTime>=19.2){state='result';status.textContent=`Участок ${f.name}: проход завершён. Показаны покрытие и открытый рельеф, не результат реальной съёмки.`;}
       dronePoint.copy(path.getPointAt(progress));const tangent=path.getTangentAt(Math.min(.999,progress));
+      if(state==='approach'){
+        const t=THREE.MathUtils.smoothstep(missionTime/3.2,0,1);
+        dronePoint.lerp(new THREE.Vector3(-2.25,h(-2,f.z)+.35,f.z+.4),1-t);
+      }
       aircraft.position.copy(dronePoint);
       const targetYaw=Math.atan2(tangent.x,tangent.z),deltaYaw=Math.atan2(Math.sin(targetYaw-aircraft.rotation.y),Math.cos(targetYaw-aircraft.rotation.y));
       aircraft.rotation.y+=deltaYaw*(reduced.matches?1:1-Math.exp(-dt*7));aircraft.rotation.x=state==='flight'?.06:0;aircraft.rotation.z=state==='flight'?THREE.MathUtils.clamp(-deltaYaw*.14,-.12,.12):0;aircraft.visible=state!=='result';
@@ -140,12 +176,20 @@ export function createNavigationViewer(template){
       voxels.visible=true;routeLine.visible=true;updateVoxels(progress);
       if(state==='result'){
         const controls=wrap.querySelector('.navigation-controls').offsetHeight;
-        const distance=Math.max(f.w/camera.aspect,f.d)*1.18/(2*Math.tan(THREE.MathUtils.degToRad(21)))*viewportH/Math.max(160,viewportH-controls-50);
+        const distance=Math.max(f.w/camera.aspect,f.d*.87*viewportH/Math.max(160,viewportH-controls-50))*1.18/(2*Math.tan(THREE.MathUtils.degToRad(21)));
         cameraTarget.set(f.x,h(f.x,f.z)+distance*.87,f.z+distance*.5);lookTarget.set(f.x,h(f.x,f.z),f.z);
       }
-      else{cameraTarget.copy(dronePoint).addScaledVector(tangent,-.64);cameraTarget.y+=.49;lookTarget.copy(dronePoint).addScaledVector(tangent,.13);lookTarget.y-=.03;}
-    }else{cameraTarget.set(0,3.8,4.5);lookTarget.set(0,-.13,0);voxels.visible=false;scan.visible=false;routeLine.visible=false;}
-    const alpha=reduced.matches?1:1-Math.exp(-dt*4);camera.position.lerp(cameraTarget,alpha);displayLook.lerp(lookTarget,alpha);camera.lookAt(displayLook);renderer.render(scene,camera);wrap.dataset.state=state;wrap.dataset.progress=progress.toFixed(3);
+      else{cameraTarget.copy(dronePoint).addScaledVector(tangent,-.75);cameraTarget.y+=.64;lookTarget.copy(dronePoint);lookTarget.y-=.07;
+        if(state==='approach'){const t=THREE.MathUtils.smoothstep(missionTime/3.2,0,1);cameraTarget.lerp(overviewPosition(),1-t);lookTarget.lerp(new THREE.Vector3(0,-.13,0),1-t);}
+      }
+    }else{cameraTarget.copy(overviewPosition());lookTarget.set(0,-.13,0);voxels.visible=false;scan.visible=false;routeLine.visible=false;}
+    labels.forEach(label=>label.visible=state==='overview');
+    const controlHeight=wrap.querySelector('.navigation-controls').offsetHeight;
+    const offset=state==='flight'||state==='approach'?-(controlHeight+60)/2:controlHeight/2;
+    if(offset!==lastViewOffset){camera.setViewOffset(viewportW,viewportH,0,offset,viewportW,viewportH);camera.updateProjectionMatrix();lastViewOffset=offset;}
+    const alpha=reduced.matches?1:1-Math.exp(-dt*4);camera.position.lerp(cameraTarget,alpha);displayLook.lerp(lookTarget,alpha);camera.lookAt(displayLook);
+    if(state==='flight')containScan();
+    renderer.render(scene,camera);wrap.dataset.state=state;wrap.dataset.progress=progress.toFixed(3);
     const unsettled=camera.position.distanceTo(cameraTarget)>.002;
     if(!reduced.matches&&(state==='flight'||state==='approach'||unsettled))request();else previous=0;
   }

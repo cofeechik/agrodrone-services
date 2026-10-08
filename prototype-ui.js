@@ -2,7 +2,7 @@
   const scenarios = {
     spray: { title: 'Опрыскивание', description: 'Внесение средств защиты растений и листовых подкормок над посевами, садами и виноградниками.', module: 'RevoSpray 5 · этот модуль показан в 3D', image: 'assets/service-spray.jpg', alt: 'XAG P150 MAX распыляет раствор над посадками', request: 'Рассчитать опрыскивание' },
     spread: { title: 'Удобрения и посев', description: 'Разбрасывание гранулированных удобрений, семян трав, риса, рапса и сидератов.', module: 'RevoCast 5 · внешняя реконструкция сменного модуля в 3D', image: 'assets/service-spread.jpg', alt: 'XAG P150 MAX с бункером RevoCast разбрасывает гранулы', request: 'Рассчитать внесение' },
-    cargo: { title: 'Доставка грузов', description: 'Перевозка саженцев, удобрений и урожая на склонах и участках без подъездной дороги.', module: 'RevoSling · рама и умный крюк в 3D; подвес укорочен для показа, не рабочая конфигурация', image: 'assets/service-cargo.jpg', alt: 'XAG P150 MAX с грузовой платформой перевозит груз', request: 'Обсудить маршрут' },
+    cargo: { title: 'Доставка грузов', description: 'Перевозка саженцев, удобрений и урожая на склонах и участках без подъездной дороги.', module: 'RevoSling · подвес укорочен; захват ящика — условная анимация, не схема работы подвеса', image: 'assets/service-cargo.jpg', alt: 'XAG P150 MAX с грузовой платформой перевозит груз', request: 'Обсудить маршрут' },
     map: { title: 'Карты полей', description: 'Выберите участок в окрестностях Кокшетау и посмотрите демонстрационный проход со съёмкой. После полёта камера покажет покрытие и рельеф.', module: 'Настоящие карта и рельеф · границы участков и миссия демонстрационные', image: 'assets/mapping.png', alt: 'Интерфейс XAG с примером планирования полётного маршрута', request: 'Обсудить съёмку' }
   };
   const parts = {
@@ -36,6 +36,9 @@
   const applicationStatus = document.querySelector('#application-model-status');
   const applicationNote = document.querySelector('.application-stage-note');
   const applicationPhoto = document.querySelector('#application-photo');
+  const pickupButton=document.createElement('button');pickupButton.type='button';pickupButton.className='cargo-pickup';pickupButton.hidden=true;pickupButton.textContent='Забрать груз';applicationAirspace.append(pickupButton);
+  pickupButton.addEventListener('click',()=>{pickupButton.disabled=true;pickupButton.textContent='Захватываем груз…';window.dispatchEvent(new Event('drone:cargo-pickup'));});
+  window.addEventListener('drone:cargo-status',()=>{pickupButton.disabled=false;pickupButton.textContent='Повторить захват';});
   const machinePhoto = document.querySelector('#machine-photo');
   let activeScenario = 'spray';
   let spreadFallback = false;
@@ -113,6 +116,7 @@
     const key = button.dataset.scenario;
     const item = scenarios[key];
     activeScenario = key;
+    pickupButton.hidden=key!=='cargo';pickupButton.disabled=stage.dataset.cargoState!=='ready';pickupButton.textContent='Забрать груз';
     applicationAirspace.dataset.scenario = key;
     const knownState = applicationStates.get(key);
     showApplicationState(knownState?.state || (stage.dataset.state === 'fallback' ? 'fallback' : stage.dataset.state === 'ready' ? 'ready' : 'loading'), knownState?.message);
@@ -147,6 +151,7 @@
     });
     window.dispatchEvent(new CustomEvent('drone:scenario', { detail: key }));
   }));
+  window.addEventListener('drone:application-status',()=>{if(activeScenario==='cargo')pickupButton.disabled=stage.dataset.cargoState!=='ready';});
   function publishPart() {
     navigationModeButton.hidden=activePart!=='navigation';
     isolationButton.hidden = ['all','spread','navigation'].includes(activePart);
