@@ -1,0 +1,50 @@
+[
+  {
+    "name": "desktop",
+    "exits": [
+      {
+        "progress": 0.75,
+        "travel": 476,
+        "left": 1250.3987216810215,
+        "section": "hero"
+      },
+      {
+        "progress": 0.98,
+        "travel": 476,
+        "left": 1438.4192287701533,
+        "section": "hero"
+      }
+    ],
+    "mid": {
+      "ready": "true",
+      "state": "flight",
+      "progress": "0.258",
+      "revealed": "156"
+    },
+    "complete": 576
+  },
+  {
+    "name": "mobile",
+    "exits": [
+      {
+        "progress": 0.75,
+        "travel": 317,
+        "left": 38.74174420122576,
+        "section": "hero"
+      },
+      {
+        "progress": 0.98,
+        "travel": 317,
+        "left": 389.6273315336445,
+        "section": "hero"
+      }
+    ],
+    "mid": {
+      "ready": "true",
+      "state": "flight",
+      "progress": "0.481",
+      "revealed": "294"
+    },
+    "complete": 576
+  }
+]

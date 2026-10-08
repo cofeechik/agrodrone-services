@@ -1,0 +1,780 @@
+[
+  {
+    "name": "desktop",
+    "hero": {
+      "probe": {
+        "section": "hero",
+        "configuration": "spray",
+        "cargoReady": true,
+        "payloadReady": true,
+        "weights": {
+          "spray": 1,
+          "landing": 1,
+          "spread": 0,
+          "cargo": 0
+        },
+        "bounds": {
+          "left": 208.1874565866357,
+          "right": 1375.8097428195426,
+          "top": 358.49416670118103,
+          "bottom": 721.9134143031893
+        },
+        "pose": {
+          "x": 792.0000000000001,
+          "y": 464.203125,
+          "w": 1252.8,
+          "h": 451.09375,
+          "rx": 0.06,
+          "ry": -0.28,
+          "rz": 0,
+          "zoom": 1
+        },
+        "bank": 0,
+        "spray": false,
+        "spread": false,
+        "visible": true,
+        "rotors": [
+          0.55,
+          0.55,
+          0.55,
+          0.55
+        ],
+        "programs": 21
+      },
+      "heading": {
+        "x": 43.203125,
+        "y": 104,
+        "width": 1324.8125,
+        "height": 194.65625,
+        "top": 104,
+        "right": 1368.015625,
+        "bottom": 298.65625,
+        "left": 43.203125
+      },
+      "copy": {
+        "x": 57.59375,
+        "y": 785.75,
+        "width": 1324.8125,
+        "height": 160.25,
+        "top": 785.75,
+        "right": 1382.40625,
+        "bottom": 946,
+        "left": 57.59375
+      }
+    },
+    "scenarios": [
+      {
+        "key": "spray",
+        "section": "uses",
+        "configuration": "spray",
+        "cargoReady": true,
+        "payloadReady": true,
+        "weights": {
+          "spray": 1,
+          "landing": 1,
+          "spread": 0,
+          "cargo": 0
+        },
+        "bounds": {
+          "left": 662.0220672060433,
+          "right": 1351.102927379245,
+          "top": 460.09150591350516,
+          "bottom": 719.4084956333357
+        },
+        "pose": {
+          "x": 1006.5625,
+          "y": 513.75,
+          "w": 736.65375,
+          "h": 501.12,
+          "rx": 0.11,
+          "ry": 2.9,
+          "rz": 0,
+          "zoom": 1.08
+        },
+        "bank": 0,
+        "spray": true,
+        "spread": false,
+        "visible": true,
+        "rotors": [
+          0.55,
+          0.55,
+          0.55,
+          0.55
+        ],
+        "programs": 21
+      },
+      {
+        "key": "spread",
+        "section": "uses",
+        "configuration": "spread",
+        "cargoReady": true,
+        "payloadReady": true,
+        "weights": {
+          "spray": 0,
+          "landing": 0,
+          "spread": 1,
+          "cargo": 0
+        },
+        "bounds": {
+          "left": 663.0656577042355,
+          "right": 1350.0596553818934,
+          "top": 419.5762667059717,
+          "bottom": 663.3058901627513
+        },
+        "pose": {
+          "x": 1006.5625,
+          "y": 513.75,
+          "w": 736.65375,
+          "h": 501.12,
+          "rx": 0.11,
+          "ry": 2.65,
+          "rz": 0,
+          "zoom": 1.08
+        },
+        "bank": 0,
+        "spray": false,
+        "spread": true,
+        "visible": true,
+        "rotors": [
+          0.55,
+          0.55,
+          0.55,
+          0.55
+        ],
+        "programs": 23
+      },
+      {
+        "key": "cargo",
+        "section": "uses",
+        "configuration": "cargo",
+        "cargoReady": true,
+        "payloadReady": true,
+        "weights": {
+          "spray": 0,
+          "landing": 0,
+          "spread": 0,
+          "cargo": 1
+        },
+        "bounds": {
+          "left": 662.0086198152493,
+          "right": 1351.1163504078322,
+          "top": 447.62932316468124,
+          "bottom": 700.7883928662416
+        },
+        "pose": {
+          "x": 1006.5625,
+          "y": 513.75,
+          "w": 736.65375,
+          "h": 501.12,
+          "rx": 0.11,
+          "ry": -0.22,
+          "rz": 0,
+          "zoom": 1.08
+        },
+        "bank": 0,
+        "spray": false,
+        "spread": false,
+        "visible": true,
+        "rotors": [
+          0.55,
+          0.55,
+          0.55,
+          0.55
+        ],
+        "programs": 24
+      },
+      {
+        "key": "map",
+        "section": "uses",
+        "configuration": "map",
+        "cargoReady": true,
+        "payloadReady": true,
+        "weights": {
+          "spray": 0,
+          "landing": 1,
+          "spread": 0,
+          "cargo": 0
+        },
+        "bounds": {
+          "left": 662.0086198152492,
+          "right": 1351.1163504078322,
+          "top": 461.52088757310366,
+          "bottom": 717.9786925617899
+        },
+        "pose": {
+          "x": 1006.5625,
+          "y": 513.75,
+          "w": 736.65375,
+          "h": 501.12,
+          "rx": 0.11,
+          "ry": -0.22,
+          "rz": 0,
+          "zoom": 1.08
+        },
+        "bank": 0,
+        "spray": false,
+        "spread": false,
+        "visible": false,
+        "rotors": [
+          0.55,
+          0.55,
+          0.55,
+          0.55
+        ],
+        "programs": 24
+      }
+    ],
+    "equipment": [
+      {
+        "key": "spray",
+        "section": "machine",
+        "configuration": "spray",
+        "cargoReady": true,
+        "payloadReady": true,
+        "weights": {
+          "spray": 1,
+          "landing": 1,
+          "spread": 0,
+          "cargo": 0
+        },
+        "bounds": {
+          "left": -245.20925518081467,
+          "right": 1852.3564285744942,
+          "top": 283.8298631243314,
+          "bottom": 868.0075584229111
+        },
+        "pose": {
+          "x": 536.3984375,
+          "y": 572.265625,
+          "w": 890.57671875,
+          "h": 522,
+          "rx": 0.03,
+          "ry": 2.65,
+          "rz": 0,
+          "zoom": 0.9
+        },
+        "bank": 0,
+        "spray": true,
+        "spread": false,
+        "visible": true,
+        "rotors": [
+          0.55,
+          0.55,
+          0.55,
+          0.55
+        ],
+        "programs": 24
+      },
+      {
+        "key": "spread",
+        "section": "machine",
+        "configuration": "spread",
+        "cargoReady": true,
+        "payloadReady": true,
+        "weights": {
+          "spray": 0,
+          "landing": 0,
+          "spread": 1,
+          "cargo": 0
+        },
+        "bounds": {
+          "left": 39.24537010852745,
+          "right": 1121.7720049353209,
+          "top": 333.0452502872031,
+          "bottom": 657.8041148653571
+        },
+        "pose": {
+          "x": 536.3984375,
+          "y": 572.265625,
+          "w": 890.57671875,
+          "h": 522,
+          "rx": 0.03,
+          "ry": -2.35,
+          "rz": 0,
+          "zoom": 0.95
+        },
+        "bank": 0,
+        "spray": false,
+        "spread": true,
+        "visible": true,
+        "rotors": [
+          0.55,
+          0.55,
+          0.55,
+          0.55
+        ],
+        "programs": 24
+      },
+      {
+        "key": "battery",
+        "section": "machine",
+        "configuration": "spray",
+        "cargoReady": true,
+        "payloadReady": true,
+        "weights": {
+          "spray": 1,
+          "landing": 1,
+          "spread": 0,
+          "cargo": 0
+        },
+        "bounds": {
+          "left": -20599.81773515101,
+          "right": 86613.43804497564,
+          "top": -6858.55736818661,
+          "bottom": 57178.107551592366
+        },
+        "pose": {
+          "x": 536.3984375,
+          "y": 572.265625,
+          "w": 890.57671875,
+          "h": 522,
+          "rx": 0.22,
+          "ry": -0.2,
+          "rz": 0,
+          "zoom": 0.9
+        },
+        "bank": 0,
+        "spray": false,
+        "spread": false,
+        "visible": true,
+        "rotors": [
+          0.55,
+          0.55,
+          0.55,
+          0.55
+        ],
+        "programs": 24
+      },
+      {
+        "key": "navigation",
+        "section": "machine",
+        "configuration": "spray",
+        "cargoReady": true,
+        "payloadReady": true,
+        "weights": {
+          "spray": 1,
+          "landing": 1,
+          "spread": 0,
+          "cargo": 0
+        },
+        "bounds": {
+          "left": -28375.561991747545,
+          "right": 117754.02282155228,
+          "top": -95287.09884781798,
+          "bottom": 2992.1571885616595
+        },
+        "pose": {
+          "x": 536.3984375,
+          "y": 612.265625,
+          "w": 890.57671875,
+          "h": 594,
+          "rx": 0.03,
+          "ry": -0.2,
+          "rz": 0,
+          "zoom": 0.9
+        },
+        "bank": 0,
+        "spray": false,
+        "spread": false,
+        "visible": false,
+        "rotors": [
+          0.55,
+          0.55,
+          0.55,
+          0.55
+        ],
+        "programs": 24
+      }
+    ],
+    "errors": []
+  },
+  {
+    "name": "mobile",
+    "hero": {
+      "probe": {
+        "section": "hero",
+        "configuration": "spray",
+        "cargoReady": true,
+        "payloadReady": true,
+        "weights": {
+          "spray": 1,
+          "landing": 1,
+          "spread": 0,
+          "cargo": 0
+        },
+        "bounds": {
+          "left": 38.7417442012258,
+          "right": 390.2582543318077,
+          "top": 352.1934908225741,
+          "bottom": 466.6190807117376
+        },
+        "pose": {
+          "x": 214.50000000000003,
+          "y": 345.40625,
+          "w": 374.4,
+          "h": 390.8125,
+          "rx": 0.06,
+          "ry": -0.28,
+          "rz": 0,
+          "zoom": 1
+        },
+        "bank": 0,
+        "spray": false,
+        "spread": false,
+        "visible": true,
+        "rotors": [
+          0.55,
+          0.55,
+          0.55,
+          0.55
+        ],
+        "programs": 21
+      },
+      "heading": {
+        "x": 20,
+        "y": 94,
+        "width": 350,
+        "height": 104,
+        "top": 94,
+        "right": 370,
+        "bottom": 198,
+        "left": 20
+      },
+      "copy": {
+        "x": 20,
+        "y": 624.8125,
+        "width": 350,
+        "height": 189.1875,
+        "top": 624.8125,
+        "right": 370,
+        "bottom": 814,
+        "left": 20
+      }
+    },
+    "scenarios": [
+      {
+        "key": "spray",
+        "section": "uses",
+        "configuration": "spray",
+        "cargoReady": true,
+        "payloadReady": true,
+        "weights": {
+          "spray": 1,
+          "landing": 1,
+          "spread": 0,
+          "cargo": 0
+        },
+        "bounds": {
+          "left": 34.209126769827144,
+          "right": 355.79086877937385,
+          "top": 450.56277669631214,
+          "bottom": 576.8434786651653
+        },
+        "pose": {
+          "x": 195,
+          "y": 449.703125,
+          "w": 343,
+          "h": 313.551,
+          "rx": 0.11,
+          "ry": 2.9,
+          "rz": 0,
+          "zoom": 1.08
+        },
+        "bank": 0,
+        "spray": true,
+        "spread": false,
+        "visible": true,
+        "rotors": [
+          0.55,
+          0.55,
+          0.55,
+          0.55
+        ],
+        "programs": 21
+      },
+      {
+        "key": "spread",
+        "section": "uses",
+        "configuration": "spread",
+        "cargoReady": true,
+        "payloadReady": true,
+        "weights": {
+          "spray": 0,
+          "landing": 0,
+          "spread": 1,
+          "cargo": 0
+        },
+        "bounds": {
+          "left": 34.2157447567146,
+          "right": 355.7842581421932,
+          "top": 427.91438460885723,
+          "bottom": 552.3598542507362
+        },
+        "pose": {
+          "x": 195,
+          "y": 449.703125,
+          "w": 343,
+          "h": 313.551,
+          "rx": 0.11,
+          "ry": 2.65,
+          "rz": 0,
+          "zoom": 1.08
+        },
+        "bank": 0,
+        "spray": false,
+        "spread": true,
+        "visible": true,
+        "rotors": [
+          0.55,
+          0.55,
+          0.55,
+          0.55
+        ],
+        "programs": 23
+      },
+      {
+        "key": "cargo",
+        "section": "uses",
+        "configuration": "cargo",
+        "cargoReady": true,
+        "payloadReady": true,
+        "weights": {
+          "spray": 0,
+          "landing": 0,
+          "spread": 0,
+          "cargo": 1
+        },
+        "bounds": {
+          "left": 34.2211536438722,
+          "right": 355.7788410416547,
+          "top": 443.4641801106141,
+          "bottom": 568.1774941745468
+        },
+        "pose": {
+          "x": 195,
+          "y": 449.703125,
+          "w": 343,
+          "h": 313.551,
+          "rx": 0.11,
+          "ry": -0.22,
+          "rz": 0,
+          "zoom": 1.08
+        },
+        "bank": 0,
+        "spray": false,
+        "spread": false,
+        "visible": true,
+        "rotors": [
+          0.55,
+          0.55,
+          0.55,
+          0.55
+        ],
+        "programs": 24
+      },
+      {
+        "key": "map",
+        "section": "uses",
+        "configuration": "map",
+        "cargoReady": true,
+        "payloadReady": true,
+        "weights": {
+          "spray": 0,
+          "landing": 1,
+          "spread": 0,
+          "cargo": 0
+        },
+        "bounds": {
+          "left": 34.2211536438722,
+          "right": 355.7788410416547,
+          "top": 535.7671285904823,
+          "bottom": 678.7328586417981
+        },
+        "pose": {
+          "x": 195,
+          "y": 543.25,
+          "w": 343,
+          "h": 475.2,
+          "rx": 0.11,
+          "ry": -0.22,
+          "rz": 0,
+          "zoom": 1.08
+        },
+        "bank": 0,
+        "spray": false,
+        "spread": false,
+        "visible": false,
+        "rotors": [
+          0.55,
+          0.55,
+          0.55,
+          0.55
+        ],
+        "programs": 24
+      }
+    ],
+    "equipment": [
+      {
+        "key": "spray",
+        "section": "machine",
+        "configuration": "spray",
+        "cargoReady": true,
+        "payloadReady": true,
+        "weights": {
+          "spray": 1,
+          "landing": 1,
+          "spread": 0,
+          "cargo": 0
+        },
+        "bounds": {
+          "left": -109.62146640754386,
+          "right": 696.540239387406,
+          "top": 360.1097658046059,
+          "bottom": 616.010328855647
+        },
+        "pose": {
+          "x": 195,
+          "y": 466.5,
+          "w": 325.5,
+          "h": 326.615625,
+          "rx": 0.03,
+          "ry": 2.65,
+          "rz": 0,
+          "zoom": 0.9
+        },
+        "bank": 0,
+        "spray": true,
+        "spread": false,
+        "visible": true,
+        "rotors": [
+          0.55,
+          0.55,
+          0.55,
+          0.55
+        ],
+        "programs": 24
+      },
+      {
+        "key": "spread",
+        "section": "machine",
+        "configuration": "spread",
+        "cargoReady": true,
+        "payloadReady": true,
+        "weights": {
+          "spray": 0,
+          "landing": 0,
+          "spread": 1,
+          "cargo": 0
+        },
+        "bounds": {
+          "left": -83.21495088478247,
+          "right": 521.4254219975966,
+          "top": 345.0661477481098,
+          "bottom": 538.9880477559723
+        },
+        "pose": {
+          "x": 195,
+          "y": 466.5,
+          "w": 325.5,
+          "h": 326.615625,
+          "rx": 0.03,
+          "ry": -2.35,
+          "rz": 0,
+          "zoom": 0.95
+        },
+        "bank": 0,
+        "spray": false,
+        "spread": true,
+        "visible": true,
+        "rotors": [
+          0.55,
+          0.55,
+          0.55,
+          0.55
+        ],
+        "programs": 24
+      },
+      {
+        "key": "battery",
+        "section": "machine",
+        "configuration": "spray",
+        "cargoReady": true,
+        "payloadReady": true,
+        "weights": {
+          "spray": 1,
+          "landing": 1,
+          "spread": 0,
+          "cargo": 0
+        },
+        "bounds": {
+          "left": -1520.2067161063344,
+          "right": 2470.5093280428123,
+          "top": 179.66850797822912,
+          "bottom": 5069.614115679591
+        },
+        "pose": {
+          "x": 195,
+          "y": 466.5,
+          "w": 325.5,
+          "h": 326.615625,
+          "rx": 0.22,
+          "ry": -0.2,
+          "rz": 0,
+          "zoom": 0.9
+        },
+        "bank": 0,
+        "spray": false,
+        "spread": false,
+        "visible": true,
+        "rotors": [
+          0.55,
+          0.55,
+          0.55,
+          0.55
+        ],
+        "programs": 24
+      },
+      {
+        "key": "navigation",
+        "section": "machine",
+        "configuration": "spray",
+        "cargoReady": true,
+        "payloadReady": true,
+        "weights": {
+          "spray": 1,
+          "landing": 1,
+          "spread": 0,
+          "cargo": 0
+        },
+        "bounds": {
+          "left": -1061.8296605821295,
+          "right": 1709.8975954919915,
+          "top": 335.88866780095543,
+          "bottom": 2084.7259379523734
+        },
+        "pose": {
+          "x": 195,
+          "y": 560.046875,
+          "w": 325.5,
+          "h": 495,
+          "rx": 0.03,
+          "ry": -0.2,
+          "rz": 0,
+          "zoom": 0.9
+        },
+        "bank": 0,
+        "spray": false,
+        "spread": false,
+        "visible": false,
+        "rotors": [
+          0.55,
+          0.55,
+          0.55,
+          0.55
+        ],
+        "programs": 24
+      }
+    ],
+    "errors": []
+  }
+]

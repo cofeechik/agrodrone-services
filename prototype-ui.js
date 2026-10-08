@@ -2,8 +2,8 @@
   const scenarios = {
     spray: { title: 'Опрыскивание', description: 'Внесение средств защиты растений и листовых подкормок над посевами, садами и виноградниками.', module: 'RevoSpray 5 · этот модуль показан в 3D', image: 'assets/service-spray.jpg', alt: 'XAG P150 MAX распыляет раствор над посадками', request: 'Рассчитать опрыскивание' },
     spread: { title: 'Удобрения и посев', description: 'Разбрасывание гранулированных удобрений, семян трав, риса, рапса и сидератов.', module: 'RevoCast 5 · внешняя реконструкция сменного модуля в 3D', image: 'assets/service-spread.jpg', alt: 'XAG P150 MAX с бункером RevoCast разбрасывает гранулы', request: 'Рассчитать внесение' },
-    cargo: { title: 'Доставка грузов', description: 'Перевозка саженцев, удобрений и урожая на склонах и участках без подъездной дороги.', module: 'RevoSling · показано настоящее фото производителя, не 3D-реконструкция', image: 'assets/service-cargo.jpg', alt: 'XAG P150 MAX с грузовой платформой перевозит груз', request: 'Обсудить маршрут' },
-    map: { title: 'Карты полей', description: 'Съёмка границ и рельефа встроенной камерой для подготовки маршрута обработки.', module: 'Демонстрационный маршрут над условным полем · не результат съёмки', image: 'assets/mapping.png', alt: 'Интерфейс XAG с примером планирования полётного маршрута', request: 'Обсудить съёмку' }
+    cargo: { title: 'Доставка грузов', description: 'Перевозка саженцев, удобрений и урожая на склонах и участках без подъездной дороги.', module: 'RevoSling · рама и умный крюк в 3D; подвес укорочен для показа, не рабочая конфигурация', image: 'assets/service-cargo.jpg', alt: 'XAG P150 MAX с грузовой платформой перевозит груз', request: 'Обсудить маршрут' },
+    map: { title: 'Карты полей', description: 'Выберите участок в окрестностях Кокшетау и посмотрите демонстрационный проход со съёмкой. После полёта камера покажет покрытие и рельеф.', module: 'Настоящие карта и рельеф · границы участков и миссия демонстрационные', image: 'assets/mapping.png', alt: 'Интерфейс XAG с примером планирования полётного маршрута', request: 'Обсудить съёмку' }
   };
   const parts = {
     all: { value: '80 <span>кг</span>', title: 'Полезная нагрузка', description: 'Одна платформа для опрыскивания, внесения гранул, карт полей и перевозки грузов. Модуль выбирается под задачу.', stats: [['20 м/с','максимальная скорость платформы'],['13,8 м/с','максимум с RevoSling'],['IPX6K','защита от воды']] },
@@ -11,7 +11,7 @@
     spray: { value: '32 <span>л/мин</span>', title: 'Центробежные распылители', description: 'Два распылителя под задними лучами дозируют раствор и формируют каплю. Подсвечены распылители и их наружные подводящие шланги.', stats: [['46 л/мин','с комплектом из четырёх форсунок'],['60–500 мкм','регулируемый размер капли'],['5–10 м','ширина обработки']] },
     rotors: { value: '1600 <span>мм</span>', title: 'Карбоновые винты', description: 'Четыре складных винта создают подъёмную силу и нисходящий поток для проникновения раствора в растительный полог.', stats: [['4 × 63″','диаметр и количество винтов'],['до 80 кг','полезная нагрузка всей платформы'],['до 20 м/с','скорость платформы, не обороты винтов']] },
     battery: { value: '1050 <span>Вт·ч</span>', title: 'Аккумулятор B141050', description: 'Быстрая смена батарей сокращает паузы между вылетами. В режиме одного аккумулятора бак ограничен 50 л, нагрузка RevoCast — 40 кг.', stats: [['≈7 мин','30–95% с двумя зарядными устройствами'],['≈12 мин','30–95% с одним CM13600S'],['до 1500','циклов; гарантия — 1500 циклов или 12 месяцев']] },
-    navigation: { value: '±10 <span>см</span>', title: 'Навигация и препятствия', description: 'RTK помогает точно вести маршрут, а 4D-радар обнаруживает препятствия. Выделены наружные антенны и передний радар; внутренние датчики не воспроизводились.', stats: [['1,5–100 м','дальность обнаружения 4D-радара'],['до 20 га','картографирование за один полёт'],['XRTK 7','мобильная станция для RTK']] },
+    navigation: { value: '±10 <span>см</span>', title: 'Навигация и препятствия', description: 'Выберите участок для демонстрационного прохода или откройте датчики дрона: две вертикальные антенны связи и поперечный корпус 4D-радара. Внутренняя электроника не моделировалась.', stats: [['1,5–100 м','дальность обнаружения 4D-радара'],['до 20 га','картографирование за один полёт'],['XRTK 7','мобильная станция для RTK']] },
     spread: { value: '115 <span>л</span>', title: 'Бункер RevoCast 5', description: 'Сменный модуль для семян и удобрений. В 3D показана внешняя реконструкция RevoCast 5 с бункером, шнековой подачей и разбрасывающим диском.', stats: [['до 300 кг/мин','подача; испытания на комплексном удобрении'],['5–9 м','ширина разбрасывания'],['1–10 мм','размер гранул']] }
   };
   const stage = document.querySelector('#drone-stage');
@@ -20,6 +20,12 @@
   let activePart = 'all';
   let isolation = true;
   const isolationButton = document.querySelector('#isolation-toggle');
+  const navigationModeButton=document.createElement('button');navigationModeButton.type='button';navigationModeButton.className='viewer-mode-button';navigationModeButton.hidden=true;navigationModeButton.textContent='Датчики дрона';navigationModeButton.setAttribute('aria-pressed','false');document.querySelector('.machine-airspace').append(navigationModeButton);
+  let navigationHardware=false;
+  navigationModeButton.addEventListener('click',()=>{
+    navigationHardware=!navigationHardware;navigationModeButton.textContent=navigationHardware?'Карта и маршрут':'Датчики дрона';navigationModeButton.setAttribute('aria-pressed',String(navigationHardware));
+    window.dispatchEvent(new CustomEvent('drone:navigation-mode',{detail:navigationHardware?'hardware':'map'}));
+  });
   const service = document.querySelector('#request-service');
   const form = document.querySelector('#prototype-request');
   const area = document.querySelector('#request-area');
@@ -38,13 +44,13 @@
 
   function showApplicationState(state, message) {
     applicationAirspace.dataset.state = state;
-    const photoOnly = activeScenario === 'cargo';
+    const photoOnly = activeScenario === 'cargo' && stage.dataset.cargoState !== 'ready';
     applicationPhoto.hidden = !photoOnly && state !== 'fallback';
     applicationNote.textContent = scenarios[activeScenario].title + (photoOnly || state === 'fallback'
       ? ' · фото производителя' : ' · демонстрационная 3D-сцена');
     document.querySelector('#application-scene-description').textContent = photoOnly || state === 'fallback'
       ? 'Материал производителя XAG, демонстрация техники.' : activeScenario === 'map'
-      ? 'Условный участок и маршрут. Это иллюстрация прохода съёмки, не реальные данные.'
+      ? 'Открытые данные Кокшетау. Участки и покрытие демонстрационные, не результат реальной съёмки.'
       : 'Внешняя 3D-реконструкция техники и иллюстрация её работы.';
     applicationStatus.hidden = photoOnly || state === 'ready';
     applicationStatus.textContent = message || (state === 'ready' ? '' : state === 'loading'
@@ -56,8 +62,9 @@
     const detail = event.detail || {};
     const key = detail.scenario || activeScenario;
     if (!scenarios[key] || !['loading', 'ready', 'fallback'].includes(detail.state)) return;
-    applicationStates.set(key, { state: detail.state, message: detail.message });
-    if (key === activeScenario) showApplicationState(detail.state, detail.message);
+    const state=stage.dataset.state==='fallback'?'fallback':detail.state;
+    applicationStates.set(key, { state, message: detail.message });
+    if (key === activeScenario) showApplicationState(state, detail.message);
   });
   function updateMachinePhoto() { machinePhoto.hidden = activePart !== 'spread' || !spreadFallback; }
   function refreshPayloadStatus(message) {
@@ -127,7 +134,7 @@
       displayed.src = item.image; displayed.alt = item.alt;
       displayed.width = image.naturalWidth; displayed.height = image.naturalHeight;
       applicationPhoto.src = item.image; applicationPhoto.width = image.naturalWidth; applicationPhoto.height = image.naturalHeight;
-      applicationPhoto.hidden = activeScenario !== 'cargo' && applicationAirspace.dataset.state !== 'fallback';
+      applicationPhoto.hidden = !(activeScenario === 'cargo' && stage.dataset.cargoState !== 'ready') && applicationAirspace.dataset.state !== 'fallback';
       document.querySelector('.scenario-photo').dataset.scenario = key;
       document.querySelector('#scenario-credit').textContent = key === 'map' ? 'Материал производителя XAG · демонстрационный интерфейс' : 'Фото производителя XAG · демонстрация работы техники';
     }).catch(() => {
@@ -141,7 +148,8 @@
     window.dispatchEvent(new CustomEvent('drone:scenario', { detail: key }));
   }));
   function publishPart() {
-    isolationButton.hidden = ['all','spread'].includes(activePart);
+    navigationModeButton.hidden=activePart!=='navigation';
+    isolationButton.hidden = ['all','spread','navigation'].includes(activePart);
     isolationButton.setAttribute('aria-pressed', String(isolation));
     isolationButton.textContent = isolation ? 'Показать остальной дрон' : 'Выделить выбранную часть';
     window.dispatchEvent(new CustomEvent('drone:part', { detail: { part: activePart, isolation } }));

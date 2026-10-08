@@ -3,6 +3,7 @@ import { GLTFLoader } from './assets/vendor/three/loaders/GLTFLoader.js';
 import { MeshoptDecoder } from './assets/vendor/three/meshopt_decoder.module.js';
 import { createStudioEnvironment, tuneSurface } from './prototype-studio.js';
 import { createFieldStudy, createApplicationParticles } from './prototype-field.js';
+import { createNavigationViewer } from './prototype-navigation.js';
 
 const stage = document.querySelector('#drone-stage');
 const canvas = document.querySelector('#drone-canvas');
@@ -35,9 +36,10 @@ let renderedSection = null, shadowPoseKey = '';
 let flightBank = 0, inputBank = 0, bankInputTime = 0, lastInputX = null, lastInputSection = null;
 let pendingBank = false, bankRenderTime = 0;
 let activeScenario='spray', payload, sprayAssembly, landingAssembly, payloadReady=false;
+let cargo, cargoReady=false, navigationViewer, navigationMode='map';
 let payloadMount, aircraftContent, aircraftCenter, fieldStudy, sprayParticles, spreadParticles;
 let configuration='spray', configurationMoving=false;
-const assemblyWeights={spray:1,landing:1,spread:0};
+const assemblyWeights={spray:1,landing:1,spread:0,cargo:0};
 const payloadAxis=new THREE.Vector3(0,0,-1);
 let payloadAngle=0,payloadRotor;
 const motionEnabled = () => !reduced.matches;
@@ -77,24 +79,26 @@ function anchor(element, fraction = .9) {
   return { x: r.left + r.width / 2, y: r.top + r.height / 2 - headerHeight, w: r.width * fraction, h: r.height * .9 };
 }
 function desiredPose() {
-  const availableTravel = Math.max(1, hero.offsetHeight - innerHeight);
+  const availableTravel = Math.max(1, hero.offsetHeight - height);
   const progress = clamp(scrollY / availableTravel);
-  const exit = smooth(clamp((progress - .2) / .65));
-  const heroVisible = uses.getBoundingClientRect().top > innerHeight * .9;
+  const exit = smooth(progress);
+  const heroVisible = scrollY < availableTravel;
   const detail = anchor(machineArea, .93);
   const machineVisible = machine.getBoundingClientRect().top < innerHeight * .45 && detail.y + detail.h / 2 > 0 && detail.y - detail.h / 2 < height;
   const application=applicationArea();
-  const applicationAnchor=application?anchor(application,.89):null;
+  const applicationAnchor=application?anchor(application,.98):null;
   const applicationsVisible=applicationAnchor && applicationAnchor.y+applicationAnchor.h/2>0 && applicationAnchor.y-applicationAnchor.h/2<height && !machineVisible;
   const inApplications=!heroVisible&&applicationsVisible;
   let pose;
   if (heroVisible) {
     const t = reduced.matches ? 0 : exit;
-    pose = {x:width*(.5+t*1.8), y:height*.43,
-      w:width*(mobile.matches ? 1.35 : .9), h:height*(mobile.matches ? .48 : .53),
-      rx:.06,ry:mix(-.28,-.55,t),rz:mix(0,-.08,t),zoom:mobile.matches?1.3:1.12};
+    const top=document.querySelector('.flight-heading').getBoundingClientRect().bottom-headerHeight+16;
+    const bottom=document.querySelector('.flight-bottom').getBoundingClientRect().top-headerHeight-20;
+    pose = {x:width*.55, heroExit:t, y:(top+bottom)/2,
+      w:width*(mobile.matches?.96:.87), h:Math.max(90,bottom-top),
+      rx:.06,ry:mix(-.28,-.55,t),rz:mix(0,-.08,t),zoom:1};
   } else if(inApplications){
-    pose={...applicationAnchor,rx:activeScenario==='map'?.12:.04,ry:activeScenario==='spread'?2.25:-.22,rz:0,zoom:.94};
+    pose={...applicationAnchor,y:applicationAnchor.y-18,h:applicationAnchor.h*.96,rx:.11,ry:activeScenario==='spread'?2.65:activeScenario==='spray'?2.9:-.22,rz:0,zoom:1.08};
   } else {
     const entry = reduced.matches ? 1 : smooth(clamp((innerHeight*.45-machine.getBoundingClientRect().top)/Math.max(1,innerHeight*.45-headerHeight)));
     pose = {...detail,rx:activePart==='battery'?.22:activePart==='rotors'?.4:.03,
@@ -103,7 +107,9 @@ function desiredPose() {
   }
   targetFocus = !heroVisible && machineVisible && isolate && ['tank','spray','battery','navigation','rotors','spread'].includes(activePart) ? 1 : 0;
   const applicationReady=stage.dataset.state==='ready'&&!contextLost;
-  const visible = heroVisible && exit < .98 || inApplications&&applicationReady&&activeScenario!=='cargo'&&(activeScenario!=='spread'||payloadReady) || !heroVisible&&machineVisible&&(activePart!=='spread'||applicationReady&&payloadReady);
+  const navigating=inApplications&&activeScenario==='map'||!heroVisible&&machineVisible&&activePart==='navigation'&&navigationMode==='map';
+  navigationViewer?.show(navigating?(inApplications?application:machineArea):null);
+  const visible = heroVisible || !navigating&&(inApplications&&applicationReady&&(activeScenario!=='cargo'||cargoReady)&&(activeScenario!=='spread'||payloadReady) || !heroVisible&&machineVisible&&(activePart!=='spread'||applicationReady&&payloadReady));
   stage.classList.toggle('is-offscreen', !visible);
   stage.dataset.section = heroVisible ? 'hero' : machineVisible ? 'machine' : inApplications?'uses':'between';
   clipFallback();
@@ -153,7 +159,8 @@ function applyPose(pose, floating) {
   model.rotation.set(pose.rx, pose.ry, pose.rz);
   model.scale.setScalar(1);
   const withField=fieldStudy?.group.visible;
-  const framingCorners=withField?corners.concat(fieldStudy.group.userData.bounds):corners;
+  const extras=meshBounds.filter(item=>['spread','cargo'].includes(item.mesh.userData.payload)&&assemblyWeights[item.mesh.userData.payload]>.1).flatMap(item=>item.points);
+  const framingCorners=corners.concat(extras,withField?fieldStudy.group.userData.bounds:[]);
   const detailParts=['tank','battery','spray'];
   if(payloadReady)detailParts.push('spread');
   if(!withField)detailParts.push('navigation');
@@ -185,7 +192,7 @@ function applyPose(pose, floating) {
   const offsetY = (height / 2 - pose.y - floating) / pxPerUnit - (minY + maxY) * .5 * scale;
   // Translate along the camera plane, preserving perspective within the aircraft.
   model.position.copy(right).multiplyScalar(offsetX).addScaledVector(up, offsetY);
-  if (['machine','uses'].includes(stage.dataset.section)) {
+  if (['hero','machine','uses'].includes(stage.dataset.section)) {
     // Inspection must contain the entire aircraft, including the nearer foot.
     // Fit perspective-projected corners and full rotor sweeps, not an
     // orthographic estimate or a viewport-specific magic magnification.
@@ -209,15 +216,25 @@ function applyPose(pose, floating) {
       if(fit<1)model.scale.multiplyScalar(fit);
     }
   }
+  if(stage.dataset.section==='hero'&&pose.heroExit>0){
+    const screenLeft=()=>Math.min(...framingCorners.map(c=>{
+      const p=projectedPoint.copy(c).applyEuler(model.rotation).multiplyScalar(model.scale.x).add(model.position).project(camera);
+      return (p.x+1)*width/2;
+    }));
+    // Last visible rotor tip clears the edge exactly as the pinned chapter releases.
+    // Use actual fitted geometry rather than a fixed viewport-wide translation.
+    const targetLeft=mix(screenLeft(),width,pose.heroExit);
+    for(let pass=0;pass<4;pass++)model.position.addScaledVector(right,(targetLeft-screenLeft())/pxPerUnit);
+  }
   keyLight.position.copy(model.position).add(new THREE.Vector3(-3,6,5));
   keyLight.target.position.copy(model.position);
 }
-function registerPayloadMeshes(content){
+function registerPayloadMeshes(content,kind='spread'){
   model.updateMatrixWorld(true);
   const inverse=model.matrixWorld.clone().invert();
   content.traverse(node=>{
     if(!node.isMesh)return;
-    node.userData.component='spread';node.userData.payload='spread';
+    node.userData.component=kind;node.userData.payload=kind;
     node.material=node.material.clone();tuneSurface(node.material);
     node.userData.baseOpacity=node.material.opacity;
     node.userData.baseTransparent=node.material.transparent;
@@ -226,9 +243,29 @@ function registerPayloadMeshes(content){
     node.geometry.computeBoundingBox();const b=node.geometry.boundingBox;
     const transform=inverse.clone().multiply(node.matrixWorld),points=[];
     for(const x of [b.min.x,b.max.x])for(const y of [b.min.y,b.max.y])for(const z of [b.min.z,b.max.z])points.push(new THREE.Vector3(x,y,z).applyMatrix4(transform));
-    meshBounds.push({mesh:node,points});corners.push(...points);
+    meshBounds.push({mesh:node,points});
   });
   boundsCache=null;
+}
+async function warmInspectionPrograms(){
+  // Profiling showed five new GPU programs on the first battery isolation.
+  // Compile the transparent/non-shadow receiving variants without changing
+  // live materials, visibility or focus. Keep cache references for reuse.
+  const warm=model.clone(true);
+  warm.traverse(node=>{
+    if(!node.isMesh)return;node.visible=true;node.receiveShadow=false;node.castShadow=false;
+    node.material=node.material.clone();tuneSurface(node.material);node.material.transparent=true;node.material.opacity=.025;node.material.depthWrite=false;
+  });
+  try{await renderer.compileAsync(warm,camera,scene);stage.dataset.inspectionWarm='true';}
+  catch(error){console.warn('Inspection warmup unavailable',error.message);}
+}
+async function loadCargo(){
+  try{
+    const gltf=await new GLTFLoader().setMeshoptDecoder(MeshoptDecoder).loadAsync('./models/revosling/revosling-v01-compressed.glb');
+    cargo=gltf.scene;cargo.position.set(0,.48375,-.075);aircraftContent.add(cargo);
+    registerPayloadMeshes(cargo,'cargo');cargoReady=true;stage.dataset.cargoState='ready';
+    window.dispatchEvent(new CustomEvent('drone:application-status',{detail:{scenario:'cargo',state:'ready'}}));requestFrame();
+  }catch(error){stage.dataset.cargoState='error';window.dispatchEvent(new CustomEvent('drone:application-status',{detail:{scenario:'cargo',state:'fallback'}}));}
 }
 function prepareConfigurations(content,center){
   aircraftContent=content;aircraftCenter=center;
@@ -275,9 +312,9 @@ async function loadPayload(){
 }
 function updateApplications(dt,moving){
   const applications=stage.dataset.section==='uses',equipment=stage.dataset.section==='machine';
-  configuration=applications?activeScenario==='spread'?'spread':activeScenario==='map'?'map':'spray':equipment&&activePart==='spread'?'spread':'spray';
+  configuration=applications?activeScenario:equipment&&activePart==='spread'?'spread':'spray';
   if(configuration==='spread'&&!payloadReady)configuration='spray';
-  const targets={spray:configuration==='spray'?1:0,landing:configuration==='spread'?0:1,spread:configuration==='spread'?1:0};
+  const targets={spray:configuration==='spray'?1:0,landing:['spray','map'].includes(configuration)?1:0,spread:configuration==='spread'?1:0,cargo:configuration==='cargo'&&cargoReady?1:0};
   configurationMoving=false;
   for(const key of Object.keys(assemblyWeights)){
     assemblyWeights[key]=!moving?targets[key]:mix(assemblyWeights[key],targets[key],1-Math.exp(-dt*7));
@@ -286,23 +323,24 @@ function updateApplications(dt,moving){
   if(sprayAssembly)sprayAssembly.position.y=-.65*(1-assemblyWeights.spray);
   if(landingAssembly)landingAssembly.position.y=-.65*(1-assemblyWeights.landing);
   if(payload){payload.visible=assemblyWeights.spread>.002;payload.position.copy(payloadMount);payload.position.y-=.75*(1-assemblyWeights.spread);}
+  if(cargo){cargo.position.y=.48375-.6*(1-assemblyWeights.cargo);cargo.visible=assemblyWeights.cargo>.002;}
   const scanning=applications&&activeScenario==='map'||equipment&&activePart==='navigation';
   if(fieldStudy){
-    fieldStudy.group.visible=scanning;
+    fieldStudy.group.visible=false;
     const drift=fieldStudy.update(elapsed,!moving);
     aircraftContent.position.copy(aircraftCenter).multiplyScalar(-1);
-    if(scanning&&moving)aircraftContent.position.x+=drift;
+    if(scanning&&moving&&!navigationViewer)aircraftContent.position.x+=drift;
   }
   if(keyLight)keyLight.castShadow=!scanning;
-  if(sprayParticles){sprayParticles.points.visible=applications&&configuration==='spray'&&assemblyWeights.spray>.95;sprayParticles.update(elapsed,!moving);}
-  if(spreadParticles){spreadParticles.points.visible=applications&&configuration==='spread'&&assemblyWeights.spread>.95;spreadParticles.update(elapsed,!moving);}
+  if(sprayParticles){sprayParticles.points.visible=(applications||equipment&&activePart==='spray')&&configuration==='spray'&&assemblyWeights.spray>.95;if(sprayParticles.points.visible)sprayParticles.update(elapsed,!moving);}
+  if(spreadParticles){spreadParticles.points.visible=(applications||equipment&&activePart==='spread')&&configuration==='spread'&&assemblyWeights.spread>.95;if(spreadParticles.points.visible)spreadParticles.update(elapsed,!moving);}
   if(payloadRotor){
     if(moving&&configuration==='spread')payloadAngle+=dt*45;
     spinQuaternion.setFromAxisAngle(payloadAxis,payloadAngle);payloadRotor.node.quaternion.copy(payloadRotor.initial).multiply(spinQuaternion);
   }
   stage.dataset.configuration=configuration;stage.dataset.transitioning=String(configurationMoving);
   stage.dataset.scan=String(scanning);stage.dataset.discAngle=payloadAngle.toFixed(3);
-  const fieldNote=document.querySelector('#machine-field-note');if(fieldNote)fieldNote.hidden=!(scanning&&equipment);
+  const fieldNote=document.querySelector('#machine-field-note');if(fieldNote)fieldNote.hidden=true;
   stage.dataset.sprayMeshes=String(meshes.filter(m=>m.userData.payload==='spray'&&m.visible).length);
   stage.dataset.spreadMeshes=String(meshes.filter(m=>m.userData.payload==='spread'&&m.visible).length);
   applyFocus();
@@ -449,6 +487,9 @@ async function init() {
       fetch('./models/xag-p150-max/web-model-manifest-v07.json').then(r => { if (!r.ok) throw new Error('Manifest unavailable'); return r.json(); })
     ]);
     const content = gltf.scene;
+    const navigationTemplate=content.clone(true);
+    navigationTemplate.traverse(node=>{if(node.isMesh){node.material=node.material.clone();node.castShadow=false;}});
+    navigationViewer=createNavigationViewer(navigationTemplate);
     content.updateMatrixWorld(true);
     const box = new THREE.Box3().setFromObject(content), center = box.getCenter(new THREE.Vector3());
     corners = [];
@@ -508,6 +549,9 @@ async function init() {
     window.dispatchEvent(new Event('drone:ready'));
     requestFrame();
     loadPayload();
+    loadCargo();
+    const idle=window.requestIdleCallback||((callback)=>setTimeout(callback,250));
+    idle(()=>warmInspectionPrograms(),{timeout:1500});
   } catch (error) { console.warn('3D preview unavailable:', error.message); fail(); }
 }
 window.addEventListener('scroll', () => {
@@ -521,8 +565,11 @@ window.addEventListener('scroll', () => {
   requestFrame();
 }, { passive: true });
 window.addEventListener('resize', resize);
+const airspaceResize=new ResizeObserver(()=>{boundsCache=null;requestFrame();});
+airspaceResize.observe(machineArea);if(applicationArea())airspaceResize.observe(applicationArea());
 window.addEventListener('drone:part', e => { activePart = e.detail.part; isolate = e.detail.isolation; requestFrame(); });
 window.addEventListener('drone:scenario',e=>{activeScenario=e.detail;boundsCache=null;requestFrame();});
+window.addEventListener('drone:navigation-mode',e=>{navigationMode=e.detail;boundsCache=null;requestFrame();});
 window.addEventListener('drone:error',()=>{if(stage.dataset.section==='uses')stage.classList.add('is-offscreen');});
 reduced.addEventListener('change', () => { previousTime = 0; currentPose = null; requestFrame(); });
 document.addEventListener('visibilitychange', () => {

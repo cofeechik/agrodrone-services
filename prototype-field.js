@@ -38,19 +38,23 @@ export function createFieldStudy() {
 }
 
 export function createApplicationParticles(kind, emitters) {
-  const count=kind==='spray'?220:110;
+  const count=kind==='spray'?1100:420;
   const positions=new Float32Array(count*3), seeds=[];
-  for(let i=0;i<count;i++)seeds.push({age:(i*.61803398875)%1,a:i*2.39996,r:.12+(i%13)/13});
+  const hash=i=>{const v=Math.sin(i*12.9898)*43758.5453;return v-Math.floor(v);};
+  for(let i=0;i<count;i++)seeds.push({age:hash(i+11),a:hash(i+31)*Math.PI*2,r:.18+Math.sqrt(hash(i+67))*.82});
   const geometry=new THREE.BufferGeometry();geometry.setAttribute('position',new THREE.BufferAttribute(positions,3));
-  const points=new THREE.Points(geometry,new THREE.PointsMaterial({color:kind==='spray'?0x7397a4:0xa18c53,size:kind==='spray'?.015:.021,transparent:true,opacity:kind==='spray'?.35:.68,depthWrite:false,sizeAttenuation:true}));
+  const sprite=document.createElement('canvas');sprite.width=sprite.height=32;
+  const ctx=sprite.getContext('2d');ctx.fillStyle='white';ctx.beginPath();ctx.ellipse(16,16,kind==='spray'?7:10,kind==='spray'?13:6,.45,0,Math.PI*2);ctx.fill();
+  const texture=new THREE.CanvasTexture(sprite);
+  const points=new THREE.Points(geometry,new THREE.PointsMaterial({map:texture,alphaTest:.15,color:kind==='spray'?0x437e98:0x80613c,size:kind==='spray'?.033:.039,transparent:true,opacity:kind==='spray'?.58:.94,depthWrite:false,sizeAttenuation:true}));
   points.frustumCulled=false;points.visible=false;
   return {points,update(time,reduced){
     for(let i=0;i<count;i++){
       const seed=seeds[i],age=reduced?seed.age:(seed.age+time*(kind==='spray'?.8:1.15))%1;
-      const origin=emitters[i%emitters.length];const radius=age*(kind==='spray'?.34:.55)*seed.r;
+      const origin=emitters[i%emitters.length];const radius=age*(kind==='spray'?.43:.62)*seed.r;
       positions[i*3]=origin.x+Math.cos(seed.a)*radius;
-      positions[i*3+1]=origin.y-age*.62;
-      positions[i*3+2]=origin.z+Math.sin(seed.a)*radius;
+      positions[i*3+1]=origin.y-age*(kind==='spray'?.94:.88);
+      positions[i*3+2]=origin.z+Math.sin(seed.a)*radius+(kind==='spray'?age*age*.35:0);
     }
     geometry.attributes.position.needsUpdate=true;
   }};

@@ -11,3 +11,5 @@ qa/
 *.blend2
 models/xag-p150-max/*-web-uncompressed.glb
 models/xag-p150-max/*-web-welded.glb
+design-references/revosling/manual.pdf
+design-references/revosling/manual-*.png
