@@ -31,7 +31,6 @@
         <div class="flight-copy"><h1 id="flight-title">Обработка полей<br>агродронами.</h1><p>Опрыскивание, внесение удобрений<br class="desktop-only"> и посев с XAG P150 MAX.</p></div>
         <div class="flight-actions"><a class="button" href="#contact">Обсудить ваш участок <span class="direction-icon" aria-hidden="true"></span></a><a class="scroll-link" href="#uses">Сценарии применения <span class="direction-icon direction-down" aria-hidden="true"></span></a></div>
       </div>
-      <div class="model-toolbar"><p id="model-status" role="status">Загружаем 3D. Пока показываем сохранённый рендер.</p><button id="motion-toggle" type="button" aria-pressed="false" hidden>Остановить движение</button></div>
       <noscript><style>#prototype-request,.scenario-selector,.part-selector,#isolation-toggle{display:none}.drone-stage{position:absolute;height:580px}.model-toolbar{display:none}</style><p class="no-script">Для 3D и формы нужен JavaScript. Вы можете написать нам по ссылке WhatsApp в контактах.</p></noscript>
     </section>
 
@@ -80,6 +79,7 @@
       <form id="prototype-request"><h3>Данные для расчёта</h3><label for="request-service">Услуга</label><select id="request-service" name="service" required><option>Опрыскивание</option><option>Удобрения и посев</option><option>Доставка грузов</option><option>Карты полей</option></select><div class="form-row"><div><label for="request-area">Площадь, га <span id="area-hint">обязательно</span></label><input id="request-area" name="area" type="number" min="0.1" step="any" inputmode="decimal" required placeholder="Например, 150"></div><div><label for="request-crop">Культура или груз <span id="crop-hint">обязательно</span></label><input id="request-crop" name="crop" required pattern=".*\S.*" maxlength="120" placeholder="Например, пшеница"></div></div><label for="request-location">Расположение участка — обязательно</label><input id="request-location" name="location" required pattern=".*\S.*" maxlength="200" placeholder="Район или координаты"><button class="button" type="submit">Подготовить сообщение <span class="direction-icon" aria-hidden="true"></span></button><p class="form-note">Получатель — Бурабаев Сайранбек. Сайт готовит текст; отправить его нужно самостоятельно в WhatsApp.</p><p id="request-status" role="status" aria-live="polite"></p><a id="request-retry" class="text-link" target="_blank" rel="noopener noreferrer" hidden>Открыть сообщение в WhatsApp <span class="direction-icon" aria-hidden="true"></span></a></form>
     </section>
   </main>
+  <div class="model-toolbar" role="group" aria-label="Управление 3D-дроном"><p id="model-status" role="status">Загружаем 3D. Пока показываем сохранённый рендер.</p><button id="motion-toggle" type="button" aria-pressed="false" hidden>Остановить вращение</button></div>
   <footer><a class="brand" href="#flight">АГРОДРОН</a><p>Интерактивный прототип · 2026</p><a href="index.html">Предыдущая версия <span class="direction-icon" aria-hidden="true"></span></a></footer>
 </body>
 </html>

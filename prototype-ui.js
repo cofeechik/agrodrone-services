@@ -15,6 +15,9 @@
   const status = document.querySelector('#model-status');
   const motion = document.querySelector('#motion-toggle');
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+  let motionOverride = null;
+  let viewerVisible = true;
+  const toolbar = document.querySelector('.model-toolbar');
   let activePart = 'tank';
   let isolation = true;
   const isolationButton = document.querySelector('#isolation-toggle');
@@ -64,10 +67,11 @@
     isolationButton.textContent = isolation ? 'Показать остальной дрон' : 'Выделить выбранную часть';
     window.dispatchEvent(new CustomEvent('drone:part', { detail: { part: activePart, isolation } }));
   }
-  document.querySelectorAll('[data-part]').forEach(button => button.addEventListener('click', () => {
+  document.querySelectorAll('button[data-part]').forEach(button => button.addEventListener('click', () => {
     activePart = button.dataset.part; isolation = true;
-    document.querySelectorAll('[data-part]').forEach(b => b.setAttribute('aria-pressed', String(b === button)));
+    document.querySelectorAll('button[data-part]').forEach(b => b.setAttribute('aria-pressed', String(b === button)));
     const item = parts[activePart];
+    document.querySelector('#part-panel').dataset.part = activePart;
     document.querySelector('#part-value').innerHTML = item.value;
     document.querySelector('#part-title').textContent = item.title;
     document.querySelector('#part-description').textContent = item.description;
@@ -75,16 +79,21 @@
   }));
   isolationButton.addEventListener('click', () => { isolation = !isolation; publishPart(); });
   motion.addEventListener('click', () => {
-    const paused = motion.getAttribute('aria-pressed') !== 'true';
-    motion.setAttribute('aria-pressed', String(paused));
-    motion.textContent = paused ? 'Возобновить движение' : 'Остановить движение';
-    window.dispatchEvent(new CustomEvent('drone:motion', { detail: paused }));
+    const enabled = motionOverride === null ? !reduced.matches : motionOverride;
+    motionOverride = !enabled;
+    preferences();
+    window.dispatchEvent(new CustomEvent('drone:motion', { detail: { enabled: motionOverride } }));
   });
   function preferences() {
-    motion.hidden = reduced.matches || stage.dataset.state !== 'ready';
-    if (stage.dataset.state === 'ready') status.textContent = reduced.matches ? '3D-модель · движение отключено по настройкам устройства' : 'XAG P150 MAX · 3D-модель по фотографиям';
+    const enabled = motionOverride === null ? !reduced.matches : motionOverride;
+    motion.hidden = stage.dataset.state !== 'ready';
+    motion.setAttribute('aria-pressed', String(!enabled));
+    motion.textContent = enabled ? 'Остановить вращение' : 'Включить вращение';
+    toolbar.hidden = !viewerVisible;
+    if (stage.dataset.state === 'ready') status.textContent = enabled ? 'XAG P150 MAX · винты вращаются' : reduced.matches && motionOverride === null ? 'Вращение отключено настройками устройства' : 'Вращение остановлено';
   }
-  reduced.addEventListener('change', preferences);
+  reduced.addEventListener('change', () => { motionOverride = null; preferences(); });
+  window.addEventListener('drone:visibility', e => { if (viewerVisible !== e.detail) { viewerVisible = e.detail; toolbar.hidden = !viewerVisible; } });
   window.addEventListener('drone:ready', preferences);
   // Module loading is blocked by browsers for file://, and a failed module must never hide the page.
   if (location.protocol === 'file:') status.textContent = 'Для 3D откройте прототип через локальный сервер. Пока показан рендер.';

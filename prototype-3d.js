@@ -16,8 +16,9 @@ const mobile = matchMedia('(max-width: 700px)');
 const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
 const mix = (a, b, t) => a + (b - a) * t;
 const smooth = t => t * t * (3 - 2 * t);
-let renderer, scene, camera, model, corners, rotors = [], meshes = [];
+let renderer, scene, camera, model, corners, meshBounds = [], rotors = [], meshes = [];
 let paused = false, activePart = 'tank', isolate = true, activeScenario = 'spray';
+let motionOverride = null;
 let frame = 0, previousTime = 0, elapsed = 0, dirty = true;
 let width = innerWidth, height = innerHeight, headerHeight = 76;
 let currentPose = null, currentFocus = 0, targetFocus = 0;
@@ -27,6 +28,9 @@ const viewHeight = 5;
 const right = new THREE.Vector3(), up = new THREE.Vector3();
 const spinAxis = new THREE.Vector3(0, 1, 0), spinQuaternion = new THREE.Quaternion();
 const projectedPoint = new THREE.Vector3();
+let boundsCache = null;
+let lastVisible = null;
+const motionEnabled = () => motionOverride === null ? !reduced.matches : motionOverride;
 
 function requestFrame() {
   dirty = true;
@@ -51,9 +55,9 @@ function anchor(element, fraction = .9) {
 }
 function desiredPose() {
   const y = scrollY, viewport = height + headerHeight;
-  const heroPose = { x: width * .5, y: height * (mobile.matches ? .27 : .4), w: width * (mobile.matches ? .94 : .83), h: mobile.matches ? 290 : height * .65, rx: .02, ry: -.25, rz: 0 };
-  const usePose = { ...anchor(serviceArea, .96), rx: .04, ry: activeScenario === 'cargo' ? .52 : activeScenario === 'map' ? -.8 : .18, rz: 0 };
-  const partPose = { ...anchor(machineArea, .96), rx: activePart === 'battery' ? .65 : activePart === 'rotors' ? .82 : activePart === 'tank' ? -.1 : .05, ry: activePart === 'tank' ? -.55 : -.1, rz: 0 };
+  const heroPose = { x: width * .5, y: height * (mobile.matches ? .29 : .37), w: width * (mobile.matches ? .94 : .83), h: mobile.matches ? 290 : height * .65, rx: .02, ry: -.25, rz: 0, zoom: mobile.matches ? 1.5 : 1.42 };
+  const usePose = { ...anchor(serviceArea, .96), rx: .04, ry: activeScenario === 'cargo' ? .52 : activeScenario === 'map' ? -.8 : .18, rz: 0, zoom: 1.25 };
+  const partPose = { ...anchor(machineArea, .9), rx: activePart === 'battery' ? .3 : activePart === 'rotors' ? .65 : activePart === 'tank' ? -.1 : .05, ry: activePart === 'tank' ? -.55 : -.1, rz: 0, zoom: activePart === 'rotors' || activePart === 'all' ? 1.15 : 1 };
   const startUses = uses.offsetTop - viewport * .72;
   const startMachine = machine.offsetTop - viewport * .7;
   const useT = smooth(clamp((y - startUses) / (viewport * .58)));
@@ -63,12 +67,16 @@ function desiredPose() {
   // Reduced motion / user pause keeps section placement but removes the interpolated flight.
   if (reduced.matches || paused) t = t > .5 ? 1 : 0;
   const pose = {};
-  for (const key of ['x', 'y', 'w', 'h', 'rx', 'ry', 'rz']) pose[key] = mix(a[key], b[key], t);
+  for (const key of ['x', 'y', 'w', 'h', 'rx', 'ry', 'rz', 'zoom']) pose[key] = mix(a[key], b[key], t);
   targetFocus = (isolate && activePart !== 'all') ? machineT : 0;
   const finish = machine.offsetTop + machine.offsetHeight;
-  const visible = y < finish - headerHeight && pose.y + pose.h / 2 > 0 && pose.y - pose.h / 2 < height;
+  const visible = y < finish - headerHeight && pose.y + pose.h * pose.zoom / 2 > 0 && pose.y - pose.h * pose.zoom / 2 < height;
   stage.classList.toggle('is-offscreen', !visible);
   stage.dataset.section = machineT > .5 ? 'machine' : useT > .5 ? 'uses' : 'hero';
+  if (lastVisible !== visible) {
+    lastVisible = visible;
+    window.dispatchEvent(new CustomEvent('drone:visibility', { detail: visible }));
+  }
   return { pose, visible };
 }
 function isSelected(mesh) {
@@ -87,7 +95,7 @@ function applyFocus() {
     if (selected) selectedCount++;
     const material = mesh.material;
     const ghost = !selected && currentFocus > .002;
-    const wantedOpacity = selected ? mesh.userData.baseOpacity : mix(mesh.userData.baseOpacity, .13, currentFocus);
+    const wantedOpacity = selected ? mesh.userData.baseOpacity : mix(mesh.userData.baseOpacity, .055, currentFocus);
     if (material.transparent !== (ghost || mesh.userData.baseTransparent)) {
       material.transparent = ghost || mesh.userData.baseTransparent;
       material.needsUpdate = true;
@@ -103,15 +111,29 @@ function applyFocus() {
 function applyPose(pose, floating) {
   model.rotation.set(pose.rx, pose.ry, pose.rz);
   model.scale.setScalar(1);
-  let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
-  for (const corner of corners) {
-    const v = projectedPoint.copy(corner).applyEuler(model.rotation);
-    const x = v.dot(right), y = v.dot(up);
-    minX = Math.min(minX, x); maxX = Math.max(maxX, x);
-    minY = Math.min(minY, y); maxY = Math.max(maxY, y);
+  const key = [pose.rx.toFixed(4), pose.ry.toFixed(4), pose.rz.toFixed(4), activePart].join(':');
+  if (!boundsCache || boundsCache.key !== key) {
+    const project = points => {
+      const bounds = { minX: Infinity, maxX: -Infinity, minY: Infinity, maxY: -Infinity };
+      for (const corner of points) {
+        const v = projectedPoint.copy(corner).applyEuler(model.rotation);
+        const x = v.dot(right), y = v.dot(up);
+        bounds.minX = Math.min(bounds.minX, x); bounds.maxX = Math.max(bounds.maxX, x);
+        bounds.minY = Math.min(bounds.minY, y); bounds.maxY = Math.max(bounds.maxY, y);
+      }
+      return bounds;
+    };
+    const full = project(corners);
+    const selected = ['tank', 'battery'].includes(activePart)
+      ? project(meshBounds.filter(item => isSelected(item.mesh)).flatMap(item => item.points)) : full;
+    boundsCache = { key, full, selected };
   }
+  // Frame the selected assembly, not the distant rotor tips. Ghost arms may crop.
+  const { full, selected } = boundsCache;
+  const minX = mix(full.minX, selected.minX, currentFocus), maxX = mix(full.maxX, selected.maxX, currentFocus);
+  const minY = mix(full.minY, selected.minY, currentFocus), maxY = mix(full.maxY, selected.maxY, currentFocus);
   const pxPerUnit = height / viewHeight;
-  const scale = Math.min(pose.w / ((maxX - minX) * pxPerUnit), pose.h / ((maxY - minY) * pxPerUnit));
+  const scale = Math.min(pose.w / ((maxX - minX) * pxPerUnit), pose.h / ((maxY - minY) * pxPerUnit)) * pose.zoom;
   model.scale.setScalar(scale);
   const offsetX = (pose.x - width / 2) / pxPerUnit - (minX + maxX) * .5 * scale;
   const offsetY = (height / 2 - pose.y - floating) / pxPerUnit - (minY + maxY) * .5 * scale;
@@ -120,11 +142,13 @@ function applyPose(pose, floating) {
 function render(time) {
   frame = 0;
   if (document.hidden || contextLost) { previousTime = 0; return; }
-  const dt = previousTime ? Math.min((time - previousTime) / 1000, .3) : 1 / 60;
+  const wallDelta = previousTime ? (time - previousTime) / 1000 : 0;
+  const dt = Math.min(wallDelta || 1 / 60, .3);
   previousTime = time;
   const { pose, visible } = desiredPose();
-  const moving = visible && !reduced.matches && !paused;
-  if (moving) elapsed += Math.min(dt, .05);
+  const moving = visible && motionEnabled() && !paused;
+  if (moving) elapsed += wallDelta;
+  stage.dataset.spinning = String(moving && !!model);
   if (!currentPose || reduced.matches || paused) currentPose = { ...pose };
   let unsettled = false;
   const easing = 1 - Math.exp(-dt * 11);
@@ -138,11 +162,27 @@ function render(time) {
   if (model) {
     applyPose(currentPose, moving ? Math.sin(elapsed * 1.25) * (mobile.matches ? 3 : 5) : 0);
     for (const rotor of rotors) {
-      if (moving) rotor.angle += Math.min(dt, .05) * 6 * rotor.direction;
+      // Real elapsed time: slow frames must not turn rotation into slow motion.
+      if (moving) rotor.angle += wallDelta * 14 * rotor.direction;
       spinQuaternion.setFromAxisAngle(spinAxis, rotor.angle);
       rotor.node.quaternion.copy(rotor.initial).multiply(spinQuaternion);
     }
-    if (visible) renderer.render(scene, camera);
+    if (visible) {
+      renderer.setScissorTest(false);
+      renderer.clear();
+      if (currentFocus > .001) {
+        // Detail views are an authored crop, not ghost geometry behind the copy.
+        const r = machineArea.getBoundingClientRect();
+        const left = mix(0, clamp(r.left, 0, width), currentFocus);
+        const top = mix(0, clamp(r.top - headerHeight, 0, height), currentFocus);
+        const rightEdge = mix(width, clamp(r.right, 0, width), currentFocus);
+        const bottom = mix(height, clamp(r.bottom - headerHeight, 0, height), currentFocus);
+        renderer.setScissor(left, height - bottom, Math.max(0, rightEdge - left), Math.max(0, bottom - top));
+        renderer.setScissorTest(true);
+      }
+      renderer.render(scene, camera);
+      renderer.setScissorTest(false);
+    }
   } else {
     // Saved render follows the same allocated space when WebGL or the GLB is unavailable.
     fallback.style.left = `${pose.x - pose.w / 2}px`; fallback.style.top = `${pose.y - pose.h / 2}px`;
@@ -164,6 +204,7 @@ async function init() {
   try {
     renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: 'low-power' });
     renderer.setClearColor(0x000000, 0);
+    renderer.autoClear = false;
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1.05;
@@ -190,7 +231,10 @@ async function init() {
       if (!node.isMesh) return;
       node.geometry.computeBoundingBox();
       const b = node.geometry.boundingBox;
-      for (const x of [b.min.x, b.max.x]) for (const y of [b.min.y, b.max.y]) for (const z of [b.min.z, b.max.z]) corners.push(new THREE.Vector3(x, y, z).applyMatrix4(node.matrixWorld).sub(center));
+      const points = [];
+      for (const x of [b.min.x, b.max.x]) for (const y of [b.min.y, b.max.y]) for (const z of [b.min.z, b.max.z]) points.push(new THREE.Vector3(x, y, z).applyMatrix4(node.matrixWorld).sub(center));
+      corners.push(...points);
+      meshBounds.push({ mesh: node, points });
     });
     // GLTFLoader sanitizes names; search both the preserved name and its sanitized form.
     for (const item of manifest.animation.rotors) {
@@ -231,8 +275,8 @@ window.addEventListener('scroll', requestFrame, { passive: true });
 window.addEventListener('resize', resize);
 window.addEventListener('drone:scenario', e => { activeScenario = e.detail; requestFrame(); });
 window.addEventListener('drone:part', e => { activePart = e.detail.part; isolate = e.detail.isolation; requestFrame(); });
-window.addEventListener('drone:motion', e => { paused = e.detail; currentPose = null; requestFrame(); });
-reduced.addEventListener('change', () => { currentPose = null; requestFrame(); });
+window.addEventListener('drone:motion', e => { paused = !e.detail.enabled; motionOverride = e.detail.enabled; previousTime = 0; currentPose = null; requestFrame(); });
+reduced.addEventListener('change', () => { motionOverride = null; paused = false; previousTime = 0; currentPose = null; requestFrame(); });
 document.addEventListener('visibilitychange', () => {
   if (document.hidden) { cancelAnimationFrame(frame); frame = 0; previousTime = 0; }
   else requestFrame();
