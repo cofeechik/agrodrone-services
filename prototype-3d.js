@@ -30,6 +30,7 @@ const spinAxis = new THREE.Vector3(0, 1, 0), spinQuaternion = new THREE.Quaterni
 const projectedPoint = new THREE.Vector3();
 let boundsCache = null;
 let lastVisible = null;
+let renderedSection = null, shadowPoseKey = '';
 const motionEnabled = () => motionOverride === null ? !reduced.matches : motionOverride;
 
 function requestFrame() {
@@ -174,17 +175,23 @@ function render(time) {
   const dt = Math.min(wallDelta || 1 / 60, .3);
   previousTime = time;
   const { pose, visible } = desiredPose();
+  const sectionChanged = renderedSection !== stage.dataset.section;
+  renderedSection = stage.dataset.section;
   const moving = visible && motionEnabled() && !paused;
   if (moving) elapsed += wallDelta;
   stage.dataset.spinning = String(moving && !!model);
-  if (!currentPose || reduced.matches || paused) currentPose = { ...pose };
+  // Scroll owns screen position: a second easing layer trails the wheel and
+  // keeps flying after direction reversals. Separate stages never share a pose.
+  if (!currentPose || sectionChanged || reduced.matches || paused || renderedSection === 'hero') currentPose = { ...pose };
+  currentPose.x = pose.x;
+  currentPose.y = pose.y;
   let unsettled = false;
   const easing = 1 - Math.exp(-dt * 11);
   for (const key of Object.keys(pose)) {
     currentPose[key] = mix(currentPose[key], pose[key], easing);
     if (Math.abs(currentPose[key] - pose[key]) > (['rx', 'ry', 'rz'].includes(key) ? .001 : .15)) unsettled = true;
   }
-  const nextFocus = reduced.matches || paused ? targetFocus : mix(currentFocus, targetFocus, easing);
+  const nextFocus = sectionChanged || reduced.matches || paused ? targetFocus : mix(currentFocus, targetFocus, easing);
   if (Math.abs(nextFocus - currentFocus) > .0005 || dirty) { currentFocus = nextFocus; applyFocus(); }
   if (Math.abs(currentFocus - targetFocus) > .001) unsettled = true;
   if (model) {
@@ -205,6 +212,15 @@ function render(time) {
       mesh.material.depthWrite = moving || ghost ? false : mesh.userData.baseDepthWrite;
     }
     if (visible) {
+      // Propellers do not cast shadows. Hover translates aircraft and key light
+      // together, so only framing/assembly changes require a new shadow map.
+      // The cached depth texture is reusable, but its world-to-shadow matrix
+      // must follow that translation even when the shadow pass is skipped.
+      keyLight.updateMatrixWorld();
+      keyLight.target.updateMatrixWorld();
+      keyLight.shadow.updateMatrices(keyLight);
+      const shadowKey = [model.rotation.x,model.rotation.y,model.rotation.z,model.scale.x,currentFocus].map(v=>v.toFixed(4)).join(':')+activePart;
+      if (shadowKey !== shadowPoseKey) {renderer.shadowMap.needsUpdate=true;shadowPoseKey=shadowKey;}
       renderer.setScissorTest(false);
       renderer.clear();
       if (stage.dataset.section === 'machine') {
@@ -239,10 +255,11 @@ function fail() {
 async function init() {
   if (location.protocol === 'file:') return;
   try {
-    renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: 'low-power' });
+    renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: 'high-performance' });
     renderer.setClearColor(0x000000, 0);
     renderer.autoClear = false;
     renderer.shadowMap.enabled = true;
+    renderer.shadowMap.autoUpdate = false;
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
@@ -335,6 +352,6 @@ document.addEventListener('visibilitychange', () => {
   else requestFrame();
 });
 canvas.addEventListener('webglcontextlost', event => { event.preventDefault(); contextLost = true; cancelAnimationFrame(frame); frame = 0; stage.classList.remove('is-ready'); stage.dataset.state = 'fallback'; window.dispatchEvent(new Event('drone:error')); });
-canvas.addEventListener('webglcontextrestored', () => { contextLost = false; if (model) { stage.classList.add('is-ready'); stage.dataset.state = 'ready'; window.dispatchEvent(new Event('drone:ready')); requestFrame(); } });
+canvas.addEventListener('webglcontextrestored', () => { contextLost = false; shadowPoseKey=''; if (model) { stage.classList.add('is-ready'); stage.dataset.state = 'ready'; window.dispatchEvent(new Event('drone:ready')); requestFrame(); } });
 resize();
 init();

@@ -169,6 +169,15 @@
       }
     ],
     "evidence": {
+      "animationCorrection": {
+        "scope": "Animation-only source correction in prototype-3d.js; no visual tokens or components changed.",
+        "behavior": "Hero pose follows scroll directly without trailing easing; machine x/y follow viewport anchors directly; section changes reset pose/focus. Smoothing remains for machine rotation/scale and within-section part focus.",
+        "rendering": "shadowMap.autoUpdate=false; rotation/scale/focus/part changes request expensive depth-map updates. After updating key-light position and target, each visible frame calls keyLight.updateMatrixWorld(), keyLight.target.updateMatrixWorld() and keyLight.shadow.updateMatrices(keyLight), keeping shadow sampling matrices current during translation while reusing cached depth. Blades do not cast shadows; hover translates aircraft and key light together. WebGL requests the high-performance hint.",
+        "results": "Final .impeccable/review/motion/results.json: 1556x1516 and 390x844; five reversals each, zero pose-versus-target position lag, stage resets, part transitions, pause, four rotors and empty error lists all passed. Both sizes report shadowTracksHoverAndScroll: true.",
+        "shadowTrackingCheck": "Passed at both sizes: shadowTracksHoverAndScroll invariance during hover and scroll at epsilon 1e-6, confirmed by the current results flag.",
+        "review": "Final reviewer confirmation supplied by the main task: SHIP FOR ANIMATION QUICKFIX ONLY. Scope covers shadow matrices, hover/scroll invariance at epsilon 1e-6 at both tested sizes, pause, part transitions and stage resets; no real-device FPS claim.",
+        "limit": "Recorded functional checks do not measure or guarantee real-device FPS."
+      },
       "sourceRevision": "v06",
       "scope": "prototype.html only; index.html is separate legacy",
       "captureRevision": "v06",

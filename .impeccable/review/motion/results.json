@@ -1,0 +1,30 @@
+[
+  {
+    "name": "recording",
+    "width": 1556,
+    "height": 1516,
+    "scrollReversals": 5,
+    "positionLag": 0,
+    "stageReset": true,
+    "partTransitions": true,
+    "shadowAuto": false,
+    "shadowTracksHoverAndScroll": true,
+    "rotors": 4,
+    "pause": true,
+    "errors": []
+  },
+  {
+    "name": "mobile",
+    "width": 390,
+    "height": 844,
+    "scrollReversals": 5,
+    "positionLag": 0,
+    "stageReset": true,
+    "partTransitions": true,
+    "shadowAuto": false,
+    "shadowTracksHoverAndScroll": true,
+    "rotors": 4,
+    "pause": true,
+    "errors": []
+  }
+]
