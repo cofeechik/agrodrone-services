@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { GLTFLoader } from './assets/vendor/three/loaders/GLTFLoader.js';
 import { MeshoptDecoder } from './assets/vendor/three/meshopt_decoder.module.js';
+import { createStudioEnvironment, tuneSurface } from './prototype-studio.js';
 
 const stage = document.querySelector('#drone-stage');
 const canvas = document.querySelector('#drone-canvas');
@@ -21,6 +22,7 @@ let frame = 0, previousTime = 0, elapsed = 0, dirty = true;
 let width = innerWidth, height = innerHeight, headerHeight = 76;
 let currentPose = null, currentFocus = 0, targetFocus = 0;
 let contextLost = false;
+let studioEnvironment;
 const viewHeight = 5;
 const right = new THREE.Vector3(), up = new THREE.Vector3();
 const spinAxis = new THREE.Vector3(0, 1, 0), spinQuaternion = new THREE.Quaternion();
@@ -49,7 +51,7 @@ function anchor(element, fraction = .9) {
 }
 function desiredPose() {
   const y = scrollY, viewport = height + headerHeight;
-  const heroPose = { x: width * .5, y: height * (mobile.matches ? .27 : .4), w: width * (mobile.matches ? .94 : .83), h: mobile.matches ? 290 : height * .65, rx: .05, ry: -.4, rz: -.025 };
+  const heroPose = { x: width * .5, y: height * (mobile.matches ? .27 : .4), w: width * (mobile.matches ? .94 : .83), h: mobile.matches ? 290 : height * .65, rx: .02, ry: -.25, rz: 0 };
   const usePose = { ...anchor(serviceArea, .96), rx: .04, ry: activeScenario === 'cargo' ? .52 : activeScenario === 'map' ? -.8 : .18, rz: 0 };
   const partPose = { ...anchor(machineArea, .96), rx: activePart === 'battery' ? .65 : activePart === 'rotors' ? .82 : activePart === 'tank' ? -.1 : .05, ry: activePart === 'tank' ? -.55 : -.1, rz: 0 };
   const startUses = uses.offsetTop - viewport * .72;
@@ -70,8 +72,7 @@ function desiredPose() {
   return { pose, visible };
 }
 function isSelected(mesh) {
-  if (activePart === 'tank') return /Molded HDPE tank|Tank relief lettering|Dark translucent filler caps/.test(mesh.material.name);
-  if (activePart === 'battery') return /Light grey equipment enclosure|Brushed aluminium edges/.test(mesh.material.name);
+  if (activePart === 'tank' || activePart === 'battery') return mesh.userData.component === activePart;
   if (activePart === 'rotors') {
     let node = mesh;
     while (node) { if (node.userData.rotorRoot) return true; node = node.parent; }
@@ -165,18 +166,20 @@ async function init() {
     renderer.setClearColor(0x000000, 0);
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.35;
+    renderer.toneMappingExposure = 1.05;
     scene = new THREE.Scene();
+    studioEnvironment = createStudioEnvironment(renderer);
+    scene.environment = studioEnvironment.texture;
     camera = new THREE.OrthographicCamera(-4, 4, 2.5, -2.5, .1, 50);
-    camera.position.set(3.8, 3.5, 6.4); camera.lookAt(0, 0, 0); camera.updateMatrixWorld();
+    camera.position.set(4, 2.8, 6.8); camera.lookAt(0, 0, 0); camera.updateMatrixWorld();
     right.setFromMatrixColumn(camera.matrixWorld, 0); up.setFromMatrixColumn(camera.matrixWorld, 1);
-    scene.add(new THREE.HemisphereLight(0xffffff, 0xb0c2cf, 3));
-    const key = new THREE.DirectionalLight(0xffffff, 4); key.position.set(-3, 6, 5); scene.add(key);
-    const fill = new THREE.DirectionalLight(0xe7f0ff, 2); fill.position.set(4, 2, -3); scene.add(fill);
+    scene.add(new THREE.HemisphereLight(0xffffff, 0xa0a7b0, .35));
+    const key = new THREE.DirectionalLight(0xfffaf2, 2.4); key.position.set(-3, 6, 5); scene.add(key);
+    const fill = new THREE.DirectionalLight(0xe7f0ff, .65); fill.position.set(4, 2, -3); scene.add(fill);
     resize();
     const [gltf, manifest] = await Promise.all([
-      new GLTFLoader().setMeshoptDecoder(MeshoptDecoder).loadAsync('./models/xag-p150-max/xag-p150-max-v03-web.glb'),
-      fetch('./models/xag-p150-max/web-model-manifest.json').then(r => { if (!r.ok) throw new Error('Manifest unavailable'); return r.json(); })
+      new GLTFLoader().setMeshoptDecoder(MeshoptDecoder).loadAsync('./models/xag-p150-max/xag-p150-max-v04-web.glb'),
+      fetch('./models/xag-p150-max/web-model-manifest-v04.json').then(r => { if (!r.ok) throw new Error('Manifest unavailable'); return r.json(); })
     ]);
     const content = gltf.scene;
     content.updateMatrixWorld(true);
@@ -195,7 +198,7 @@ async function init() {
       content.traverse(node => { if ((node.userData.name || node.name) === item.node || node.name === THREE.PropertyBinding.sanitizeNodeName(item.node)) found = node; });
       if (!found) throw new Error('Rotor hierarchy mismatch');
       found.userData.rotorRoot = true;
-      rotors.push({ node: found, initial: found.quaternion.clone(), direction: item.direction, angle: 0 });
+      rotors.push({ node: found, initial: found.quaternion.clone(), direction: item.direction, angle: .55 });
       const hub = found.getWorldPosition(new THREE.Vector3()).sub(center);
       for (let n = 0; n < 16; n++) {
         const angle = n / 16 * Math.PI * 2;
@@ -204,8 +207,12 @@ async function init() {
     }
     content.traverse(node => {
       if (!node.isMesh) return;
+      // Multi-material glTF primitives inherit assembly extras from their group.
+      let assembly = node;
+      while (assembly && !assembly.userData.component) assembly = assembly.parent;
+      if (assembly) node.userData.component = assembly.userData.component;
       node.material = node.material.clone();
-      if (/Carbon composite blades/.test(node.material.name)) { node.material.metalness = .12; node.material.roughness = .72; }
+      tuneSurface(node.material);
       node.userData.baseOpacity = node.material.opacity;
       node.userData.baseTransparent = node.material.transparent;
       node.userData.baseDepthWrite = node.material.depthWrite;

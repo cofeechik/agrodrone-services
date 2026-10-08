@@ -1,0 +1,17 @@
+{
+  "revision": "v04",
+  "motor_diagonal_mm": 2335.000146706554,
+  "web_meshes": 70,
+  "web_triangles": 261636,
+  "occlusion_samples": 10,
+  "occlusion_cache_entries": 353545,
+  "build_seconds": 91.26,
+  "rotor_pivots": 4,
+  "changes": [
+    "38-degree tank normals, 8mm/5-segment tank bevel",
+    "PBR surface separation",
+    "geometry-derived short-range contact occlusion",
+    "semantic component exports"
+  ],
+  "unchanged": "Motor positions, rotor diameters, arms, handles, tank profile and overall scale"
+}
