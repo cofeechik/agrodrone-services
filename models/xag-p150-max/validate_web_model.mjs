@@ -8,7 +8,7 @@ import assert from 'node:assert/strict';
 
 const out=dirname(fileURLToPath(import.meta.url));
 const revision=process.argv[3] || 'v03';
-assert(['v03','v04','v05','v06'].includes(revision),'Supported revisions: v03 / v04 / v05 / v06');
+assert(['v03','v04','v05','v06','v07'].includes(revision),'Supported revisions: v03–v07');
 const require=createRequire(resolve(process.argv[2], 'package.json'));
 const load=async name=>import(pathToFileURL(require.resolve(name)).href);
 const { NodeIO }=await load('@gltf-transform/core');
@@ -21,7 +21,7 @@ const manifest=JSON.parse(readFileSync(resolve(out,revision==='v03'?'web-model-m
 const validation=JSON.parse(readFileSync(resolve(out,`validation-${revision}.json`),'utf8').replace(/^\uFEFF/,''));
 const nodes=doc.getRoot().listNodes();
 assert.equal(doc.getRoot().listScenes().length,1,'Export must contain only the web scene.');
-assert(nodes.length<=100,'Master or studio geometry leaked into web export.');
+assert(nodes.length<=(revision==='v07'?125:100),'Master or studio geometry leaked into web export.');
 const triangleCount=doc.getRoot().listMeshes().reduce((sum,mesh)=>sum+mesh.listPrimitives().reduce((subtotal,primitive)=>{
     assert.equal(primitive.getMode(),4,'Expected triangle geometry.');
     return subtotal+(primitive.getIndices()?.getCount() ?? primitive.getAttribute('POSITION').getCount())/3;
@@ -30,6 +30,7 @@ assert.equal(triangleCount,validation.master_triangles ?? validation.web_triangl
 if(revision!=='v03') {
     assert(nodes.some(n=>n.getExtras().component==='tank'));
     assert(nodes.some(n=>n.getExtras().component==='battery'));
+    if(revision==='v07') for(const part of ['spray','navigation']) assert(nodes.some(n=>n.getExtras().component===part),'Missing assembly: '+part);
     for(const mesh of doc.getRoot().listMeshes()) for(const p of mesh.listPrimitives()) {
         assert(p.getAttribute('COLOR_0'),'Geometry-derived contact shading must survive compression.');
         assert(p.getAttribute('NORMAL'),'Split normals must survive compression.');

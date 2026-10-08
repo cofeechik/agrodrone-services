@@ -1,0 +1,203 @@
+[
+  {
+    "name": "desktop",
+    "width": 1440,
+    "height": 1000,
+    "parts": [
+      {
+        "part": "all",
+        "selected": 95,
+        "ghosts": 0,
+        "panelContained": true,
+        "typeContained": true
+      },
+      {
+        "part": "spray",
+        "selected": 8,
+        "ghosts": 87,
+        "panelContained": true,
+        "typeContained": true
+      },
+      {
+        "part": "tank",
+        "selected": 5,
+        "ghosts": 90,
+        "panelContained": true,
+        "typeContained": true
+      },
+      {
+        "part": "rotors",
+        "selected": 36,
+        "ghosts": 59,
+        "panelContained": true,
+        "typeContained": true
+      },
+      {
+        "part": "battery",
+        "selected": 5,
+        "ghosts": 90,
+        "panelContained": true,
+        "typeContained": true
+      },
+      {
+        "part": "navigation",
+        "selected": 2,
+        "ghosts": 93,
+        "panelContained": true,
+        "typeContained": true
+      },
+      {
+        "part": "spread",
+        "selected": 95,
+        "ghosts": 0,
+        "panelContained": true,
+        "typeContained": true
+      }
+    ],
+    "banks": [
+      -0.25459897307896456,
+      -0.27769567082627444,
+      0.22940699018427446,
+      -0.23378764045916284,
+      0.017196909766520344
+    ],
+    "bankRecovers": true,
+    "reducedMotion": true,
+    "usesNoModel": true,
+    "errors": []
+  },
+  {
+    "name": "compact",
+    "width": 960,
+    "height": 768,
+    "parts": [
+      {
+        "part": "all",
+        "selected": 95,
+        "ghosts": 0,
+        "panelContained": true,
+        "typeContained": true
+      },
+      {
+        "part": "spray",
+        "selected": 8,
+        "ghosts": 87,
+        "panelContained": true,
+        "typeContained": true
+      },
+      {
+        "part": "tank",
+        "selected": 5,
+        "ghosts": 90,
+        "panelContained": true,
+        "typeContained": true
+      },
+      {
+        "part": "rotors",
+        "selected": 36,
+        "ghosts": 59,
+        "panelContained": true,
+        "typeContained": true
+      },
+      {
+        "part": "battery",
+        "selected": 5,
+        "ghosts": 90,
+        "panelContained": true,
+        "typeContained": true
+      },
+      {
+        "part": "navigation",
+        "selected": 2,
+        "ghosts": 93,
+        "panelContained": true,
+        "typeContained": true
+      },
+      {
+        "part": "spread",
+        "selected": 95,
+        "ghosts": 0,
+        "panelContained": true,
+        "typeContained": true
+      }
+    ],
+    "banks": [
+      -0.25459897307896456,
+      -0.27769567082627444,
+      0.22940699018427446,
+      -0.23378764045916284,
+      0.01886527655106436
+    ],
+    "bankRecovers": true,
+    "reducedMotion": true,
+    "usesNoModel": true,
+    "errors": []
+  },
+  {
+    "name": "mobile",
+    "width": 390,
+    "height": 844,
+    "parts": [
+      {
+        "part": "all",
+        "selected": 95,
+        "ghosts": 0,
+        "panelContained": true,
+        "typeContained": true
+      },
+      {
+        "part": "spray",
+        "selected": 8,
+        "ghosts": 87,
+        "panelContained": true,
+        "typeContained": true
+      },
+      {
+        "part": "tank",
+        "selected": 5,
+        "ghosts": 90,
+        "panelContained": true,
+        "typeContained": true
+      },
+      {
+        "part": "rotors",
+        "selected": 36,
+        "ghosts": 59,
+        "panelContained": true,
+        "typeContained": true
+      },
+      {
+        "part": "battery",
+        "selected": 5,
+        "ghosts": 90,
+        "panelContained": true,
+        "typeContained": true
+      },
+      {
+        "part": "navigation",
+        "selected": 2,
+        "ghosts": 93,
+        "panelContained": true,
+        "typeContained": true
+      },
+      {
+        "part": "spread",
+        "selected": 95,
+        "ghosts": 0,
+        "panelContained": true,
+        "typeContained": true
+      }
+    ],
+    "banks": [
+      -0.25459897307896456,
+      -0.27769567082627444,
+      0.22940699018427446,
+      -0.23378764045916284,
+      0.016353278928565473
+    ],
+    "bankRecovers": true,
+    "reducedMotion": true,
+    "usesNoModel": true,
+    "errors": []
+  }
+]

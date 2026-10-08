@@ -7,16 +7,18 @@ related_targets: ["prototype.css","prototype-3d.js","prototype-ui.js"]
 
 # Prototype: flight → application → equipment
 
-Mode: Persuade. User-approved code-led revision: sideways departure, left-side equipment arrival, buyer-focused specifications, no visible rotation controls. Preserve actual XAG anatomy, services, contact workflow and legacy index.
+Mode: Persuade. User-approved refinement: AGRODRON brand, direction-sensitive bank during sideways flight, genuine component isolation and photo-led exterior landing frame. Preserve services, contact workflow and legacy index.
 
 THESIS: Give the aircraft its own airspace and explain what its components do for a field operator.
 
 OWN-WORLD: Cold white, slate ink, local Golos, restrained XAG red, actual manufacturer photographs and clear numerical type.
 
-STORY: Understand the service, watch the aircraft leave sideways before the application photos, then see it enter the equipment viewer from the left. Compare six capability areas and prepare a WhatsApp request.
+STORY: Understand the service, watch the aircraft bank and leave sideways before the application photos, then see it enter equipment from the left and settle. Compare seven capability areas and prepare a WhatsApp request.
 
-FIRST VIEWPORT: A large XAG centered between heading and offer. Horizontal departure is clipped to this airspace, never through text. Equipment is a separate viewer: platform, spraying, propellers, battery, navigation and spreading. Show the real module photograph where the 3D module is absent.
+FIRST VIEWPORT: Large XAG between heading and offer; sideways flight never crosses copy. Equipment viewer: platform, sprayers, tank, propellers, battery, navigation, spreading. Independently stable viewer, content-sized text row, perspective-contained selected nodes. Show real module photo where the 3D module is absent.
 
-FORM: User-pinned Riotters spatial-flight direction, revised explicitly by the user's latest request. Seed key not applicable; no new visual-world tournament. One Golos family with confident numeric hierarchy and readable 16px feature prose.
+MOTION: One authored flight sequence; direction-sensitive bank capped at .28 rad, gentle pitch, exponential recovery to level and focus transition. No generic section reveals. Input sampling survives slow rendering; offscreen/background/reduced motion stops loops. Software WebGL QA is not device FPS evidence.
 
-FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
+FORM: User-pinned Riotters spatial-flight direction; no new visual-world tournament. One Golos family, confident numbers, 16px prose, Latin AGRODRON brand. Native authored model reconstruction, not generated photos or factory CAD.
+
+FINISH: Current scoped reviewer verdict and documentation, native fallback raster provenance, preserved previous model revisions.

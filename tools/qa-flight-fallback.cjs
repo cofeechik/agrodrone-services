@@ -1,11 +1,12 @@
 const {chromium}=require('C:/Users/user/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');
 const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict');
-const root=path.resolve(__dirname,'..'),out=path.join(root,'.impeccable/review/flight-side');
+const root=path.resolve(__dirname,'..'),out=path.join(root,'.impeccable/review',process.argv[2]||'flight-side');
+fs.mkdirSync(out,{recursive:true});
 (async()=>{
  const b=await chromium.launch({executablePath:'C:/Program Files/Google/Chrome/Application/chrome.exe',headless:true,args:['--no-proxy-server','--enable-webgl','--use-angle=swiftshader','--enable-unsafe-swiftshader']});const results=[];
  try{for(const [name,width,height] of [['desktop',1440,1000],['mobile',390,844]]){
   const p=await b.newPage({viewport:{width,height}});
-  await p.route('**/xag-p150-max-v06-web.glb',r=>r.abort());
+  await p.route('**/xag-p150-max-v*-web.glb',r=>r.abort());
   await p.goto('http://127.0.0.1:4173/prototype.html');
   await p.waitForFunction(()=>document.querySelector('#drone-stage').dataset.state==='fallback');
   await p.waitForFunction(()=>document.querySelector('#drone-stage').style.clipPath.startsWith('inset('));

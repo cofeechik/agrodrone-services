@@ -64,15 +64,15 @@ h3{font-size:28px}
 .scenario-photo img{width:100%;height:100%;object-fit:contain;object-position:center;background:#edf1f2}
 .scenario-photo figcaption{font-size:12px;color:var(--muted);line-height:1.5}
 .machine{padding-top:70px;border-top:1px solid var(--line)}
-.machine-layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(290px,25%);grid-template-rows:auto minmax(440px,58svh);gap:24px 36px;position:relative}
+.machine-layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(290px,25%);grid-template-rows:auto auto;gap:24px 36px;position:relative;align-items:start}
 .part-selector{grid-column:1/-1;display:flex;gap:30px;overflow-x:auto;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
 .part-selector button{border:0;background:none;min-height:54px;padding:12px 0;color:var(--muted);position:relative;white-space:nowrap}
 .part-selector button[aria-pressed=true]{color:var(--ink)}
 .part-selector button[aria-pressed=true]::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:2px;background:var(--accent)}
 .part-selector button:hover{color:var(--accent)}
-.machine-airspace{min-width:0;grid-column:1;position:relative;background:#edf2f4}
+.machine-airspace{min-width:0;grid-column:1;grid-row:2;min-height:max(440px,58svh);position:relative;background:#edf2f4}
 .machine-airspace img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;z-index:4;background:#edf2f4}
-.part-panel{grid-column:2;align-self:center;padding:20px 0}
+.part-panel{grid-column:2;grid-row:2;align-self:start;min-width:0;padding:4px 0 20px;overflow-wrap:anywhere}
 .part-value{font-size:clamp(52px,5.7vw,82px);font-weight:550;line-height:1;letter-spacing:-.04em;margin-bottom:20px;font-variant-numeric:tabular-nums;white-space:nowrap}
 .part-value span{font-size:.32em;letter-spacing:0;font-weight:450}
 .part-stats{margin:24px 0 0}
@@ -118,7 +118,7 @@ footer a{text-decoration:none}
  .section{padding:52px var(--gutter)}.section-top{display:block;padding-bottom:24px}.section-top>p{font-size:14px;margin-top:18px}.section-top>p br{display:none}.section-top>p br::after{content:' '}
  .scenario-layout{display:flex;flex-direction:column;gap:24px;padding-top:16px}.scenario-copy{display:contents}.scenario-selector{display:flex;gap:22px;overflow-x:auto;order:0;padding:0 3px 8px}.scenario-selector button{white-space:nowrap;font-size:16px;min-height:48px}.scenario-selector button[aria-pressed=true]::after{width:6px;height:6px;margin-left:9px}
  .scenario-photo{order:1;height:clamp(280px,calc(100svh - 365px),560px)}.scenario-panel{order:2;max-width:45ch}.scenario-panel h3{font-size:24px}.scenario-panel>p{font-size:16px}.scenario-panel .module-note{font-size:12px}
- .machine-layout{grid-template-columns:1fr;grid-template-rows:auto minmax(300px,43svh) auto;gap:18px}.part-selector{gap:24px;overflow-x:auto;padding:0 3px}.part-selector button{font-size:14px;white-space:nowrap}.machine-airspace{grid-column:1;grid-row:2}.part-panel{grid-column:1;grid-row:3;padding:8px 0;display:block}.part-value{font-size:64px;margin-bottom:20px}.part-panel h3{font-size:22px;margin:0 0 12px}.part-panel>p:not(.part-value){font-size:16px}.part-panel button{font-size:14px}.part-stats{margin-top:20px}.part-stats dd{font-size:24px}
+ .machine-layout{grid-template-columns:1fr;grid-template-rows:auto auto auto;gap:18px}.part-selector{gap:24px;overflow-x:auto;padding:0 3px}.part-selector button{font-size:14px;white-space:nowrap}.machine-airspace{grid-column:1;grid-row:2;min-height:max(300px,43svh)}.part-panel{grid-column:1;grid-row:3;padding:8px 0;display:block}.part-value{font-size:64px;margin-bottom:20px}.part-panel h3{font-size:22px;margin:0 0 12px}.part-panel>p:not(.part-value){font-size:16px}.part-panel button{font-size:14px}.part-stats{margin-top:20px}.part-stats dd{font-size:24px}
  .spec-strip{gap:12px}.spec-strip>div{padding:16px 0}.spec-strip span{font-size:12px;min-height:38px}.spec-strip strong{font-size:24px}.spec-note{font-size:12px}
  .contact{grid-template-columns:1fr;gap:45px}.contact-copy>p{font-size:16px}.contact h2{font-size:52px}.contact-person a{font-size:23px}.form-row{gap:12px}form label span{display:block}form .button{width:100%}
  .model-status{font-size:12px}

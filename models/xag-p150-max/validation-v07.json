@@ -1,0 +1,18 @@
+{
+  "revision": "v07",
+  "motor_diagonal_mm": 2335.000146706554,
+  "web_meshes": 87,
+  "height_mm": 768.2499652728438,
+  "web_triangles": 283712,
+  "occlusion_samples": 10,
+  "occlusion_cache_entries": 356005,
+  "build_seconds": 41.3,
+  "rotor_pivots": 4,
+  "changes": [
+    "Exterior routed landing frame; separate spray and navigation assemblies",
+    "PBR surface separation",
+    "geometry-derived short-range contact occlusion",
+    "semantic component exports"
+  ],
+  "unchanged": "Motor positions, rotor diameters, arms, handles, tank profile and overall scale"
+}

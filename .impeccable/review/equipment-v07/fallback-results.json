@@ -1,0 +1,20 @@
+[
+  {
+    "name": "desktop",
+    "fallbackHeroClip": true,
+    "fallbackMachineClip": true,
+    "midEntryCaptured": true,
+    "photoDecoded": true,
+    "contextLossScroll": true,
+    "statusInFlow": true
+  },
+  {
+    "name": "mobile",
+    "fallbackHeroClip": true,
+    "fallbackMachineClip": true,
+    "midEntryCaptured": true,
+    "photoDecoded": true,
+    "contextLossScroll": true,
+    "statusInFlow": true
+  }
+]

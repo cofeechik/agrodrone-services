@@ -2,7 +2,7 @@
 const {chromium}=require('C:/Users/user/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');
 const fs=require('node:fs'),path=require('node:path');
 const root=path.resolve(__dirname,'..');
-const revision=process.argv[2]||'v06';if(!['v05','v06'].includes(revision))throw Error('Unsupported revision');
+const revision=process.argv[2]||'v07';if(!['v05','v06','v07'].includes(revision))throw Error('Unsupported revision');
 (async()=>{
  const browser=await chromium.launch({executablePath:'C:/Program Files/Google/Chrome/Application/chrome.exe',headless:true,args:['--no-proxy-server','--enable-webgl','--use-angle=swiftshader','--enable-unsafe-swiftshader']});
  const page=await browser.newPage({viewport:{width:1440,height:1000},reducedMotion:'reduce'});

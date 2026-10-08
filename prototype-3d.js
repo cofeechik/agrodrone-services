@@ -30,6 +30,8 @@ const projectedPoint = new THREE.Vector3();
 let boundsCache = null;
 let lastVisible = null;
 let renderedSection = null, shadowPoseKey = '';
+let flightBank = 0, inputBank = 0, bankInputTime = 0, lastInputX = null, lastInputSection = null;
+let pendingBank = false, bankRenderTime = 0;
 const motionEnabled = () => !reduced.matches;
 function clipFallback() {
   if (stage.dataset.state === 'ready') {stage.style.clipPath='';return;}
@@ -82,9 +84,9 @@ function desiredPose() {
     const entry = reduced.matches ? 1 : smooth(clamp((innerHeight*.45-machine.getBoundingClientRect().top)/Math.max(1,innerHeight*.45-headerHeight)));
     pose = {...detail,rx:activePart==='battery'?.22:activePart==='rotors'?.4:.03,
       x:detail.x-(1-entry)*(width+detail.w)*1.2,
-      ry:activePart==='tank'?-.4:-.2,rz:0,zoom:['all','navigation','spread'].includes(activePart)?.95:.9};
+      ry:activePart==='spray'?2.65:activePart==='tank'?-.4:-.2,rz:0,zoom:['all','spread'].includes(activePart)?.95:.9};
   }
-  targetFocus = !heroVisible && machineVisible && isolate && ['tank','rotors'].includes(activePart) ? 1 : 0;
+  targetFocus = !heroVisible && machineVisible && isolate && ['tank','spray','battery','navigation','rotors'].includes(activePart) ? 1 : 0;
   const visible = heroVisible && exit < .98 || !heroVisible && machineVisible && activePart!=='spread';
   stage.classList.toggle('is-offscreen', !visible);
   stage.dataset.section = heroVisible ? 'hero' : machineVisible ? 'machine' : 'uses';
@@ -96,7 +98,7 @@ function desiredPose() {
   return { pose, visible };
 }
 function isSelected(mesh) {
-  if (activePart === 'tank' || activePart === 'battery') return mesh.userData.component === activePart;
+  if (['tank','battery','navigation','spray'].includes(activePart)) return mesh.userData.component === activePart;
   if (activePart === 'rotors') {
     let node = mesh;
     while (node) { if (node.userData.rotorRoot) return true; node = node.parent; }
@@ -142,7 +144,7 @@ function applyPose(pose, floating) {
       return bounds;
     };
     const full = project(corners);
-    const selected = ['tank', 'battery'].includes(activePart)
+    const selected = ['tank', 'battery', 'navigation', 'spray'].includes(activePart)
       ? project(meshBounds.filter(item => isSelected(item.mesh)).flatMap(item => item.points)) : full;
     boundsCache = { key, full, selected };
   }
@@ -157,17 +159,24 @@ function applyPose(pose, floating) {
   const offsetY = (height / 2 - pose.y - floating) / pxPerUnit - (minY + maxY) * .5 * scale;
   // Translate along the camera plane, preserving perspective within the aircraft.
   model.position.copy(right).multiplyScalar(offsetX).addScaledVector(up, offsetY);
-  if (stage.dataset.section === 'machine' && ['all','navigation'].includes(activePart) && currentFocus < .001) {
+  if (stage.dataset.section === 'machine') {
     // Inspection must contain the entire aircraft, including the nearer foot.
     // Fit perspective-projected corners and full rotor sweeps, not an
     // orthographic estimate or a viewport-specific magic magnification.
+    const fittedCorners = ['tank','battery','navigation','spray'].includes(activePart)
+      ? meshBounds.filter(item=>isSelected(item.mesh)).flatMap(item=>item.points) : corners;
     for (let pass=0;pass<4;pass++) {
-      let left=Infinity,rightEdge=-Infinity,top=Infinity,bottom=-Infinity;
-      for (const c of corners) {
-        const p=projectedPoint.copy(c).applyEuler(model.rotation).multiplyScalar(model.scale.x).add(model.position).project(camera);
-        const x=(p.x+1)*width/2,y=(1-p.y)*height/2;
-        left=Math.min(left,x);rightEdge=Math.max(rightEdge,x);top=Math.min(top,y);bottom=Math.max(bottom,y);
-      }
+      const screenBounds=points=>{
+        const b={left:Infinity,rightEdge:-Infinity,top:Infinity,bottom:-Infinity};
+        for(const c of points){
+          const p=projectedPoint.copy(c).applyEuler(model.rotation).multiplyScalar(model.scale.x).add(model.position).project(camera);
+          const x=(p.x+1)*width/2,y=(1-p.y)*height/2;
+          b.left=Math.min(b.left,x);b.rightEdge=Math.max(b.rightEdge,x);b.top=Math.min(b.top,y);b.bottom=Math.max(b.bottom,y);
+        }return b;
+      };
+      const whole=screenBounds(corners),detail=screenBounds(fittedCorners);
+      const left=mix(whole.left,detail.left,currentFocus),rightEdge=mix(whole.rightEdge,detail.rightEdge,currentFocus);
+      const top=mix(whole.top,detail.top,currentFocus),bottom=mix(whole.bottom,detail.bottom,currentFocus);
       model.position.addScaledVector(right,(pose.x-(left+rightEdge)/2)/pxPerUnit)
         .addScaledVector(up,((top+bottom)/2-pose.y-floating)/pxPerUnit);
       const fit=Math.min(1,pose.w*.94/(rightEdge-left),pose.h*.94/(bottom-top));
@@ -194,6 +203,14 @@ function render(time) {
   const sectionChanged = renderedSection !== stage.dataset.section;
   renderedSection = stage.dataset.section;
   const moving = visible && motionEnabled();
+  // Bank toward horizontal acceleration, recover to level on release. Vertical
+  // page movement does not tilt an aircraft hovering in its equipment viewer.
+  // Hold new input until its first rendered frame, then recover. A busy GPU
+  // must not consume the entire banking impulse before showing any attitude.
+  if(pendingBank){bankRenderTime=time;pendingBank=false;}
+  const targetBank = moving ? inputBank*Math.exp(-Math.max(0,time-bankRenderTime-80)/140) : 0;
+  flightBank = reduced.matches || sectionChanged ? 0 : mix(flightBank,targetBank,1-Math.exp(-dt*8));
+  stage.dataset.bank = flightBank.toFixed(4);
   if (moving) elapsed += wallDelta;
   stage.dataset.spinning = String(moving && !!model);
   // Scroll owns screen position: a second easing layer trails the wheel and
@@ -211,7 +228,7 @@ function render(time) {
   if (Math.abs(nextFocus - currentFocus) > .0005 || dirty) { currentFocus = nextFocus; applyFocus(); }
   if (Math.abs(currentFocus - targetFocus) > .001) unsettled = true;
   if (model) {
-    applyPose(currentPose, moving ? Math.sin(elapsed * 1.25) * (mobile.matches ? 3 : 5) : 0);
+    applyPose({...currentPose,rz:currentPose.rz+flightBank,rx:currentPose.rx+Math.abs(flightBank)*.25}, moving ? Math.sin(elapsed * 1.25) * (mobile.matches ? 3 : 5) : 0);
     for (const rotor of rotors) {
       // Real elapsed time: slow frames must not turn rotation into slow motion.
       if (moving) rotor.angle += wallDelta * 58 * rotor.direction;
@@ -306,8 +323,8 @@ async function init() {
     const fill = new THREE.DirectionalLight(0xe7f0ff, .65); fill.position.set(4, 2, -3); scene.add(fill);
     resize();
     const [gltf, manifest] = await Promise.all([
-      new GLTFLoader().setMeshoptDecoder(MeshoptDecoder).loadAsync('./models/xag-p150-max/xag-p150-max-v06-web.glb'),
-      fetch('./models/xag-p150-max/web-model-manifest-v06.json').then(r => { if (!r.ok) throw new Error('Manifest unavailable'); return r.json(); })
+      new GLTFLoader().setMeshoptDecoder(MeshoptDecoder).loadAsync('./models/xag-p150-max/xag-p150-max-v07-web.glb'),
+      fetch('./models/xag-p150-max/web-model-manifest-v07.json').then(r => { if (!r.ok) throw new Error('Manifest unavailable'); return r.json(); })
     ]);
     const content = gltf.scene;
     content.updateMatrixWorld(true);
@@ -368,7 +385,16 @@ async function init() {
     requestFrame();
   } catch (error) { console.warn('3D preview unavailable:', error.message); fail(); }
 }
-window.addEventListener('scroll', requestFrame, { passive: true });
+window.addEventListener('scroll', () => {
+  // Sample input before drawing: missed GPU frames must not lose a reversal.
+  const now=performance.now(), {pose,visible}=desiredPose(), section=stage.dataset.section;
+  const previousX=lastInputSection===section ? lastInputX : renderedSection===section ? currentPose?.x : null;
+  const velocity=previousX!==null&&visible ? (pose.x-previousX)/clamp((now-bankInputTime)/1000,1/60,.12)/width : 0;
+  inputBank=motionEnabled()?clamp(-velocity*.18,-.28,.28):0;
+  bankInputTime=now;lastInputX=pose.x;lastInputSection=section;
+  pendingBank=true;
+  requestFrame();
+}, { passive: true });
 window.addEventListener('resize', resize);
 window.addEventListener('drone:part', e => { activePart = e.detail.part; isolate = e.detail.isolation; requestFrame(); });
 reduced.addEventListener('change', () => { previousTime = 0; currentPose = null; requestFrame(); });

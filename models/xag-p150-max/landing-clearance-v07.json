@@ -1,0 +1,8 @@
+{
+  "sampled_segments": 10,
+  "samples_per_segment": 101,
+  "minimum_surface_clearance_mm": 43.23,
+  "method": "Evaluated molded tank BVH nearest surface; exterior forward/back routing; tubes sampled at 101 points.",
+  "reference": "04-agrifuture-top-front.jpg; 06-agrifuture-top-oblique.jpg",
+  "limitation": "Photo reconstruction, not a verified factory frame or engineering clearance."
+}

@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Интерактивный прототип услуг агродронами: сценарии применения и устройство XAG P150 MAX.">
   <meta name="theme-color" content="#f7fafb">
-  <title>АГРОДРОН — полёт над вашим полем</title>
+  <title>AGRODRON — полёт над вашим полем</title>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="preload" href="assets/golos-variable.ttf" as="font" type="font/ttf" crossorigin>
   <link rel="stylesheet" href="prototype.css">
@@ -16,12 +16,12 @@
 <body>
   <a class="skip-link" href="#main">Перейти к содержимому</a>
   <header class="header">
-    <a class="brand" href="#flight" aria-label="Агродрон — начало страницы">АГРОДРОН</a>
+    <a class="brand" href="#flight" aria-label="AGRODRON — начало страницы">AGRODRON</a>
     <nav aria-label="Основное меню"><a href="#uses">Применение</a><a href="#machine">Техника</a><a href="#contact">Контакты</a></nav>
     <a class="button header-cta" href="#contact">Запросить расчёт <span class="direction-icon" aria-hidden="true"></span></a>
   </header>
   <div class="drone-stage" id="drone-stage" aria-hidden="true">
-    <img class="model-fallback" src="models/xag-p150-max/preview-v06-browser.png" alt="" width="1440" height="481" fetchpriority="high">
+    <img class="model-fallback" src="models/xag-p150-max/preview-v07-browser.png" alt="" width="1440" height="484" fetchpriority="high">
     <canvas id="drone-canvas"></canvas>
   </div>
   <main id="main">
@@ -62,7 +62,8 @@
       <div class="machine-layout">
         <div class="part-selector" role="group" aria-label="Выберите часть дрона">
           <button type="button" data-part="all" aria-pressed="true" aria-controls="part-panel">Платформа</button>
-          <button type="button" data-part="tank" aria-pressed="false" aria-controls="part-panel">Опрыскивание</button>
+          <button type="button" data-part="spray" aria-pressed="false" aria-controls="part-panel">Опрыскивание</button>
+          <button type="button" data-part="tank" aria-pressed="false" aria-controls="part-panel">Бак</button>
           <button type="button" data-part="rotors" aria-pressed="false" aria-controls="part-panel">Винты</button>
           <button type="button" data-part="battery" aria-pressed="false" aria-controls="part-panel">Аккумулятор</button>
           <button type="button" data-part="navigation" aria-pressed="false" aria-controls="part-panel">Навигация</button>
@@ -82,6 +83,6 @@
       <form id="prototype-request"><h3>Данные для расчёта</h3><label for="request-service">Услуга</label><select id="request-service" name="service" required><option>Опрыскивание</option><option>Удобрения и посев</option><option>Доставка грузов</option><option>Карты полей</option></select><div class="form-row"><div><label for="request-area">Площадь, га <span id="area-hint">обязательно</span></label><input id="request-area" name="area" type="number" min="0.1" step="any" inputmode="decimal" required placeholder="Например, 150"></div><div><label for="request-crop">Культура или груз <span id="crop-hint">обязательно</span></label><input id="request-crop" name="crop" required pattern=".*\S.*" maxlength="120" placeholder="Например, пшеница"></div></div><label for="request-location">Расположение участка — обязательно</label><input id="request-location" name="location" required pattern=".*\S.*" maxlength="200" placeholder="Район или координаты"><button class="button" type="submit">Подготовить сообщение <span class="direction-icon" aria-hidden="true"></span></button><p class="form-note">Получатель — Бурабаев Сайранбек. Сайт готовит текст; отправить его нужно самостоятельно в WhatsApp.</p><p id="request-status" role="status" aria-live="polite"></p><a id="request-retry" class="text-link" target="_blank" rel="noopener noreferrer" hidden>Открыть сообщение в WhatsApp <span class="direction-icon" aria-hidden="true"></span></a></form>
     </section>
   </main>
-  <footer><a class="brand" href="#flight">АГРОДРОН</a><p>Интерактивный прототип · 2026</p><a href="index.html">Предыдущая версия <span class="direction-icon" aria-hidden="true"></span></a></footer>
+  <footer><a class="brand" href="#flight">AGRODRON</a><p>Интерактивный прототип · 2026</p><a href="index.html">Предыдущая версия <span class="direction-icon" aria-hidden="true"></span></a></footer>
 </body>
 </html>

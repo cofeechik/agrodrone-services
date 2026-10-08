@@ -13,4 +13,4 @@ User PDF: `F:/Downloads/XAG_P150_MAX_презентация.pdf`; pages 7 (spray
 | Navigation | RTK ±10cm; 4D radar 1.5–100m; RealTerra up to 20ha/flight | Radar performance and mapping area depend on conditions. PPP-AR availability is not asserted. |
 | RevoCast 5 | 115L; up to 300kg/min; 5–9m; 1–10mm particles | Flow tested with compound fertilizer; actual material properties matter. Module is shown in manufacturer photo, not an invented 3D replacement. |
 
-The existing GLB's `battery` tag isolates an upper cover, not the complete B141050. The battery and navigation tabs therefore show the whole aircraft without pretending to accurately isolate these assemblies. Full mechanical reconstruction would require separate model work.
+The v07 GLB separates tank, spraying, battery and navigation. Battery includes the exterior battery body and cooling cover; navigation selects the observed exterior antennae and front radar. Spraying selects the two rear atomizers and their exterior feed hoses, not the tank. These are photo-reconstructed exterior shapes, not verified factory internals. RevoCast still uses the real manufacturer photograph.

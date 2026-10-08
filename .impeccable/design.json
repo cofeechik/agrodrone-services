@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "generatedAt": "2026-10-08T07:47:17.384Z",
-  "title": "Design System: АГРОДРОН prototype",
+  "title": "Design System: AGRODRON prototype",
   "extensions": {
     "colorMeta": {
       "paper": {
@@ -169,8 +169,26 @@
       }
     ],
     "evidence": {
+      "v07Delta": {
+        "identity": "Confirmed name AGRODRON, present in prototype title/header/footer; XAG P150 MAX is the aircraft.",
+        "scope": "Seven buyer views, genuine exterior semantic groups, routed landing frame, auto-row/start-aligned panel and velocity-driven bank. prototype.html only; legacy index remains separate.",
+        "frame": "Local shoulder (±.17,±.18,.535) to knee (±.19,±.33,.495), then foot (±.34,±.40,-.00775), around front/rear tank; lower ties z .103.",
+        "clearance": "landing-clearance-v07.json: evaluated tank BVH nearest-surface check, 10 segments × 101 points, minimum surface clearance 43.23mm. Reconstruction evidence, not certified engineering clearance.",
+        "semantics": "v07 author script tags spray atomizers/exterior hoses and navigation antennas/radar; battery includes actual Chassis battery and related exterior housing. Updated UI provides restore/isolation for all five detail views; spread uses manufacturer photo and hides 3D.",
+        "banking": "Integrated: scroll samples horizontal travel velocity; pendingBank retains impulse until first actual render, then 80ms hold/140ms exponential decay and 8/sec easing. Maximum ±.28rad plus pitch .25*abs(bank). Opposite samples approximately -.278/+ .229rad, recovery and reduced motion passed at all three sizes.",
+        "layout": "Desktop rows auto/auto, align-items:start; panel row 2, align-self:start, min-width:0, padding 4px 0 20px, overflow-wrap:anywhere. Mobile three auto rows; viewer retains minimum height.",
+        "sourceState": "AGRODRON v07 GLB and native preview-v07-browser.png 1440x484 are integrated; seven exterior semantic views, continuous perspective fitting and auto-row/start-aligned panel are active.",
+        "qa": "Completed equipment-v07/results.json: 1440x1000, 960x768, 390x844; all seven states/three feature rows each, matching selected meshes spray8/tank5/battery5/navigation2 and ghosted surroundings, panel/type containment, signed bank/recovery, reducedMotion, usesNoModel and errors=[] passed. glTF combines authored assemblies by material.",
+        "sources": "EQUIPMENT-SOURCES.md records current v07 exterior semantics and qualified specifications from PDF indexes 7/11/14/17, all visually checked by main, plus official product sourcing.",
+        "limits": "Exterior photo reconstruction only; no factory-CAD, photorealism, engineering-clearance certification or real-device FPS guarantee.",
+        "framing": "Continuous perspective fit mixes projected whole/selected bounds by current focus, fits 94% allocated airspace; no .98 focus snap.",
+        "fallbackQA": "equipment-v07/fallback-results.json: both desktop/mobile pass hero/machine clipping, midEntryCaptured, photoDecoded, actual contextLossScroll and statusInFlow.",
+        "artifacts": "Native Blend 27,308,964 bytes; compressed GLB 2,928,616 bytes, 104 nodes, 87 meshes, 283,712 triangles. Native preview-v07-browser.png 1440x484. Main reports 26 shipping rasters with embedded provenance and 0 missing.",
+        "review": "equipment-v07/verdict.md disposition ship: SHIP FOR WORKING PROTOTYPE ONLY for reviewed v07 delta, no remaining material findings. Reviewer inspected 18 equipment captures at three sizes and compared frame with actual XAG photos. Bounded equipment/flight review, not a new whole-site audit.",
+        "qaImages": 37
+      },
       "currentDelta": {
-        "scope": "User-approved side-flight, six buyer-feature views and numeric typography; prototype.html only. No new shipping rasters.",
+        "scope": "Historical approved v06 side-flight, six buyer-feature views and numeric typography; superseded by v07Delta with completed QA and scoped SHIP. prototype.html only.",
         "motion": "Hero exits right at constant target y, clipped 12px below heading and above offer. Machine enters from the left inside its bounded viewer; progress is tied to machine section top/heading approaching the header, zero at 45% viewport height and complete at header height, independent of viewer height. Reduced motion uses completed entry. Visible rotation is default; stop toolbar/override removed; system reduced motion automatically stops movement.",
         "features": "Six choices: platform, tank/spraying, rotors, battery, navigation, spreading; three sourced feature rows each. Only tank/rotors isolate. Battery uses the full platform because the semantic battery group is an upper cover; navigation uses the full platform. Spreading shows the contained manufacturer photo and hides 3D.",
         "sourceProvenance": "EQUIPMENT-SOURCES.md records exact manufacturer sources and qualifications: PDF indexes 17 technical, 14 energy, 7 spray, 11 navigation; all four indexes visually checked by the main task; official https://xa.com/en/p150max. It records the full-aircraft battery/navigation rationale. No new independent specification audit.",
@@ -191,26 +209,26 @@
         "review": "Final reviewer confirmation supplied by the main task: SHIP FOR ANIMATION QUICKFIX ONLY. Scope covers shadow matrices, hover/scroll invariance at epsilon 1e-6 at both tested sizes, pause, part transitions and stage resets; no real-device FPS claim.",
         "limit": "Recorded functional checks do not measure or guarantee real-device FPS."
       },
-      "sourceRevision": "v06",
+      "sourceRevision": "v07",
       "scope": "prototype.html only; index.html is separate legacy",
-      "captureRevision": "v06",
-      "captureCount": 31,
-      "functionalQA": "Historical .impeccable/review/results.json: all three viewport sizes passed approximately 58 rad/s, four rotors, pause, usesNoModel, no horizontal overflow, empty error lists, WhatsApp preparation and reduced motion. Latest side-flight delta has separate pending QA; manual pause no longer exists.",
+      "captureRevision": "v07",
+      "captureCount": 37,
+      "functionalQA": "Current equipment-v07 three-size results and two-size fallback results passed. Historical v06 reports remain scoped to their older source state; no manual pause in current UI.",
       "captureSizes": [
         "1440x1000",
-        "390x844",
-        "2869x1630"
+        "960x768",
+        "390x844"
       ],
-      "visualApproval": "Historical independent review approved SHIP FOR WORKING PROTOTYPE ONLY for the preceding 31-capture v06 state. Latest side-flight/buyer-feature/type delta awaits its own scoped verdict. No full-photorealism, factory-CAD or real-device FPS guarantee.",
+      "visualApproval": "equipment-v07/verdict.md disposition ship: SHIP FOR WORKING PROTOTYPE ONLY for reviewed v07 delta, no remaining material findings. Reviewer inspected 18 equipment captures at three sizes and compared frame with actual XAG photos. Bounded equipment/flight review, not a new whole-site audit. No photorealism, factory-CAD, engineering certification, operational RPM or real-device FPS guarantee.",
       "reviewScope": {
-        "provenance": "Historical independent verdict and documentation-only confirmation supplied by the main task, before the latest side-flight/buyer-feature/type delta.",
+        "provenance": "Historical v06 independent verdict and documentation confirmation; current v07 approval is in v07Delta.review.",
         "R01": "Resolved: continuous tank transition.",
         "R02": "Resolved within exterior-reconstruction scope: open mechanical forks/openings and recesses; small details remain simplified.",
         "F01": "Resolved: whole-drone containment at all three viewport sizes.",
         "D01": "Resolved: reviewer confirmed current documentation correctly records v06, 31 captures and all three viewport sizes.",
         "disposition": "SHIP FOR WORKING PROTOTYPE ONLY."
       },
-      "validation": "Final compressed v06 validation passed, 0 errors / 0 warnings, as reported by the main task.",
+      "validation": "Final compressed v07 validator: 0 errors/0 warnings; four decoded rotor tests passed, as reported by main.",
       "rampPurpose": "Synthesized OKLCH preview ramps only; production colors remain in DESIGN.md.",
       "snippetBehavior": "Drop-in HTML/CSS visual specimens; selectors expose aria-pressed states. Production JS owns selection and page updates."
     }
@@ -251,8 +269,8 @@
       "name": "Machine part selector",
       "kind": "custom",
       "refersTo": "part-selector",
-      "description": "Six buyer-feature choices, platform default; only tank/rotors isolate, spreading uses a real photo.",
-      "html": "<div class=\"ds-parts\" role=\"group\" aria-label=\"Выберите часть дрона\"><button type=\"button\" aria-pressed=\"true\">Платформа</button><button type=\"button\" aria-pressed=\"false\">Опрыскивание</button><button type=\"button\" aria-pressed=\"false\">Винты</button><button type=\"button\" aria-pressed=\"false\">Аккумулятор</button><button type=\"button\" aria-pressed=\"false\">Навигация</button><button type=\"button\" aria-pressed=\"false\">Разбрасывание</button></div>",
+      "description": "Seven buyer-feature choices, platform default; v07 connects genuine exterior detail groups; spreading uses manufacturer photo.",
+      "html": "<div class=\"ds-parts\" role=\"group\" aria-label=\"Выберите часть дрона\"><button type=\"button\" aria-pressed=\"true\">Платформа</button><button type=\"button\" aria-pressed=\"false\">Опрыскивание</button><button type=\"button\" aria-pressed=\"false\">Бак</button><button type=\"button\" aria-pressed=\"false\">Винты</button><button type=\"button\" aria-pressed=\"false\">Аккумулятор</button><button type=\"button\" aria-pressed=\"false\">Навигация</button><button type=\"button\" aria-pressed=\"false\">Разбрасывание</button></div>",
       "css": ".ds-parts{display:flex;gap:30px;overflow-x:auto;border-top:1px solid var(--line,#c9d3d8);border-bottom:1px solid var(--line,#c9d3d8)}.ds-parts button{font-family:Golos,sans-serif;font-size:16px;line-height:1.55;border:0;background:none;min-height:54px;padding:12px 0;color:var(--muted,#576972);position:relative;white-space:nowrap;cursor:pointer}.ds-parts button[aria-pressed=true]{color:var(--ink,#243640)}.ds-parts button[aria-pressed=true]:after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:2px;background:var(--accent,#bc351e)}.ds-parts button:hover{color:var(--accent,#bc351e)}.ds-parts button:focus-visible{outline:2px solid var(--accent,#bc351e);outline-offset:5px}@media(max-width:700px){.ds-parts{gap:24px;padding:0 3px}.ds-parts button{font-size:14px}}"
     },
     {
@@ -260,12 +278,12 @@
       "kind": "custom",
       "description": "Actual platform panel: large numeric value, subordinate unit, explanation and three ruled features.",
       "html": "<section class=\"ds-feature\"><p class=\"ds-feature-number\">80 <span>кг</span></p><h3>Полезная нагрузка</h3><p class=\"ds-feature-copy\">Одна платформа для опрыскивания, внесения гранул, карт полей и перевозки грузов. Модуль выбирается под задачу.</p><dl><div><dt>максимальная скорость платформы</dt><dd>20 м/с</dd></div><div><dt>максимум с RevoSling</dt><dd>13,8 м/с</dd></div><div><dt>защита от воды</dt><dd>IPX6K</dd></div></dl></section>",
-      "css": ".ds-feature{font-family:Golos,sans-serif;color:var(--ink,#243640);padding:20px 0}.ds-feature-number{font-size:clamp(52px,5.7vw,82px);font-weight:550;line-height:1;letter-spacing:-.04em;margin:0 0 20px;font-variant-numeric:tabular-nums;white-space:nowrap}.ds-feature-number span{font-size:.32em;letter-spacing:0;font-weight:450}.ds-feature h3{font-size:20px;font-weight:450;letter-spacing:-.035em;line-height:1.06;margin:0 0 12px}.ds-feature-copy{font-size:16px;line-height:1.6;max-width:45ch;color:var(--muted,#576972);margin:0}.ds-feature dl{margin:24px 0 0}.ds-feature dl>div{display:flex;flex-direction:column-reverse;gap:5px;padding:12px 0;border-top:1px solid var(--line,#c9d3d8)}.ds-feature dt{font-size:13px;line-height:1.5;color:var(--muted,#576972)}.ds-feature dd{font-size:22px;font-weight:500;line-height:1.25;letter-spacing:-.02em;margin:0;font-variant-numeric:tabular-nums}@media(max-width:700px){.ds-feature{padding:8px 0;display:block}.ds-feature-number{font-size:64px}.ds-feature h3{font-size:22px;margin-bottom:12px}.ds-feature dl{margin-top:20px}.ds-feature dd{font-size:24px}}"
+      "css": ".ds-feature{font-family:Golos,sans-serif;color:var(--ink,#243640);min-width:0;align-self:start;padding:4px 0 20px;overflow-wrap:anywhere}.ds-feature-number{font-size:clamp(52px,5.7vw,82px);font-weight:550;line-height:1;letter-spacing:-.04em;margin:0 0 20px;font-variant-numeric:tabular-nums;white-space:nowrap}.ds-feature-number span{font-size:.32em;letter-spacing:0;font-weight:450}.ds-feature h3{font-size:20px;font-weight:450;letter-spacing:-.035em;line-height:1.06;margin:0 0 12px}.ds-feature-copy{font-size:16px;line-height:1.6;max-width:45ch;color:var(--muted,#576972);margin:0}.ds-feature dl{margin:24px 0 0}.ds-feature dl>div{display:flex;flex-direction:column-reverse;gap:5px;padding:12px 0;border-top:1px solid var(--line,#c9d3d8)}.ds-feature dt{font-size:13px;line-height:1.5;color:var(--muted,#576972)}.ds-feature dd{font-size:22px;font-weight:500;line-height:1.25;letter-spacing:-.02em;margin:0;font-variant-numeric:tabular-nums}@media(max-width:700px){.ds-feature{padding:8px 0;display:block}.ds-feature-number{font-size:64px}.ds-feature h3{font-size:22px;margin-bottom:12px}.ds-feature dl{margin-top:20px}.ds-feature dd{font-size:24px}}"
     }
   ],
   "narrative": {
     "northStar": "Riotters spatial flight",
-    "overview": "Cold paper and large, light Cyrillic typography give the aircraft its own airspace. Slate controls and restrained red details keep the interface legible around the reconstructed XAG rather than competing with it.\n\nThis is the approved visual world for `prototype.html`. The separate legacy `index.html` keeps its existing terracotta system; these prototype tokens do not replace it.",
+    "overview": "Cold paper and large, light Cyrillic typography give the aircraft its own airspace. Slate controls and restrained red details keep the interface legible around the reconstructed XAG rather than competing with it.\n\nThis is the approved visual world for `prototype.html`. The separate legacy `index.html` keeps its existing terracotta system; these prototype tokens do not replace it.\n\nAGRODRON is the confirmed name shown in the prototype title, header and footer; XAG P150 MAX remains the aircraft name.",
     "keyCharacteristics": [
       "Open aircraft stages, full photographs and flat ruled controls.",
       "Self-hosted Golos, slate ink and restrained red interaction states.",
