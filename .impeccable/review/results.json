@@ -1,0 +1,65 @@
+[
+  {
+    "name": "desktop",
+    "width": 1440,
+    "height": 1000,
+    "speed": 58,
+    "rotors": 4,
+    "pause": true,
+    "usesNoModel": true,
+    "photo": {
+      "x": 777.59375,
+      "y": 317.75,
+      "width": 604.8125,
+      "height": 622
+    },
+    "overflow": false,
+    "errors": [],
+    "drawCalls": 88,
+    "triangles": 297656,
+    "whatsApp": true,
+    "reducedMotion": true
+  },
+  {
+    "name": "mobile",
+    "width": 390,
+    "height": 844,
+    "speed": 58,
+    "rotors": 4,
+    "pause": true,
+    "usesNoModel": true,
+    "photo": {
+      "x": 20,
+      "y": 350.640625,
+      "width": 350,
+      "height": 451
+    },
+    "overflow": false,
+    "errors": [],
+    "drawCalls": 81,
+    "triangles": 294796,
+    "whatsApp": true,
+    "reducedMotion": true
+  },
+  {
+    "name": "user-2869",
+    "width": 2869,
+    "height": 1630,
+    "speed": 58.000000000000014,
+    "rotors": 4,
+    "pause": true,
+    "usesNoModel": true,
+    "photo": {
+      "x": 1494.5,
+      "y": 317.25,
+      "width": 1302.5,
+      "height": 662
+    },
+    "overflow": false,
+    "errors": [],
+    "drawCalls": 88,
+    "triangles": 297656,
+    "whatsApp": true,
+    "reducedMotion": true
+  }
+]

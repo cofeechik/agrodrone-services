@@ -37,7 +37,7 @@ export function createStudioEnvironment(renderer) {
 export function tuneSurface(material) {
   // The export already contains measured geometry and local occlusion colors.
   // Keep factory markings and glass; change only the presentation response.
-  material.envMapIntensity = .85;
+  material.envMapIntensity = .7;
   material.side = THREE.FrontSide;
   material.forceSinglePass = true;
   if (/Carbon composite blades/.test(material.name)) {
@@ -56,5 +56,24 @@ export function tuneSurface(material) {
   if (/Rubber feet and grips/.test(material.name)) {
     material.roughness = .78;
     material.metalness = 0;
+  }
+  // A manufactured surface is not uniformly smooth. Object-space microfinish
+  // uses sub-millimetre relief, not painted dirt, fake damage or noisy albedo.
+  // Analytical material detail needs no image download and survives close-ups.
+  const carbon = /Carbon composite|Anodised graphite/.test(material.name);
+  const molded = /Molded HDPE|Injection molded|Rubber/.test(material.name);
+  if (carbon || molded) {
+    const strength = carbon ? .000018 : .000035;
+    material.onBeforeCompile = shader => {
+      shader.vertexShader = shader.vertexShader.replace('#include <common>', '#include <common>\nvarying vec3 vFinishPosition;');
+      shader.vertexShader = shader.vertexShader.replace('#include <begin_vertex>', '#include <begin_vertex>\nvFinishPosition=position;');
+      shader.fragmentShader = shader.fragmentShader.replace('#include <common>', '#include <common>\nvarying vec3 vFinishPosition;');
+      const finish = carbon
+        ? 'sin(vFinishPosition.x*4400.0)*sin(vFinishPosition.z*4400.0)'
+        : 'sin(dot(vFinishPosition,vec3(3300.0,1700.0,2900.0)))*sin(dot(vFinishPosition,vec3(1900.0,3700.0,1100.0)))';
+      shader.fragmentShader = shader.fragmentShader.replace('#include <roughnessmap_fragment>', `#include <roughnessmap_fragment>\nfloat finishPattern=${finish};\nfloat finishFade=1.0-smoothstep(.0003,.002,max(length(dFdx(vFinishPosition)),length(dFdy(vFinishPosition))));\nroughnessFactor=clamp(roughnessFactor+finishPattern*finishFade*.035,.08,1.0);`);
+      shader.fragmentShader = shader.fragmentShader.replace('#include <normal_fragment_maps>', `#include <normal_fragment_maps>\nfloat finishHeight=(${finish})*${strength}*finishFade;\nvec3 sx=dFdx(-vViewPosition),sy=dFdy(-vViewPosition);\nvec3 r1=cross(sy,normal),r2=cross(normal,sx);\nfloat det=dot(sx,r1);\nnormal=normalize(abs(det)*normal-sign(det)*(dFdx(finishHeight)*r1+dFdy(finishHeight)*r2));`);
+    };
+    material.customProgramCacheKey = () => `xag-finish-v05-${carbon ? 'composite' : 'polymer'}`;
   }
 }

@@ -18,7 +18,7 @@
   let motionOverride = null;
   let viewerVisible = true;
   const toolbar = document.querySelector('.model-toolbar');
-  let activePart = 'tank';
+  let activePart = 'all';
   let isolation = true;
   const isolationButton = document.querySelector('#isolation-toggle');
   const service = document.querySelector('#request-service');
@@ -38,10 +38,10 @@
   service.addEventListener('change', updateRequirements);
   updateRequirements();
   let photoRequest = 0;
-  document.querySelectorAll('[data-scenario]').forEach(button => button.addEventListener('click', () => {
+  document.querySelectorAll('button[data-scenario]').forEach(button => button.addEventListener('click', () => {
     const key = button.dataset.scenario;
     const item = scenarios[key];
-    document.querySelectorAll('[data-scenario]').forEach(b => b.setAttribute('aria-pressed', String(b === button)));
+    document.querySelectorAll('button[data-scenario]').forEach(b => b.setAttribute('aria-pressed', String(b === button)));
     document.querySelector('#scenario-title').textContent = item.title;
     document.querySelector('#scenario-description').textContent = item.description;
     document.querySelector('#scenario-module').textContent = item.module;

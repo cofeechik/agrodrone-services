@@ -1,0 +1,36 @@
+{
+  "revision": "v06",
+  "model": "xag-p150-max-v06-web.glb",
+  "fallback": "preview-v06-browser.png",
+  "animation": {
+    "axis_in_gltf": [
+      0,
+      1,
+      0
+    ],
+    "rotors": [
+      {
+        "node": "v06 web | v03 | L_FRONT | ROTOR_ANIMATION_ROOT",
+        "direction": 1
+      },
+      {
+        "node": "v06 web | v03 | L_REAR | ROTOR_ANIMATION_ROOT",
+        "direction": -1
+      },
+      {
+        "node": "v06 web | v03 | R_FRONT | ROTOR_ANIMATION_ROOT",
+        "direction": -1
+      },
+      {
+        "node": "v06 web | v03 | R_REAR | ROTOR_ANIMATION_ROOT",
+        "direction": 1
+      }
+    ]
+  },
+  "components": "node extras.component: tank / battery (upper enclosure) / structure; rotors by pivot subtree",
+  "limitations": [
+    "Exterior photo reconstruction, not factory CAD",
+    "No verified operational RPM",
+    "Short-range vertex occlusion approximates local contact shading; it is not dynamic shadowing"
+  ]
+}

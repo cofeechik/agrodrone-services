@@ -21,21 +21,24 @@
     <a class="button header-cta" href="#contact">Запросить расчёт <span class="direction-icon" aria-hidden="true"></span></a>
   </header>
   <div class="drone-stage" id="drone-stage" aria-hidden="true">
-    <img class="model-fallback" src="models/xag-p150-max/preview-v04-browser.png" alt="" width="1440" height="924" fetchpriority="high">
+    <img class="model-fallback" src="models/xag-p150-max/preview-v06-browser.png" alt="" width="1440" height="481" fetchpriority="high">
     <canvas id="drone-canvas"></canvas>
   </div>
   <main id="main">
     <section class="flight" id="flight" aria-labelledby="flight-title">
-      <div class="outline-brand" aria-hidden="true">АГРОДРОН</div>
+      <div class="flight-scene">
+      <div class="flight-heading" aria-hidden="true">Над полем.<br>Без колеи.</div>
       <div class="flight-bottom">
         <div class="flight-copy"><h1 id="flight-title">Обработка полей<br>агродронами.</h1><p>Опрыскивание, внесение удобрений<br class="desktop-only"> и посев с XAG P150 MAX.</p></div>
-        <div class="flight-actions"><a class="button" href="#contact">Обсудить ваш участок <span class="direction-icon" aria-hidden="true"></span></a><a class="scroll-link" href="#uses">Сценарии применения <span class="direction-icon direction-down" aria-hidden="true"></span></a></div>
+        <div class="flight-actions"><a class="button" href="#contact">Обсудить ваш участок <span class="direction-icon" aria-hidden="true"></span></a><a class="scroll-link" href="#uses">Применение <span class="direction-icon direction-down" aria-hidden="true"></span></a></div>
+      </div>
+      <div class="flight-runway" aria-hidden="true"></div>
       </div>
       <noscript><style>#prototype-request,.scenario-selector,.part-selector,#isolation-toggle{display:none}.drone-stage{position:absolute;height:580px}.model-toolbar{display:none}</style><p class="no-script">Для 3D и формы нужен JavaScript. Вы можете написать нам по ссылке WhatsApp в контактах.</p></noscript>
     </section>
 
     <section class="uses section" id="uses" aria-labelledby="uses-title">
-      <div class="section-top"><h2 id="uses-title">Применение</h2><p>Одна платформа.<br>Разные задачи в поле.</p></div>
+      <div class="section-top"><h2 id="uses-title">Применение</h2><p>Одна платформа. Разные задачи в поле.</p></div>
       <div class="scenario-layout">
         <div class="scenario-copy">
           <div class="scenario-selector" role="group" aria-label="Выберите сценарий применения">
@@ -50,29 +53,26 @@
             <a class="text-link" id="scenario-request" href="#contact">Рассчитать опрыскивание <span class="direction-icon" aria-hidden="true"></span></a>
           </div>
         </div>
-        <div class="scenario-airspace" aria-hidden="true"><span class="technical-caption">XAG P150 MAX / RevoSpray 5</span></div>
-      </div>
       <figure class="scenario-photo"><img id="scenario-image" src="assets/service-spray.jpg" width="1500" height="2390" alt="XAG P150 MAX распыляет раствор над посадками" loading="lazy" decoding="async"><figcaption id="scenario-credit">Фото производителя XAG · демонстрация работы техники</figcaption></figure>
+      </div>
     </section>
 
     <section class="machine section" id="machine" aria-labelledby="machine-title">
       <div class="section-top"><h2 id="machine-title">Устройство</h2><p>Рассмотрите отдельные части<br>нашей 3D-модели.</p></div>
       <div class="machine-layout">
         <div class="part-selector" role="group" aria-label="Выберите часть дрона">
-          <button type="button" data-part="tank" aria-pressed="true" aria-controls="part-panel">Бак для раствора</button>
+          <button type="button" data-part="all" aria-pressed="true" aria-controls="part-panel">Дрон целиком</button>
+          <button type="button" data-part="tank" aria-pressed="false" aria-controls="part-panel">Бак для раствора</button>
           <button type="button" data-part="battery" aria-pressed="false" aria-controls="part-panel">Верхний блок</button>
           <button type="button" data-part="rotors" aria-pressed="false" aria-controls="part-panel">Винты</button>
-          <button type="button" data-part="all" aria-pressed="false" aria-controls="part-panel">Дрон целиком</button>
         </div>
         <div class="machine-airspace" aria-hidden="true"></div>
-        <div class="part-panel" id="part-panel" aria-live="polite" aria-atomic="true"><p class="part-value" id="part-value">80 <span>л</span></p><h3 id="part-title">Бак для раствора</h3><p id="part-description">Модуль RevoSpray 5 для жидких растворов. Остальные части модели приглушены, чтобы рассмотреть форму бака.</p><button class="text-link" id="isolation-toggle" type="button" aria-pressed="true">Показать остальной дрон</button></div>
+        <div class="part-panel" id="part-panel" aria-live="polite" aria-atomic="true"><p class="part-value" id="part-value">XAG<br>P150 MAX</p><h3 id="part-title">Дрон целиком</h3><p id="part-description">Платформа с баком RevoSpray 5. Выберите часть дрона, чтобы рассмотреть её отдельно.</p><button class="text-link" id="isolation-toggle" type="button" aria-pressed="true" hidden>Показать остальной дрон</button></div>
       </div>
       <div class="spec-strip"><div><span>Полезная нагрузка</span><strong>до 80 кг</strong></div><div><span>Бункер RevoCast 5</span><strong>115 л</strong></div><div><span>Точность с RTK</span><strong>±10 см</strong></div></div>
       <p class="spec-note">Параметры зависят от комплектации и условий работы. 3D-модель восстановлена по фотографиям, не является заводским CAD. Бункер RevoCast в этой модели не установлен.</p>
       <a class="text-link" href="https://www.xa.com/en/p150max" target="_blank" rel="noopener noreferrer">Характеристики производителя <span class="direction-icon" aria-hidden="true"></span></a>
     </section>
-
-    <section class="field-band" aria-label="Техника в полевых условиях"><img src="assets/hero-field.jpg" width="3840" height="1600" alt="XAG P150 MAX в полёте над полем" loading="lazy" decoding="async"><p>Без колеи от колёс<br>и уплотнения почвы.</p><span>Фото XAG · демонстрация техники</span></section>
 
     <section class="contact section" id="contact" aria-labelledby="contact-title">
       <div class="contact-copy"><h2 id="contact-title">Обсудим<br>ваш участок.</h2><p>Пришлите площадь, культуру и расположение поля. Уточним задачу и условия выезда.</p><div class="contact-person"><span>Бурабаев Сайранбек</span><a href="tel:+77477386296">+7 747 738 62 96</a></div><div class="contact-person"><span>Асанов Данияр</span><a href="tel:+77051507557">+7 705 150 75 57</a></div><a class="text-link" href="https://wa.me/77477386296" target="_blank" rel="noopener noreferrer">Написать в WhatsApp <span class="direction-icon" aria-hidden="true"></span></a></div>

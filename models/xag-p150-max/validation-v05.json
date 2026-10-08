@@ -1,0 +1,18 @@
+{
+  "revision": "v05",
+  "motor_diagonal_mm": 2335.000146706554,
+  "web_meshes": 70,
+  "height_mm": 768.2499624788761,
+  "web_triangles": 267644,
+  "occlusion_samples": 10,
+  "occlusion_cache_entries": 356297,
+  "build_seconds": 98.51,
+  "rotor_pivots": 4,
+  "changes": [
+    "Continuous monotone tank tooling profile with rounded section corners; unchanged measured motor layout",
+    "PBR surface separation",
+    "geometry-derived short-range contact occlusion",
+    "semantic component exports"
+  ],
+  "unchanged": "Motor positions, rotor diameters, arms, handles and overall scale"
+}

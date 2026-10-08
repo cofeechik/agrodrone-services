@@ -1,0 +1,263 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-08T07:47:17.384Z",
+  "title": "Design System: АГРОДРОН prototype",
+  "extensions": {
+    "colorMeta": {
+      "paper": {
+        "role": "neutral",
+        "displayName": "Cold paper",
+        "tonalRamp": [
+          "oklch(15.0% 0.0035 219.53)",
+          "oklch(26.4% 0.0035 219.53)",
+          "oklch(37.9% 0.0035 219.53)",
+          "oklch(49.3% 0.0035 219.53)",
+          "oklch(60.7% 0.0035 219.53)",
+          "oklch(72.1% 0.0035 219.53)",
+          "oklch(83.6% 0.0035 219.53)",
+          "oklch(95.0% 0.0035 219.53)"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Slate ink",
+        "tonalRamp": [
+          "oklch(15.0% 0.0294 233.21)",
+          "oklch(26.4% 0.0294 233.21)",
+          "oklch(37.9% 0.0294 233.21)",
+          "oklch(49.3% 0.0294 233.21)",
+          "oklch(60.7% 0.0294 233.21)",
+          "oklch(72.1% 0.0294 233.21)",
+          "oklch(83.6% 0.0294 233.21)",
+          "oklch(95.0% 0.0294 233.21)"
+        ]
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Muted slate",
+        "tonalRamp": [
+          "oklch(15.0% 0.0260 229.54)",
+          "oklch(26.4% 0.0260 229.54)",
+          "oklch(37.9% 0.0260 229.54)",
+          "oklch(49.3% 0.0260 229.54)",
+          "oklch(60.7% 0.0260 229.54)",
+          "oklch(72.1% 0.0260 229.54)",
+          "oklch(83.6% 0.0260 229.54)",
+          "oklch(95.0% 0.0260 229.54)"
+        ]
+      },
+      "line": {
+        "role": "neutral",
+        "displayName": "Pale divider",
+        "tonalRamp": [
+          "oklch(15.0% 0.0129 228.95)",
+          "oklch(26.4% 0.0129 228.95)",
+          "oklch(37.9% 0.0129 228.95)",
+          "oklch(49.3% 0.0129 228.95)",
+          "oklch(60.7% 0.0129 228.95)",
+          "oklch(72.1% 0.0129 228.95)",
+          "oklch(83.6% 0.0129 228.95)",
+          "oklch(95.0% 0.0129 228.95)"
+        ]
+      },
+      "accent": {
+        "role": "primary",
+        "displayName": "XAG red",
+        "tonalRamp": [
+          "oklch(15.0% 0.1755 32.18)",
+          "oklch(26.4% 0.1755 32.18)",
+          "oklch(37.9% 0.1755 32.18)",
+          "oklch(49.3% 0.1755 32.18)",
+          "oklch(60.7% 0.1755 32.18)",
+          "oklch(72.1% 0.1755 32.18)",
+          "oklch(83.6% 0.1755 32.18)",
+          "oklch(95.0% 0.1755 32.18)"
+        ]
+      },
+      "flight-heading": {
+        "role": "neutral",
+        "displayName": "Flight grey-blue",
+        "tonalRamp": [
+          "oklch(15.0% 0.0267 230.72)",
+          "oklch(26.4% 0.0267 230.72)",
+          "oklch(37.9% 0.0267 230.72)",
+          "oklch(49.3% 0.0267 230.72)",
+          "oklch(60.7% 0.0267 230.72)",
+          "oklch(72.1% 0.0267 230.72)",
+          "oklch(83.6% 0.0267 230.72)",
+          "oklch(95.0% 0.0267 230.72)"
+        ]
+      },
+      "photo-surface": {
+        "role": "neutral",
+        "displayName": "Photographic backing",
+        "tonalRamp": [
+          "oklch(15.0% 0.0045 214.33)",
+          "oklch(26.4% 0.0045 214.33)",
+          "oklch(37.9% 0.0045 214.33)",
+          "oklch(49.3% 0.0045 214.33)",
+          "oklch(60.7% 0.0045 214.33)",
+          "oklch(72.1% 0.0045 214.33)",
+          "oklch(83.6% 0.0045 214.33)",
+          "oklch(95.0% 0.0045 214.33)"
+        ]
+      },
+      "machine-surface": {
+        "role": "neutral",
+        "displayName": "Machine backing",
+        "tonalRamp": [
+          "oklch(15.0% 0.0060 223.46)",
+          "oklch(26.4% 0.0060 223.46)",
+          "oklch(37.9% 0.0060 223.46)",
+          "oklch(49.3% 0.0060 223.46)",
+          "oklch(60.7% 0.0060 223.46)",
+          "oklch(72.1% 0.0060 223.46)",
+          "oklch(83.6% 0.0060 223.46)",
+          "oklch(95.0% 0.0060 223.46)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Flight phrase",
+        "purpose": "Decorative filled phrase, not the semantic offer h1."
+      },
+      "offer": {
+        "displayName": "Service offer",
+        "purpose": "Actual flight h1."
+      },
+      "headline": {
+        "displayName": "Chapter heading",
+        "purpose": "Large section h2."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Readable copy and controls."
+      }
+    },
+    "shadows": [],
+    "motion": [
+      {
+        "name": "control-transition",
+        "value": "180ms",
+        "purpose": "Primary background and service text color; disabled under reduced motion."
+      },
+      {
+        "name": "focus-outline",
+        "value": "2px solid var(--accent); outline-offset: 5px",
+        "purpose": "Visible keyboard focus."
+      },
+      {
+        "name": "rotor-demonstration",
+        "value": "58 rad/s",
+        "purpose": "Four local-Y pivots plus transparent swept-footprint shader; demonstration only."
+      },
+      {
+        "name": "pose-follow",
+        "value": "1 - exp(-dt * 11)",
+        "purpose": "Pose/focus smoothing; immediate when paused or reduced."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "compact-desktop",
+        "value": "1000px"
+      },
+      {
+        "name": "mobile",
+        "value": "700px"
+      }
+    ],
+    "evidence": {
+      "sourceRevision": "v06",
+      "scope": "prototype.html only; index.html is separate legacy",
+      "captureRevision": "v06",
+      "captureCount": 31,
+      "functionalQA": "Final .impeccable/review/results.json: all three viewport sizes pass approximately 58 rad/s, four rotors, pause, usesNoModel, no horizontal overflow, empty error lists, WhatsApp preparation and reduced motion.",
+      "captureSizes": [
+        "1440x1000",
+        "390x844",
+        "2869x1630"
+      ],
+      "visualApproval": "Independent review and documentation-only confirmation approve SHIP FOR WORKING PROTOTYPE ONLY. All 31 v06 captures are valid with no material regression. This does not establish full photorealism, factory-CAD fidelity or guaranteed FPS on real devices.",
+      "reviewScope": {
+        "provenance": "Final independent verdict and subsequent documentation-only reviewer confirmation supplied by the main task.",
+        "R01": "Resolved: continuous tank transition.",
+        "R02": "Resolved within exterior-reconstruction scope: open mechanical forks/openings and recesses; small details remain simplified.",
+        "F01": "Resolved: whole-drone containment at all three viewport sizes.",
+        "D01": "Resolved: reviewer confirmed current documentation correctly records v06, 31 captures and all three viewport sizes.",
+        "disposition": "SHIP FOR WORKING PROTOTYPE ONLY."
+      },
+      "validation": "Final compressed v06 validation passed, 0 errors / 0 warnings, as reported by the main task.",
+      "rampPurpose": "Synthesized OKLCH preview ramps only; production colors remain in DESIGN.md.",
+      "snippetBehavior": "Drop-in HTML/CSS visual specimens; selectors expose aria-pressed states. Production JS owns selection and page updates."
+    }
+  },
+  "components": [
+    {
+      "name": "Primary action",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Slate action with red hover and visible keyboard focus.",
+      "html": "<button type=\"button\" class=\"ds-button\">Подготовить сообщение <span class=\"ds-arrow\" aria-hidden=\"true\"></span></button>",
+      "css": ".ds-button{display:inline-flex;gap:24px;align-items:center;justify-content:space-between;min-height:48px;padding:13px 22px;background:var(--ink,#243640);color:var(--paper,#f7fafb);border:0;border-radius:0;font-family:Golos,sans-serif;font-size:16px;line-height:1.55;font-weight:500;cursor:pointer;transition:background .18s}.ds-button:hover{background:var(--accent,#bc351e)}.ds-button:focus-visible{outline:2px solid var(--accent,#bc351e);outline-offset:5px}.ds-arrow{width:14px;height:14px;display:inline-block;border-top:1px solid currentColor;border-right:1px solid currentColor;position:relative;flex-shrink:0}.ds-arrow:after{content:'';position:absolute;width:18px;height:1px;background:currentColor;transform:rotate(-45deg);top:6px;right:-2px}@media(prefers-reduced-motion:reduce){.ds-button{transition:none}}"
+    },
+    {
+      "name": "Request field",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Square transparent field; native required validation, slate focus border.",
+      "html": "<label class=\"ds-label\" for=\"ds-location\">Расположение участка — обязательно</label><input class=\"ds-input\" id=\"ds-location\" name=\"location\" required pattern=\".*\\S.*\" maxlength=\"200\" placeholder=\"Район или координаты\">",
+      "css": ".ds-label{display:block;margin:12px 0 10px;font-family:Golos,sans-serif;font-size:13px;color:var(--ink,#243640)}.ds-input{box-sizing:border-box;width:100%;min-height:52px;padding:12px 14px;background:transparent;border:1px solid var(--line,#c9d3d8);border-radius:0;font-family:Golos,sans-serif;font-size:16px;line-height:1.55;color:var(--ink,#243640);caret-color:var(--accent,#bc351e)}.ds-input::placeholder{color:var(--muted,#576972)}.ds-input:hover:not(:focus){border-color:var(--line,#c9d3d8)}.ds-input:focus{border-color:var(--ink,#243640)}.ds-input:focus-visible{outline:2px solid var(--accent,#bc351e);outline-offset:5px}"
+    },
+    {
+      "name": "Section navigation",
+      "kind": "nav",
+      "description": "Desktop text navigation; mobile source hides these links.",
+      "html": "<nav class=\"ds-nav\" aria-label=\"Основное меню\"><a href=\"#uses\">Применение</a><a href=\"#machine\">Техника</a><a href=\"#contact\">Контакты</a></nav>",
+      "css": ".ds-nav{display:flex;gap:30px;font-family:Golos,sans-serif;font-size:16px;line-height:1.55}.ds-nav a{padding:12px 0;color:var(--muted,#576972);text-decoration:none;text-underline-offset:.25em}.ds-nav a:hover{color:var(--ink,#243640);text-decoration:underline}.ds-nav a:focus-visible{outline:2px solid var(--accent,#bc351e);outline-offset:5px}@media(max-width:1000px){.ds-nav{gap:18px}}@media(max-width:700px){.ds-nav{display:none}}"
+    },
+    {
+      "name": "Service selector",
+      "kind": "custom",
+      "refersTo": "service-selector",
+      "description": "Four application choices; aria-pressed controls the dot. Site JS changes copy/photo/form.",
+      "html": "<div class=\"ds-services\" role=\"group\" aria-label=\"Выберите сценарий применения\"><button type=\"button\" aria-pressed=\"true\">Опрыскивание</button><button type=\"button\" aria-pressed=\"false\">Удобрения и посев</button><button type=\"button\" aria-pressed=\"false\">Доставка грузов</button><button type=\"button\" aria-pressed=\"false\">Карты полей</button></div>",
+      "css": ".ds-services{display:grid;gap:4px}.ds-services button{font-family:Golos,sans-serif;font-size:clamp(22px,2.3vw,34px);text-align:left;line-height:1.2;background:none;border:0;color:var(--muted,#576972);padding:10px 0;min-height:48px;letter-spacing:-.025em;cursor:pointer;transition:color .18s}.ds-services button[aria-pressed=true]{color:var(--ink,#243640)}.ds-services button[aria-pressed=true]:after{content:'';display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--accent,#bc351e);margin-left:16px;vertical-align:middle}.ds-services button:hover{color:var(--accent,#bc351e)}.ds-services button:focus-visible{outline:2px solid var(--accent,#bc351e);outline-offset:5px}@media(max-width:700px){.ds-services{display:flex;gap:22px;overflow-x:auto;padding:0 3px 8px}.ds-services button{white-space:nowrap;font-size:16px}.ds-services button[aria-pressed=true]:after{width:6px;height:6px;margin-left:9px}}@media(prefers-reduced-motion:reduce){.ds-services button{transition:none}}"
+    },
+    {
+      "name": "Machine part selector",
+      "kind": "custom",
+      "refersTo": "part-selector",
+      "description": "Whole-drone default and three optional assembly views; aria-pressed controls underline.",
+      "html": "<div class=\"ds-parts\" role=\"group\" aria-label=\"Выберите часть дрона\"><button type=\"button\" aria-pressed=\"true\">Дрон целиком</button><button type=\"button\" aria-pressed=\"false\">Бак для раствора</button><button type=\"button\" aria-pressed=\"false\">Верхний блок</button><button type=\"button\" aria-pressed=\"false\">Винты</button></div>",
+      "css": ".ds-parts{display:flex;gap:30px;border-top:1px solid var(--line,#c9d3d8);border-bottom:1px solid var(--line,#c9d3d8)}.ds-parts button{font-family:Golos,sans-serif;font-size:16px;line-height:1.55;border:0;background:none;min-height:54px;padding:12px 0;color:var(--muted,#576972);position:relative;cursor:pointer}.ds-parts button[aria-pressed=true]{color:var(--ink,#243640)}.ds-parts button[aria-pressed=true]:after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:2px;background:var(--accent,#bc351e)}.ds-parts button:hover{color:var(--accent,#bc351e)}.ds-parts button:focus-visible{outline:2px solid var(--accent,#bc351e);outline-offset:5px}@media(max-width:700px){.ds-parts{gap:24px;overflow-x:auto;padding:0 3px}.ds-parts button{font-size:13px;white-space:nowrap}}"
+    }
+  ],
+  "narrative": {
+    "northStar": "Riotters spatial flight",
+    "overview": "Cold paper and large, light Cyrillic typography give the aircraft its own airspace. Slate controls and restrained red details keep the interface legible around the reconstructed XAG rather than competing with it.\n\nThis is the approved visual world for `prototype.html`. The separate legacy `index.html` keeps its existing terracotta system; these prototype tokens do not replace it.",
+    "keyCharacteristics": [
+      "Open aircraft stages, full photographs and flat ruled controls.",
+      "Self-hosted Golos, slate ink and restrained red interaction states.",
+      "Explicit limits on reconstruction, motion and message preparation."
+    ],
+    "rules": [
+      {
+        "name": "The State Accent Rule",
+        "body": "Use red to mark interaction and selection; keep broad UI surfaces cold and neutral.",
+        "section": "colors"
+      }
+    ],
+    "dos": [
+      "Do preserve the approved spatial-flight direction and the separate legacy surface.",
+      "Do keep photographs contained, credited and separate from machine airspace.",
+      "Do keep whole-drone default, visible focus, pause and reduced-motion opt-in."
+    ],
+    "donts": [
+      "Don't describe functional QA as an independent visual approval or hardware FPS guarantee.",
+      "Don't claim factory CAD, modeled internals, photorealism or guaranteed device FPS.",
+      "Don't invent portfolio proof, prices, extra cards/chips or a sent-request state."
+    ]
+  }
+}

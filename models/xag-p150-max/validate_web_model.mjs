@@ -8,7 +8,7 @@ import assert from 'node:assert/strict';
 
 const out=dirname(fileURLToPath(import.meta.url));
 const revision=process.argv[3] || 'v03';
-assert(['v03','v04'].includes(revision),'Supported revisions: v03 / v04');
+assert(['v03','v04','v05','v06'].includes(revision),'Supported revisions: v03 / v04 / v05 / v06');
 const require=createRequire(resolve(process.argv[2], 'package.json'));
 const load=async name=>import(pathToFileURL(require.resolve(name)).href);
 const { NodeIO }=await load('@gltf-transform/core');
@@ -17,7 +17,7 @@ const { MeshoptDecoder }=await load('meshoptimizer');
 await MeshoptDecoder.ready;
 const io=new NodeIO().registerExtensions(ALL_EXTENSIONS).registerDependencies({'meshopt.decoder':MeshoptDecoder});
 const doc=await io.read(resolve(out,`xag-p150-max-${revision}-web.glb`));
-const manifest=JSON.parse(readFileSync(resolve(out,revision==='v03'?'web-model-manifest.json':'web-model-manifest-v04.json'),'utf8').replace(/^\uFEFF/,''));
+const manifest=JSON.parse(readFileSync(resolve(out,revision==='v03'?'web-model-manifest.json':`web-model-manifest-${revision}.json`),'utf8').replace(/^\uFEFF/,''));
 const validation=JSON.parse(readFileSync(resolve(out,`validation-${revision}.json`),'utf8').replace(/^\uFEFF/,''));
 const nodes=doc.getRoot().listNodes();
 assert.equal(doc.getRoot().listScenes().length,1,'Export must contain only the web scene.');
@@ -27,7 +27,7 @@ const triangleCount=doc.getRoot().listMeshes().reduce((sum,mesh)=>sum+mesh.listP
     return subtotal+(primitive.getIndices()?.getCount() ?? primitive.getAttribute('POSITION').getCount())/3;
 },0),0);
 assert.equal(triangleCount,validation.master_triangles ?? validation.web_triangles,'Compression must not remove or duplicate triangles.');
-if(revision==='v04') {
+if(revision!=='v03') {
     assert(nodes.some(n=>n.getExtras().component==='tank'));
     assert(nodes.some(n=>n.getExtras().component==='battery'));
     for(const mesh of doc.getRoot().listMeshes()) for(const p of mesh.listPrimitives()) {

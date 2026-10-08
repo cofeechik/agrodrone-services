@@ -1,0 +1,18 @@
+{
+  "revision": "v06",
+  "motor_diagonal_mm": 2335.000146706554,
+  "web_meshes": 76,
+  "height_mm": 768.2499624788761,
+  "web_triangles": 297648,
+  "occlusion_samples": 10,
+  "occlusion_cache_entries": 379317,
+  "build_seconds": 96.04,
+  "rotor_pivots": 4,
+  "changes": [
+    "Continuous tank tooling surface, four open motor forks, eight recessed folding cheeks, recessed service panels and cover fastener seats",
+    "PBR surface separation",
+    "geometry-derived short-range contact occlusion",
+    "semantic component exports"
+  ],
+  "unchanged": "Motor positions, rotor diameters, arm endpoints, handles and overall scale"
+}
