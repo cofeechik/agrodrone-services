@@ -1,0 +1,178 @@
+{
+  "schemaVersion": 1,
+  "researchedOn": "2026-10-08",
+  "subject": "XAG P150 Max RevoCast 5 / RevoCast P5",
+  "count": 10,
+  "scope": "Reference discovery only; no model or UI modifications. Original downloaded bytes; no resizing or upscaling.",
+  "rights": "Reference use only; manufacturer/dealer ownership retained, not cleared for website publication.",
+  "orientation": "End elevations are labelled by visible mechanisms rather than assuming aircraft front/rear; reconcile with native XAG manual page 11.",
+  "limits": [
+    "No verified genuine bottom-up photograph or isolated complete-module overhead photograph found. Use native manual pages 6 and 11 for hidden structure; page 23 for dimensions, as supplied by main.",
+    "Official detail images contain large blank lower areas as delivered; dimensions are entire raster, not subject bounding boxes."
+  ],
+  "deduplication": {
+    "method": "SHA-256 file checks, decoded-pixel checks and visual composition comparison; higher-resolution originals preferred over resized/reencoded alternatives.",
+    "removedAlternatives": [
+      {
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0567/4221/5814/files/P150MaxRevoCastP5.png?v=1770018434",
+        "reason": "1200px duplicate composition of retained 3840px side profile."
+      },
+      {
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0567/4221/5814/files/XAG_P150_Max_RevoCast_P5.png?v=1775221141",
+        "reason": "1200px duplicate composition of retained 1920px feeder cutaway."
+      },
+      {
+        "imageUrl": "https://api.skyflow.ca/media/thumbnails/products/P150max_RevoCast1_1_ff8ab5ef_thumbnail_4096.png",
+        "reason": "4096px reencoded/resized version of same side-profile composition, not an installed aircraft view; no new detail."
+      }
+    ],
+    "rejected": "RevoCast 4/P4/P3 and old P100/RevoCast 2 results excluded; related-product tiles are not generation evidence."
+  },
+  "images": [
+    {
+      "file": "02-xag-au-dsc8158.png",
+      "width": 1200,
+      "height": 1200,
+      "bytes": 218877,
+      "sha256": "cd19aded037798ff6b8d4095b883b33df836990c07d5d063dbb43311854f2a4d",
+      "publisher": "XAG Australia",
+      "sourcePage": "https://shop.xag-au.com/products/revocastp5",
+      "imageUrl": "https://cdn.shopify.com/s/files/1/0567/4221/5814/files/0000s_0000__DSC8158.png?v=1775221141",
+      "kind": "studio photograph",
+      "use": "Disc-facing end elevation; cables, connector panel, vertical disc and central hopper recess.",
+      "priority": "high",
+      "generationEvidence": "Product title explicitly XAG P150 Max RevoCast P5; model M4RCP115BH"
+    },
+    {
+      "file": "03-xag-au-dsc8156.png",
+      "width": 1200,
+      "height": 1200,
+      "bytes": 158327,
+      "sha256": "41f0e6e754dc43cbb9e064821d87d0136040e82ecf649d2106e4aa725e987d87",
+      "publisher": "XAG Australia",
+      "sourcePage": "https://shop.xag-au.com/products/revocastp5",
+      "imageUrl": "https://cdn.shopify.com/s/files/1/0567/4221/5814/files/0000s_0002__DSC8156.png?v=1775221141",
+      "kind": "studio photograph",
+      "use": "Oblique elevation; one broad hopper side and one end, lid slopes and leg mounting.",
+      "priority": "high",
+      "generationEvidence": "Product title explicitly XAG P150 Max RevoCast P5; model M4RCP115BH"
+    },
+    {
+      "file": "04-xag-au-dsc8155.png",
+      "width": 1200,
+      "height": 1200,
+      "bytes": 165385,
+      "sha256": "d50985497d8cac8024209a657cb319066b9d6027ccee1d713985c32a41460def",
+      "publisher": "XAG Australia",
+      "sourcePage": "https://shop.xag-au.com/products/revocastp5",
+      "imageUrl": "https://cdn.shopify.com/s/files/1/0567/4221/5814/files/0000s_0003__DSC8155.png?v=1775221141",
+      "kind": "studio photograph",
+      "use": "Opposite oblique elevation; complementary broad hopper side and end, feeder housing.",
+      "priority": "high",
+      "generationEvidence": "Product title explicitly XAG P150 Max RevoCast P5; model M4RCP115BH"
+    },
+    {
+      "file": "05-xag-au-dsc8154.png",
+      "width": 1200,
+      "height": 1200,
+      "bytes": 160701,
+      "sha256": "5265ede612e8490fdaf91d5dfeffe2cd8ded614d7e95abb47b6f1664ce3bd2c4",
+      "publisher": "XAG Australia",
+      "sourcePage": "https://shop.xag-au.com/products/revocastp5",
+      "imageUrl": "https://cdn.shopify.com/s/files/1/0567/4221/5814/files/0000s_0004__DSC8154.png?v=1775221141",
+      "kind": "studio photograph",
+      "use": "Opposite end elevation; plain service panel, hopper recess and screw-drive motor end.",
+      "priority": "high",
+      "generationEvidence": "Product title explicitly XAG P150 Max RevoCast P5; model M4RCP115BH"
+    },
+    {
+      "file": "07-xag-spreader-mechanism.jpg",
+      "width": 774,
+      "height": 920,
+      "bytes": 46951,
+      "sha256": "ceb54c1f7bb6c732648ee3971cd2e1980149aac294666fb876f3c95f601cb303",
+      "publisher": "XAG",
+      "sourcePage": "https://www.xa.com/en/p150max",
+      "imageUrl": "https://static.xag.cn/img/products2025/p150max/75ee79ad1b6011f58fb59f06b794db51.jpg",
+      "kind": "manufacturer highlighted technical render",
+      "use": "Disc-facing lower-mechanism close-up; disc ribs, hub, rim and outlet. Not a true bottom-up photograph.",
+      "priority": "high",
+      "generationEvidence": "RevoCast 5 section of official P150 Max page"
+    },
+    {
+      "file": "08-xag-three-feeders.jpg",
+      "width": 776,
+      "height": 920,
+      "bytes": 50547,
+      "sha256": "471d66817853b58790f5cf3dfb2a577cd602afc2739e3c3e08bc5a217e65ca37",
+      "publisher": "XAG",
+      "sourcePage": "https://www.xa.com/en/p150max",
+      "imageUrl": "https://static.xag.cn/img/products2025/p150max/9c2bb8b0fe4af7b83f33c29ee2f12ad4.jpg",
+      "kind": "manufacturer cutaway render",
+      "use": "Screw axis and supports, vertical disc relationship, three orange-highlighted screw geometries.",
+      "priority": "medium",
+      "generationEvidence": "RevoCast 5 section of official P150 Max page"
+    },
+    {
+      "file": "09-xag-container-lid.jpg",
+      "width": 774,
+      "height": 920,
+      "bytes": 45322,
+      "sha256": "e64c9dd69d7a4decfb69330f7e97007020fb6ab628a763d0fbc520dd05cf147b",
+      "publisher": "XAG",
+      "sourcePage": "https://www.xa.com/en/p150max",
+      "imageUrl": "https://static.xag.cn/img/products2025/p150max/872160c8d2a3a0e331ebc372982f3ebc.jpg",
+      "kind": "manufacturer highlighted technical render",
+      "use": "Installed top-down container/cover layout around aircraft centre; not an isolated top photograph.",
+      "priority": "medium",
+      "generationEvidence": "RevoCast 5 section of official P150 Max page"
+    },
+    {
+      "file": "10-agrifuture-module-side.jpg",
+      "width": 3840,
+      "height": 2582,
+      "bytes": 198110,
+      "sha256": "4dad31292fb281f0a66afa4034f426e25b1942eb7715ab7ee20b15b582f94756",
+      "publisher": "Agrifuture",
+      "sourcePage": "https://agrifuture.tech/products/xag-p150-max-revocast-5-with-screw-feeder-l",
+      "imageUrl": "https://cdn.shopify.com/s/files/1/0990/9868/9882/files/P150maxRevoCast1.jpg?v=1767819058",
+      "kind": "product render",
+      "use": "Full isolated side profile: hopper facets, lid clips, screw-drive axis, vertical spreading disc and legs.",
+      "priority": "high",
+      "generationEvidence": "Product named XAG P150 Max RevoCast 5; slug says L while current product data names M",
+      "existingReference": {
+        "path": "C:/Users/user/Desktop/сайт дроны/tmp/xag-p150-reference/13-revocast-agrifuture.jpg",
+        "relationship": "byte-identical; original native resolution preserved",
+        "sha256": "4dad31292fb281f0a66afa4034f426e25b1942eb7715ab7ee20b15b582f94756"
+      }
+    },
+    {
+      "file": "11-agrifuture-feeders.jpg",
+      "width": 1920,
+      "height": 1750,
+      "bytes": 90243,
+      "sha256": "c826ca2a3cd1d429d7b60566ea4ddb3cadc99313466bf169647c2710262a3564",
+      "publisher": "Agrifuture",
+      "sourcePage": "https://agrifuture.tech/products/xag-p150-max-revocast-5-with-screw-feeder-l",
+      "imageUrl": "https://cdn.shopify.com/s/files/1/0990/9868/9882/files/ThreeScrewFeederTypes.jpg?v=1767819058",
+      "kind": "product cutaway render",
+      "use": "High-resolution neutral-colour cutaway of side mechanism and three screws. Complementary to official highlighted mechanism illustration.",
+      "priority": "medium",
+      "generationEvidence": "Product named XAG P150 Max RevoCast 5; slug says L while current product data names M"
+    },
+    {
+      "file": "13-droneculture-cover.png",
+      "width": 1080,
+      "height": 1080,
+      "bytes": 107860,
+      "sha256": "8911e2d46d99439dce4f0ab8cf1d6a28b6329c5b33ee570118b9dd05b9c29639",
+      "publisher": "Drone Culture",
+      "sourcePage": "https://droneculture.com.au/products/xag%C2%AE-p150m-revocast-p5-container-cover",
+      "imageUrl": "https://cdn.shopify.com/s/files/1/0827/8055/3442/files/xag-p150m-revocast-p5-container-cover-3983138.png?v=1788438128",
+      "kind": "dealer component image in branded graphic",
+      "use": "Isolated cover oblique/top: perimeter, raised ridge, handle and latch cutouts; soft image, supporting evidence only.",
+      "priority": "supporting",
+      "generationEvidence": "Product title explicitly P150M RevoCast P5 Container Cover"
+    }
+  ]
+}

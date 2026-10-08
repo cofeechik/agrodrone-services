@@ -1,0 +1,9 @@
+{
+  "checked_in": "Connected Blender 5.2 scene RevoCast 5 | exterior v01",
+  "scope": "Evaluated exterior hopper shell vs four landing tubes only",
+  "method": "BVH triangle overlap; 101 tube-center samples per leg, nearest shell distance minus 19 mm tube radius",
+  "landing_tubes_checked": 4,
+  "surface_intersections": [0, 0, 0, 0],
+  "minimum_sampled_clearance_mm": 18.091627717018127,
+  "is_aircraft_mounting_certification": false
+}

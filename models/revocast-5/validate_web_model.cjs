@@ -1,0 +1,26 @@
+const {createRequire}=require('node:module');
+const path=require('node:path');const fs=require('node:fs');
+const load=createRequire(path.resolve(process.argv[2],'package.json'));
+const {NodeIO, getBounds}=load('@gltf-transform/core');
+const {ALL_EXTENSIONS}=load('@gltf-transform/extensions');
+const {MeshoptDecoder}=load('meshoptimizer');
+const validator=load('gltf-validator');
+(async()=>{
+ await MeshoptDecoder.ready;
+ const io=new NodeIO().registerExtensions(ALL_EXTENSIONS).registerDependencies({'meshopt.decoder':MeshoptDecoder});
+ const asset=path.join(__dirname,'revocast-5-v01-web.glb');const doc=await io.read(asset);
+ const nodes=doc.getRoot().listNodes();const scene=doc.getRoot().listScenes()[0];
+ const bounds=getBounds(scene);const dimensions=bounds.max.map((v,i)=>(v-bounds.min[i])*1000);
+ const expected=[1119,743,1012];
+ if(dimensions.some((v,i)=>Math.abs(v-expected[i])>2))throw Error('Wrong exported dimensions: '+dimensions);
+ const pivot=(role)=>nodes.filter(n=>n.getExtras().animation_role===role);
+ if(pivot('lid_open').length!==2||pivot('spreader_spin').length!==1)throw Error('Lost animation pivots');
+ const disc=pivot('spreader_spin')[0];const motorNodes=nodes.filter(n=>/DISC.*Polymer/.test(n.getName()));
+ const stationary=nodes.filter(n=>/FEEDER.*Polymer/.test(n.getName()));
+ if(!stationary.length||!motorNodes.length)throw Error('Lost rotating/stationary separation');
+ let triangles=0;for(const m of doc.getRoot().listMeshes())for(const p of m.listPrimitives())triangles+=(p.getIndices()?.getCount()||p.getAttribute('POSITION').getCount())/3;
+ const issues=(await validator.validateBytes(new Uint8Array(fs.readFileSync(asset)),{maxIssues:40})).issues;
+ if(issues.numErrors||issues.numWarnings)throw Error(JSON.stringify(issues));
+ const result={bytes:fs.statSync(asset).size,nodes:nodes.length,meshes:doc.getRoot().listMeshes().length,triangles,dimensions_gltf_mm:dimensions,lid_pivots:pivot('lid_open').map(n=>n.getName()),spreader_pivot:disc.getName(),spreader_axis:disc.getExtras().axis_in_gltf,errors:issues.numErrors,warnings:issues.numWarnings,informational_messages:issues.numInfos,meshopt_extension_validation:'Compression extension not supported by Khronos validator; decoded asset bounds/hierarchy checked separately',aircraft_mounting_verified:false};
+ fs.writeFileSync(path.join(__dirname,'web-validation.json'),JSON.stringify(result,null,2));console.log(JSON.stringify(result,null,2));
+})().catch(e=>{console.error(e);process.exitCode=1;});

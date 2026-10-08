@@ -1,0 +1,40 @@
+{
+  "revision": "v01",
+  "model": "M4RCP115BH",
+  "dimensions_mm": [
+    1118.99995803833,
+    1011.9999647140503,
+    742.9999802261591
+  ],
+  "nominal_dimensions_mm": [
+    1119,
+    1012,
+    743
+  ],
+  "triangles_before_compression": 156992,
+  "objects": 307,
+  "lid_pivots": [
+    "RevoCast | left LID_HINGE",
+    "RevoCast | right LID_HINGE"
+  ],
+  "spreader_pivot": "RevoCast | DISC",
+  "spreader_axis_blender": [
+    0,
+    1,
+    0
+  ],
+  "spreader_axis_gltf": [
+    0,
+    0,
+    -1
+  ],
+  "attachment_root": "REVOCAST_ATTACHMENT_ROOT",
+  "origin": "Top alignment plane at Z=0; front -Y; geometry below plane",
+  "limitations": [
+    "Exterior photo reconstruction, not factory CAD",
+    "Small coordinates estimated",
+    "No verified useful internal volume",
+    "Aircraft fit and clearance need separate mounting QA",
+    "No operational animation or RPM simulation shipped"
+  ]
+}

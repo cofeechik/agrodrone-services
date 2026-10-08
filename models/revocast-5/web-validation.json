@@ -1,0 +1,26 @@
+{
+  "bytes": 1102860,
+  "nodes": 36,
+  "meshes": 26,
+  "triangles": 156992,
+  "dimensions_gltf_mm": [
+    1118.999982252717,
+    743.0131947914032,
+    1012.0414849997354
+  ],
+  "lid_pivots": [
+    "RevoCast | left LID_HINGE.001",
+    "RevoCast | right LID_HINGE.001"
+  ],
+  "spreader_pivot": "RevoCast | DISC.001",
+  "spreader_axis": [
+    0,
+    0,
+    -1
+  ],
+  "errors": 0,
+  "warnings": 0,
+  "informational_messages": 7,
+  "meshopt_extension_validation": "Compression extension not supported by Khronos validator; decoded asset bounds/hierarchy checked separately",
+  "aircraft_mounting_verified": false
+}
