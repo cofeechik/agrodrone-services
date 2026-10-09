@@ -3,113 +3,11 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Опрыскивание посевов, внесение удобрений и семян с помощью XAG P150 MAX. Обсудите участок и запросите расчёт работ в WhatsApp.">
-  <meta name="theme-color" content="#ffffff">
-  <title>Агродрон — обработка полей на XAG P150 MAX</title>
-  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-  <link rel="preload" href="assets/golos-variable.ttf" as="font" type="font/ttf" crossorigin>
-  <link rel="stylesheet" href="styles.css">
-  <script src="app.js" defer></script>
+  <meta http-equiv="refresh" content="0; url=prototype.html">
+  <title>AGRODRON — полёт над вашим полем</title>
+  <script>location.replace('./prototype.html' + location.search + location.hash);</script>
 </head>
 <body>
-  <svg class="icon-definitions" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><symbol id="arrow" viewBox="0 0 24 24"><path d="M4 12h15m-6-6 6 6-6 6"/></symbol></svg>
-  <a class="skip-link" href="#main">Перейти к содержимому</a>
-  <header class="header">
-    <div class="container header-inner">
-      <a class="brand" href="#top" aria-label="Агродрон, начало страницы">
-        <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M3 9h26M3 16h19M3 23h12"/><circle cx="28" cy="23" r="3"/></svg>
-        АГРОДРОН
-      </a>
-      <button class="menu-toggle" type="button" aria-controls="navigation" aria-expanded="false">Меню <span class="menu-mark" aria-hidden="true"></span></button>
-      <nav id="navigation" aria-label="Основное меню">
-        <a href="#services">Услуги</a><a href="#equipment">Техника</a><a href="#process">Порядок работы</a><a href="#contact">Контакты</a>
-      </nav>
-      <a class="header-contact" href="#contact">Запросить расчёт <svg class="icon " aria-hidden="true"><use href="#arrow"/></svg></a>
-    </div>
-  </header>
-  <noscript><style>.request-form,.menu-toggle{display:none}#navigation{display:flex}.header{position:static}</style></noscript>
-  <main id="main">
-    <section id="top" class="hero container" aria-labelledby="hero-title">
-      <div class="hero-copy">
-        <h1 id="hero-title">Обработка полей<br>агродронами</h1>
-        <p class="hero-description">Опрыскиваем посевы, вносим удобрения и семена с помощью XAG P150 MAX.</p>
-        <div class="hero-actions"><a class="button" href="#contact">Запросить расчёт <svg class="icon " aria-hidden="true"><use href="#arrow"/></svg></a><a class="text-link" href="#services">Посмотреть услуги <svg class="icon icon-down" aria-hidden="true"><use href="#arrow"/></svg></a></div>
-        <p class="hero-note">Без колеи от колёс и уплотнения почвы.</p>
-      </div>
-      <figure class="hero-machine">
-        <div class="machine-frame"><img src="assets/p150-product.png" alt="XAG P150 MAX с четырьмя винтами и баком RevoSpray 5" width="1200" height="1200" fetchpriority="high"></div>
-        <figcaption><span>XAG P150 MAX</span><span>Модуль RevoSpray 5</span></figcaption>
-      </figure>
-    </section>
-
-    <section id="services" class="section container" aria-labelledby="services-title">
-      <div class="section-heading"><div><h2 id="services-title">Работы на вашем участке</h2></div><p>Для расчёта нужны площадь, культура<br class="desktop-break"> и расположение поля.</p></div>
-      <div class="primary-services">
-        <article class="service service-primary">
-          <div class="service-heading"><h3>Опрыскивание</h3><span class="service-tag">RevoSpray 5</span></div>
-          <div class="service-photo"><img src="assets/service-spray.jpg" alt="XAG P150 MAX распыляет раствор над посадками" width="1500" height="2390" loading="lazy" decoding="async"></div>
-          <div class="service-body"><p>Внесение средств защиты растений и листовых подкормок над посевами, садами и виноградниками.</p><a class="text-link" href="#contact" data-service="Опрыскивание">Запросить расчёт <svg class="icon " aria-hidden="true"><use href="#arrow"/></svg></a></div>
-        </article>
-        <article class="service service-primary">
-          <div class="service-heading"><h3>Удобрения и посев</h3><span class="service-tag">RevoCast 5</span></div>
-          <div class="service-photo spread-photo"><img src="assets/service-spread.jpg" alt="XAG P150 MAX со сменным бункером разбрасывает гранулы над посадками" width="1500" height="2400" loading="lazy" decoding="async"></div>
-          <div class="service-body"><p>Разбрасывание гранулированных удобрений, семян трав, риса, рапса и сидератов.</p><a class="text-link" href="#contact" data-service="Удобрения и посев">Запросить расчёт <svg class="icon " aria-hidden="true"><use href="#arrow"/></svg></a></div>
-        </article>
-      </div>
-      <p class="photo-credit">Фото производителя XAG · демонстрация работы техники</p>
-      <div class="secondary-services">
-        <article class="service service-secondary"><h3>Доставка грузов</h3><p>Перевозка саженцев, удобрений и урожая на склонах и участках без подъездной дороги.</p><a class="text-link" href="#contact" data-service="Доставка грузов">Обсудить маршрут <svg class="icon " aria-hidden="true"><use href="#arrow"/></svg></a></article>
-        <article class="service service-secondary"><h3>Карты полей</h3><p>Съёмка границ и рельефа встроенной камерой для подготовки маршрута обработки.</p><a class="text-link" href="#contact" data-service="Карты полей">Обсудить съёмку <svg class="icon " aria-hidden="true"><use href="#arrow"/></svg></a></article>
-      </div>
-    </section>
-
-    <section id="equipment" class="equipment-section" aria-labelledby="equipment-title">
-      <div class="container equipment-layout">
-        <div class="equipment-intro"><h2 id="equipment-title">XAG P150 MAX</h2><p>Платформа со сменными модулями для жидких растворов, гранул, грузов и съёмки.</p><figure class="field-figure"><img src="assets/hero-field.jpg" alt="XAG P150 MAX в полёте над полем; все четыре винта видны целиком" width="3840" height="1600" loading="lazy" decoding="async"><figcaption>Фото техники: XAG и XAG Australia</figcaption></figure></div>
-        <div class="equipment-data"><h3>Рабочие параметры</h3><dl class="specifications"><div><dt>Полезная нагрузка</dt><dd>до 80 <span>кг</span></dd></div><div><dt>Бак для раствора</dt><dd>80 <span>л</span></dd></div><div><dt>Бункер для гранул</dt><dd>115 <span>л</span></dd></div><div><dt>Точность с RTK <small>спутниковой коррекцией</small></dt><dd>±10 <span>см</span></dd></div></dl><p class="spec-note">Параметры зависят от комплектации. Настройки для участка согласуем с учётом культуры, нормы внесения, рельефа и погоды.</p><a class="source-link" href="https://www.xa.com/en/p150max" target="_blank" rel="noopener noreferrer">Все характеристики на сайте XAG <svg class="icon icon-out" aria-hidden="true"><use href="#arrow"/></svg></a></div>
-      </div>
-    </section>
-
-    <section id="process" class="section container" aria-labelledby="process-title">
-      <div class="section-heading"><div><h2 id="process-title">Как заказать обработку</h2></div></div>
-      <ol class="process-list">
-        <li><span class="step-number">01</span><div><h3>Пришлите данные участка</h3><p>Площадь, культуру, расположение и нужный вид работ.</p></div></li>
-        <li><span class="step-number">02</span><div><h3>Согласуем стоимость</h3><p>Уточним норму внесения, препятствия и условия подъезда.</p></div></li>
-        <li><span class="step-number">03</span><div><h3>Выберем дату выезда</h3><p>Учтём погоду и готовность хозяйства к обработке.</p></div></li>
-        <li><span class="step-number">04</span><div><h3>Выполним работы</h3><p>Оператор подготовит маршрут и проконтролирует полёт.</p></div></li>
-      </ol>
-    </section>
-
-    <section class="faq-section container" aria-labelledby="faq-title">
-      <div><h2 id="faq-title">Перед выездом</h2></div>
-      <div class="faq-list">
-        <details><summary>От чего зависит стоимость?</summary><div class="faq-answer"><p>От площади, культуры, вида работ, нормы внесения и удалённости участка. Пришлите эти данные для расчёта.</p></div></details>
-        <details><summary>Можно работать после дождя?</summary><div class="faq-answer"><p>Дрону не нужно заезжать в поле. Время обработки выбирают с учётом ветра, температуры, состояния культуры и требований к препарату.</p></div></details>
-        <details><summary>Кто подбирает препарат и норму?</summary><div class="faq-answer"><p>Препарат и норму согласуют с агрономом хозяйства. Настройки дрона подбирают под согласованную задачу.</p></div></details>
-      </div>
-    </section>
-
-    <section id="contact" class="contact-section" aria-labelledby="contact-title">
-      <div class="container contact-layout">
-        <div class="contact-copy"><h2 id="contact-title">Запросить расчёт</h2><p>Укажите участок и вид работ. В WhatsApp можно отправить карту поля и уточнить условия выезда.</p>
-          <div class="contact-person"><span>Бурабаев Сайранбек</span><a class="phone-link" href="tel:+77477386296">+7 747 738 62 96</a><a class="whatsapp-link" href="https://wa.me/77477386296" target="_blank" rel="noopener noreferrer">Написать в WhatsApp <svg class="icon icon-out" aria-hidden="true"><use href="#arrow"/></svg></a></div>
-          <div class="contact-person"><span>Асанов Данияр</span><a class="phone-link" href="tel:+77051507557">+7 705 150 75 57</a><a class="whatsapp-link" href="https://wa.me/77051507557" target="_blank" rel="noopener noreferrer">Написать в WhatsApp <svg class="icon icon-out" aria-hidden="true"><use href="#arrow"/></svg></a></div>
-          <noscript><p>Для формы нужен JavaScript. Вы можете написать по ссылкам WhatsApp выше.</p></noscript>
-        </div>
-        <form id="request-form" class="request-form">
-          <h3>Данные для расчёта</h3>
-          <p class="form-intro">Сообщение получит Бурабаев Сайранбек. Обязательные поля отмечены ниже.</p>
-          <label for="service">Услуга <span>обязательно</span></label><select id="service" name="service" required><option value="">Выберите услугу</option><option>Опрыскивание</option><option>Удобрения и посев</option><option>Доставка грузов</option><option>Карты полей</option></select>
-          <div class="form-row"><div><label for="area">Площадь, га <span id="area-required">необязательно</span></label><input id="area" name="area" type="number" inputmode="decimal" aria-describedby="area-hint" min="0.1" step="0.1" placeholder="Например, 150"><small id="area-hint">Для доставки можно пропустить</small></div><div><label for="crop">Культура или груз <span id="crop-required">необязательно</span></label><input id="crop" name="crop" pattern=".*\S.*" maxlength="120" placeholder="Например, пшеница"></div></div>
-          <label for="location">Расположение участка <span>обязательно</span></label><input id="location" name="location" required pattern=".*\S.*" maxlength="200" placeholder="Район или координаты">
-          <label for="note">Дополнительные сведения <span>необязательно</span></label><textarea id="note" name="note" rows="2" maxlength="1000" placeholder="Сроки, препарат, особенности участка"></textarea>
-          <button class="button" type="submit">Открыть сообщение в WhatsApp <svg class="icon icon-out" aria-hidden="true"><use href="#arrow"/></svg></button><p class="form-note">Сайт только готовит текст. Нажмите «Отправить» в WhatsApp, чтобы обратиться к нам.</p>
-          <p id="form-status" class="form-status" role="status" aria-live="polite" aria-atomic="true"></p>
-          <a id="whatsapp-retry" class="text-link retry-link" target="_blank" rel="noopener noreferrer" hidden>Открыть подготовленное сообщение <svg class="icon icon-out" aria-hidden="true"><use href="#arrow"/></svg></a>
-        </form>
-      </div>
-    </section>
-  </main>
-  <footer class="footer"><div class="container footer-inner"><a class="brand" href="#top">АГРОДРОН</a><p>Услуги агродронами · XAG P150 MAX</p><a href="#top">Наверх <svg class="icon icon-up" aria-hidden="true"><use href="#arrow"/></svg></a><span>© 2026</span></div></footer>
+  <p><a href="prototype.html">Открыть сайт AGRODRON</a></p>
 </body>
 </html>
