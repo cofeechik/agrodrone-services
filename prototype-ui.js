@@ -168,8 +168,18 @@
     isolationButton.textContent = isolation ? 'Показать остальной дрон' : 'Выделить выбранную часть';
     window.dispatchEvent(new CustomEvent('drone:part', { detail: { part: activePart, isolation } }));
   }
+  const partGroupButtons=[...document.querySelectorAll('[data-part-group]')];
+  function setPartGroup(group){
+    partGroupButtons.forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.partGroup===group)));
+    document.querySelectorAll('[data-part]').forEach(button=>{button.hidden=button.dataset.group!==group;});
+  }
+  partGroupButtons.forEach(button=>button.addEventListener('click',()=>{
+    const first=[...document.querySelectorAll('button[data-part]')].find(part=>part.dataset.group===button.dataset.partGroup);
+    if(first)first.click();
+  }));
   document.querySelectorAll('button[data-part]').forEach(button => button.addEventListener('click', () => {
     activePart = button.dataset.part; isolation = true;
+    setPartGroup(button.dataset.group);
     if(activePart==='navigation'){navigationHardware=true;navigationModeButton.textContent='Посмотреть сканирование';navigationModeButton.setAttribute('aria-pressed','true');window.dispatchEvent(new CustomEvent('drone:navigation-mode',{detail:'hardware'}));}
     document.querySelectorAll('button[data-part]').forEach(b => b.setAttribute('aria-pressed', String(b === button)));
     const item = parts[activePart];
@@ -186,6 +196,7 @@
     preferences();
     publishPart();
   }));
+  document.querySelectorAll('.mobile-nav a').forEach(link=>link.addEventListener('click',()=>link.closest('details').open=false));
   isolationButton.addEventListener('click', () => { isolation = !isolation; publishPart(); });
   function preferences() {
     const r=document.querySelector('#machine').getBoundingClientRect();
