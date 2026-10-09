@@ -11,7 +11,7 @@
     spray: { value: '32 <span>л/мин</span>', title: 'Центробежные распылители', description: 'Два распылителя под задними лучами дозируют раствор и формируют каплю. Подсвечены распылители и их наружные подводящие шланги.', stats: [['46 л/мин','с комплектом из четырёх форсунок'],['60–500 мкм','регулируемый размер капли'],['5–10 м','ширина обработки']] },
     rotors: { value: '1600 <span>мм</span>', title: 'Карбоновые винты', description: 'Четыре складных винта создают подъёмную силу и нисходящий поток для проникновения раствора в растительный полог.', stats: [['4 × 63″','диаметр и количество винтов'],['до 80 кг','полезная нагрузка всей платформы'],['до 20 м/с','скорость платформы, не обороты винтов']] },
     battery: { value: '1050 <span>Вт·ч</span>', title: 'Аккумулятор B141050', description: 'Быстрая смена батарей сокращает паузы между вылетами. В режиме одного аккумулятора бак ограничен 50 л, нагрузка RevoCast — 40 кг.', stats: [['≈7 мин','30–95% с двумя зарядными устройствами'],['≈12 мин','30–95% с одним CM13600S'],['до 1500','циклов; гарантия — 1500 циклов или 12 месяцев']] },
-    navigation: { value: '±10 <span>см</span>', title: 'Навигация и препятствия', description: 'Выберите участок для демонстрационного прохода или откройте датчики дрона: две вертикальные антенны связи и поперечный корпус 4D-радара. Внутренняя электроника не моделировалась.', stats: [['1,5–100 м','дальность обнаружения 4D-радара'],['до 20 га','картографирование за один полёт'],['XRTK 7','мобильная станция для RTK']] },
+    navigation: { value: '±10 <span>см</span>', title: 'Навигация и препятствия', description: '4D-радар обнаруживает препятствия, а две антенны поддерживают точное позиционирование. Через половину крышки видна антенная решётка по изображению XAG в презентации; это не заводской разрез. Карты RealTerra строятся по фотографиям, не лидаром.', stats: [['1,5–100 м','дальность обнаружения 4D-радара'],['до 20 га','картографирование за один полёт'],['XRTK 7','мобильная станция для RTK']] },
     spread: { value: '115 <span>л</span>', title: 'Бункер RevoCast 5', description: 'Сменный модуль для семян и удобрений. В 3D показана внешняя реконструкция RevoCast 5 с бункером, шнековой подачей и разбрасывающим диском.', stats: [['до 300 кг/мин','подача; испытания на комплексном удобрении'],['5–9 м','ширина разбрасывания'],['1–10 мм','размер гранул']] }
   };
   const stage = document.querySelector('#drone-stage');
@@ -20,10 +20,19 @@
   let activePart = 'all';
   let isolation = true;
   const isolationButton = document.querySelector('#isolation-toggle');
-  const navigationModeButton=document.createElement('button');navigationModeButton.type='button';navigationModeButton.className='viewer-mode-button';navigationModeButton.hidden=true;navigationModeButton.textContent='Датчики дрона';navigationModeButton.setAttribute('aria-pressed','false');document.querySelector('.machine-airspace').append(navigationModeButton);
-  let navigationHardware=false;
+  const navigationModeButton=document.createElement('button');navigationModeButton.type='button';navigationModeButton.className='viewer-mode-button';navigationModeButton.hidden=true;navigationModeButton.textContent='Датчики дрона';navigationModeButton.setAttribute('aria-pressed','false');document.querySelector('#part-description').after(navigationModeButton);
+  let navigationHardware=true;
+  navigationModeButton.textContent='Посмотреть сканирование';navigationModeButton.setAttribute('aria-pressed','true');
+  const navigationMobile=matchMedia('(max-width: 700px)');
+  function positionNavigationButton(){
+    const focused=document.activeElement===navigationModeButton;
+    if(navigationMobile.matches)document.querySelector('.machine-airspace').before(navigationModeButton);
+    else document.querySelector('#part-description').after(navigationModeButton);
+    if(focused)navigationModeButton.focus({preventScroll:true});
+  }
+  navigationMobile.addEventListener('change',positionNavigationButton);positionNavigationButton();
   navigationModeButton.addEventListener('click',()=>{
-    navigationHardware=!navigationHardware;navigationModeButton.textContent=navigationHardware?'Карта и маршрут':'Датчики дрона';navigationModeButton.setAttribute('aria-pressed',String(navigationHardware));
+    navigationHardware=!navigationHardware;navigationModeButton.textContent=navigationHardware?'Посмотреть сканирование':'Вернуться к датчикам';navigationModeButton.setAttribute('aria-pressed',String(navigationHardware));
     window.dispatchEvent(new CustomEvent('drone:navigation-mode',{detail:navigationHardware?'hardware':'map'}));
   });
   const service = document.querySelector('#request-service');
@@ -161,6 +170,7 @@
   }
   document.querySelectorAll('button[data-part]').forEach(button => button.addEventListener('click', () => {
     activePart = button.dataset.part; isolation = true;
+    if(activePart==='navigation'){navigationHardware=true;navigationModeButton.textContent='Посмотреть сканирование';navigationModeButton.setAttribute('aria-pressed','true');window.dispatchEvent(new CustomEvent('drone:navigation-mode',{detail:'hardware'}));}
     document.querySelectorAll('button[data-part]').forEach(b => b.setAttribute('aria-pressed', String(b === button)));
     const item = parts[activePart];
     document.querySelector('#part-panel').dataset.part = activePart;

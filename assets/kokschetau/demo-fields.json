@@ -1,0 +1,8 @@
+{
+  "note": "Demonstration parcels, not cadastral boundaries. Placement checked against OSM roads/water/settlements and research-only Esri World Imagery 2026-10-09. No imagery is shipped.",
+  "fields": [
+    {"name":"А","lon":69.298,"lat":53.423,"w":0.07,"d":0.05},
+    {"name":"Б","lon":69.304,"lat":53.394,"w":0.07,"d":0.05},
+    {"name":"В","lon":69.521,"lat":53.337,"w":0.07,"d":0.05}
+  ]
+}

@@ -101,8 +101,13 @@ h3{font-size:28px}
 .navigation-viewer canvas{position:absolute;inset:0;width:100%;height:100%;cursor:crosshair;touch-action:pan-y}
 .navigation-heading{position:absolute;top:20px;left:20px;right:20px;display:flex;justify-content:space-between;gap:12px;font-size:14px;color:var(--ink);pointer-events:none}
 .navigation-coordinate{font-size:12px;font-variant-numeric:tabular-nums}
-.viewer-mode-button{position:absolute;top:50px;right:16px;z-index:8;border:1px solid var(--line);background:var(--paper);padding:8px 12px;min-height:44px;font-size:13px}
+.viewer-mode-button{position:relative;border:1px solid var(--line);background:var(--paper);padding:8px 12px;min-height:44px;font-size:13px;margin-top:16px;max-width:100%}
 .viewer-mode-button:hover{border-color:var(--accent);color:var(--accent)}
+@media(max-width:700px){
+ .machine-layout>.viewer-mode-button{grid-column:1;grid-row:2;justify-self:start;margin-top:0}
+ .machine-layout:has(>.viewer-mode-button:not([hidden])) .machine-airspace{grid-row:3}
+ .machine-layout:has(>.viewer-mode-button:not([hidden])) .part-panel{grid-row:4}
+}
 .navigation-controls{position:absolute;left:16px;right:16px;bottom:12px;background:var(--paper);padding:12px 16px;pointer-events:auto}
 .navigation-fields{display:flex;gap:8px;flex-wrap:wrap}
 .navigation-fields button,.navigation-back{background:transparent;border:1px solid var(--line);padding:8px 12px;min-height:44px;font-size:13px}

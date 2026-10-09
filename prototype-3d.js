@@ -4,6 +4,7 @@ import { MeshoptDecoder } from './assets/vendor/three/meshopt_decoder.module.js'
 import { createStudioEnvironment, tuneSurface } from './prototype-studio.js';
 import { createFieldStudy, createApplicationParticles } from './prototype-field.js';
 import { createNavigationViewer } from './prototype-navigation.js';
+import { refineNavigationHardware } from './prototype-navigation-hardware.js';
 
 const stage = document.querySelector('#drone-stage');
 const canvas = document.querySelector('#drone-canvas');
@@ -36,7 +37,7 @@ let renderedSection = null, shadowPoseKey = '';
 let flightBank = 0, inputBank = 0, bankInputTime = 0, lastInputX = null, lastInputSection = null;
 let pendingBank = false, bankRenderTime = 0;
 let activeScenario='spray', payload, sprayAssembly, landingAssembly, payloadReady=false;
-let cargo, cargoReady=false, navigationViewer, navigationMode='map';
+let cargo, cargoReady=false, navigationViewer, navigationMode='hardware';
 let introStarted=-1, introElapsed=0, applicationFlightStart=0, applicationFlight='', nextScenario=null;
 let cargoPickupStart=-1, cargoPickupDone=false, cargoBox, cargoHook=[],cargoRope=[];
 let payloadMount, aircraftContent, aircraftCenter, fieldStudy, sprayParticles, spreadParticles;
@@ -100,8 +101,8 @@ function desiredPose() {
       w:width*(mobile.matches?.96:.87), h:Math.max(90,bottom-top),
       rx:.06+.05*Math.sin(t*Math.PI),ry:mix(-.28,-.55,t),rz:-.18*Math.sin(t*Math.PI),zoom:1};
     if(introStarted>=0&&!reduced.matches){
-      const arrival=clamp(introElapsed/.85),settle=1-Math.pow(1-arrival,3);
-      pose.zoom=.12+.88*settle;pose.x+=Math.sin(arrival*Math.PI*2)*width*.13*(1-arrival);
+      const arrival=clamp(introElapsed/2.3),settle=smooth(arrival);
+      pose.zoom=.035+.965*settle;pose.x+=Math.sin(arrival*Math.PI*2)*width*.13*(1-arrival);
       pose.y+=height*.06*(1-settle);pose.rz+=Math.sin(arrival*Math.PI*2)*.28*(1-arrival);pose.ry+=.4*(1-settle);
       if(arrival>=1){introStarted=-1;hero.classList.remove('is-arriving');}
     }
@@ -116,7 +117,7 @@ function desiredPose() {
     const entry = reduced.matches ? 1 : smooth(clamp((innerHeight*.45-machine.getBoundingClientRect().top)/Math.max(1,innerHeight*.45-headerHeight)));
     pose = {...detail,rx:activePart==='battery'?.22:activePart==='rotors'?.4:.03,
       x:detail.x-(1-entry)*(width+detail.w)*1.2,
-      ry:activePart==='spray'?2.65:activePart==='tank'?-.4:activePart==='spread'?-2.35:-.2,rz:0,zoom:['all','spread'].includes(activePart)?.95:.9};
+      ry:activePart==='spray'?2.65:activePart==='tank'?-.4:activePart==='spread'?-2.35:activePart==='navigation'?.25:-.2,rz:0,zoom:['all','spread'].includes(activePart)?.95:.9};
   }
   targetFocus = !heroVisible && machineVisible && isolate && ['tank','spray','battery','navigation','rotors','spread'].includes(activePart) ? 1 : 0;
   const applicationReady=stage.dataset.state==='ready'&&!contextLost;
@@ -152,7 +153,8 @@ function applyFocus() {
     const rotatingBlade=stage.dataset.spinning==='true'&&/Carbon composite blades/.test(material.name);
     const weight=mesh.userData.payload?assemblyWeights[mesh.userData.payload]:1;
     mesh.visible=weight>.002&&!mesh.userData.hiddenRope;
-    const wantedOpacity = (selected ? mesh.userData.baseOpacity : mix(mesh.userData.baseOpacity, .025, currentFocus))*weight;
+    const selectedOpacity=mesh.userData.inspectionCover&&activePart==='navigation'?mix(mesh.userData.baseOpacity,.09,currentFocus):mesh.userData.baseOpacity;
+    const wantedOpacity = (selected ? selectedOpacity : mix(mesh.userData.baseOpacity, .025, currentFocus))*weight;
     const fading=weight<.998;
     if (material.transparent !== (ghost || fading || rotatingBlade || mesh.userData.baseTransparent)) {
       material.transparent = ghost || fading || rotatingBlade || mesh.userData.baseTransparent;
@@ -161,8 +163,8 @@ function applyFocus() {
     material.opacity = wantedOpacity;
     material.depthWrite = ghost || fading || rotatingBlade ? false : mesh.userData.baseDepthWrite;
     mesh.renderOrder = ghost ? 0 : 1;
-    mesh.castShadow = !ghost && !/Carbon composite blades/.test(material.name);
-    mesh.receiveShadow = !ghost;
+    mesh.castShadow = !ghost && !mesh.userData.inspectionCover && !/Carbon composite blades/.test(material.name);
+    mesh.receiveShadow = !ghost && !mesh.name.includes('175 visible');
   }
   stage.dataset.part = activePart;
   stage.dataset.isolated = String(currentFocus > .95 && isolate && activePart !== 'all');
@@ -534,6 +536,7 @@ async function init() {
       fetch('./models/xag-p150-max/web-model-manifest-v07.json').then(r => { if (!r.ok) throw new Error('Manifest unavailable'); return r.json(); })
     ]);
     const content = gltf.scene;
+    refineNavigationHardware(content);
     const navigationTemplate=content.clone(true);
     navigationTemplate.traverse(node=>{if(node.isMesh){node.material=node.material.clone();node.castShadow=false;}});
     navigationViewer=createNavigationViewer(navigationTemplate);
