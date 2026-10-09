@@ -9,8 +9,16 @@
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="preload" href="assets/golos-variable.ttf" as="font" type="font/ttf" crossorigin>
   <link rel="stylesheet" href="prototype.css">
-  <script>window.__agroIntroStart=performance.now();addEventListener('scroll',()=>document.querySelector('#drone-stage')?.setAttribute('data-intro-complete',''),{once:true,passive:true})</script>
   <script type="importmap">{"imports":{"three":"./assets/vendor/three/three.module.js"}}</script>
+  <link rel="modulepreload" href="assets/vendor/three/three.module.js">
+  <link rel="preload" href="models/revocast-5/xag-p150-max-v08-configurable-web.glb" as="fetch" crossorigin>
+  <script>
+    if(!matchMedia('(prefers-reduced-motion: reduce)').matches&&!location.hash){
+      document.documentElement.classList.add('intro-pending');
+      window.__agroIntroTimeout=setTimeout(()=>document.documentElement.classList.remove('intro-pending'),15000);
+      addEventListener('scroll',()=>{if(scrollY>10){document.documentElement.classList.remove('intro-pending');document.querySelector('#flight')?.classList.remove('is-arriving')}},{passive:true});
+    }
+  </script>
   <script src="prototype-ui.js" defer></script>
   <script type="module" src="prototype-3d.js"></script>
   <script type="module" src="prototype-motion.js"></script>

@@ -37,8 +37,9 @@ let renderedSection = null, shadowPoseKey = '';
 let flightBank = 0, inputBank = 0, bankInputTime = 0, lastInputX = null, lastInputSection = null;
 let pendingBank = false, bankRenderTime = 0;
 let activeScenario='spray', payload, sprayAssembly, landingAssembly, payloadReady=false;
-let cargo, cargoReady=false, navigationViewer, navigationMode='hardware';
+let cargo, cargoReady=false, navigationViewer, navigationSource, navigationMode='hardware';
 let introStarted=-1, introElapsed=0, applicationFlightStart=0, applicationFlight='', nextScenario=null;
+let supportScenesQueued=false;
 let cargoPickupStart=-1, cargoPickupDone=false, cargoBox, cargoHook=[],cargoRope=[];
 let payloadMount, aircraftContent, aircraftCenter, fieldStudy, sprayParticles, spreadParticles;
 let configuration='spray', configurationMoving=false;
@@ -104,7 +105,7 @@ function desiredPose() {
       const arrival=clamp(introElapsed/2.3),settle=smooth(arrival);
       pose.zoom=.035+.965*settle;pose.x+=Math.sin(arrival*Math.PI*2)*width*.13*(1-arrival);
       pose.y+=height*.06*(1-settle);pose.rz+=Math.sin(arrival*Math.PI*2)*.28*(1-arrival);pose.ry+=.4*(1-settle);
-      if(arrival>=1){introStarted=-1;stage.dataset.introComplete='';}
+      if(arrival>=1){introStarted=-1;hero.classList.remove('is-arriving');queueSupportScenes();}
     }
   } else if(inApplications){
     pose={...applicationAnchor,y:applicationAnchor.y-18,h:applicationAnchor.h*.96,rx:.11,ry:activeScenario==='spread'?2.65:activeScenario==='spray'?2.9:-.22,rz:0,zoom:1.08};
@@ -122,6 +123,7 @@ function desiredPose() {
   targetFocus = !heroVisible && machineVisible && isolate && ['tank','spray','battery','navigation','rotors','spread'].includes(activePart) ? 1 : 0;
   const applicationReady=stage.dataset.state==='ready'&&!contextLost;
   const navigating=inApplications&&activeScenario==='map'||!heroVisible&&machineVisible&&activePart==='navigation'&&navigationMode==='map';
+  if(navigating)prepareNavigationViewer();
   navigationViewer?.show(navigating?(inApplications?application:machineArea):null);
   const visible = heroVisible || !navigating&&(inApplications&&applicationReady&&(activeScenario!=='cargo'||cargoReady)&&(activeScenario!=='spread'||payloadReady) || !heroVisible&&machineVisible&&(activePart!=='spread'||applicationReady&&payloadReady));
   stage.classList.toggle('is-offscreen', !visible);
@@ -398,7 +400,7 @@ function render(time) {
   const wallDelta = previousTime ? (time - previousTime) / 1000 : 0;
   const dt = Math.min(wallDelta || 1 / 60, .3);
   previousTime = time;
-  if(introStarted>=0)introElapsed+=wallDelta||1/60;
+  if(introStarted>=0)introElapsed+=Math.min(wallDelta||1/60,1/30);
   if(applicationFlight==='out'&&time-applicationFlightStart>=220){activeScenario=nextScenario;nextScenario=null;applicationFlight='in';applicationFlightStart=time;boundsCache=null;}
   if(applicationFlight==='in'&&time-applicationFlightStart>=520)applicationFlight='';
   const { pose, visible } = desiredPose();
@@ -432,7 +434,7 @@ function render(time) {
   const nextFocus = sectionChanged || reduced.matches ? targetFocus : mix(currentFocus, targetFocus, easing);
   if (Math.abs(nextFocus - currentFocus) > .0005 || dirty) { currentFocus = nextFocus; applyFocus(); }
   if (Math.abs(currentFocus - targetFocus) > .001) unsettled = true;
-  if (model) {
+  if (model && stage.dataset.state==='ready') {
     updateApplications(dt,moving);
     updateCargoPickup(time);
     applyPose({...currentPose,rz:currentPose.rz+flightBank,rx:currentPose.rx+Math.abs(flightBank)*.25}, moving ? Math.sin(elapsed * 1.25) * (mobile.matches ? 3 : 5) : 0);
@@ -483,6 +485,7 @@ function render(time) {
         renderer.setScissorTest(true);
       }
       renderer.render(scene, camera);
+      stage.classList.add('is-ready');
       renderer.setScissorTest(false);
     }
   } else {
@@ -490,7 +493,7 @@ function render(time) {
     positionFallback(pose);
   }
   dirty = false;
-  if (moving && model || visible && (unsettled||configurationMoving||introStarted>=0)) frame = requestAnimationFrame(render);
+  if (moving && model && stage.dataset.state==='ready' || visible && (unsettled||configurationMoving||introStarted>=0)) frame = requestAnimationFrame(render);
   else previousTime = 0;
 }
 function positionFallback(pose){
@@ -500,11 +503,28 @@ function positionFallback(pose){
   fallback.style.transform=`rotate(${pose.rz||0}rad)`;
 }
 function fail() {
+  clearTimeout(window.__agroIntroTimeout);
+  document.documentElement.classList.remove('intro-pending');
+  hero.classList.remove('is-arriving');
+  introStarted=-1;
   stage.dataset.state = 'fallback';
   stage.classList.remove('is-ready');
   window.dispatchEvent(new Event('drone:error'));
   model = null;
   requestFrame();
+}
+function prepareNavigationViewer(){
+  if(navigationViewer||!navigationSource)return;
+  const template=navigationSource;
+  navigationSource=null;
+  template.traverse(node=>{if(node.isMesh){node.material=node.material.clone();node.castShadow=false;}});
+  navigationViewer=createNavigationViewer(template);
+}
+function queueSupportScenes(){
+  if(supportScenesQueued||stage.dataset.state!=='ready')return;
+  supportScenesQueued=true;
+  const idle=window.requestIdleCallback||((callback)=>setTimeout(callback,250));
+  idle(()=>{loadPayload();loadCargo();prepareNavigationViewer();warmInspectionPrograms();},{timeout:1500});
 }
 async function init() {
   if (location.protocol === 'file:') return;
@@ -539,9 +559,7 @@ async function init() {
     ]);
     const content = gltf.scene;
     refineNavigationHardware(content);
-    const navigationTemplate=content.clone(true);
-    navigationTemplate.traverse(node=>{if(node.isMesh){node.material=node.material.clone();node.castShadow=false;}});
-    navigationViewer=createNavigationViewer(navigationTemplate);
+    navigationSource=content.clone(true);
     content.updateMatrixWorld(true);
     const box = new THREE.Box3().setFromObject(content), center = box.getCenter(new THREE.Vector3());
     corners = [];
@@ -600,18 +618,28 @@ async function init() {
     for(const rotor of rotors)rotor.blur.visible=true;
     for(const mesh of meshes)if(/Carbon composite blades/.test(mesh.material.name)){mesh.material.transparent=true;mesh.material.opacity=.07;mesh.material.depthWrite=false;}
     await renderer.compileAsync(scene,camera);
+    // Upload geometry/textures and prepare the first shadow pass while the
+    // canvas is hidden. Only then start the original 3D arrival clock.
+    updateApplications(0,false);
+    applyPose(desiredPose().pose,0);
+    scene.updateMatrixWorld(true);
+    keyLight.shadow.updateMatrices(keyLight);
+    renderer.shadowMap.needsUpdate=true;
+    renderer.render(scene,camera);
+    await new Promise(resolve=>requestAnimationFrame(resolve));
+    clearTimeout(window.__agroIntroTimeout);
+    if(!reduced.matches&&scrollY<100&&document.documentElement.classList.contains('intro-pending')){
+      introElapsed=0;previousTime=0;introStarted=performance.now();hero.classList.add('is-arriving');
+    }
+    document.documentElement.classList.remove('intro-pending');
     stage.dataset.state = 'ready'; stage.dataset.rotors = String(rotors.length);
-    stage.classList.add('is-ready');
     window.dispatchEvent(new Event('drone:ready'));
     requestFrame();
-    loadPayload();
-    loadCargo();
-    const idle=window.requestIdleCallback||((callback)=>setTimeout(callback,250));
-    idle(()=>warmInspectionPrograms(),{timeout:1500});
+    if(introStarted<0)queueSupportScenes();
   } catch (error) { console.warn('3D preview unavailable:', error.message); fail(); }
 }
 window.addEventListener('scroll', () => {
-  if(introStarted>=0&&scrollY>10){introStarted=-1;stage.dataset.introComplete='';}
+  if(introStarted>=0&&scrollY>10){introStarted=-1;hero.classList.remove('is-arriving');queueSupportScenes();}
   // Sample input before drawing: missed GPU frames must not lose a reversal.
   const now=performance.now(), {pose,visible}=desiredPose(), section=stage.dataset.section;
   const previousX=lastInputSection===section ? lastInputX : renderedSection===section ? currentPose?.x : null;
@@ -641,7 +669,7 @@ window.addEventListener('drone:cargo-pickup',()=>{
 window.addEventListener('drone:error',()=>{if(stage.dataset.section==='uses')stage.classList.add('is-offscreen');});
 reduced.addEventListener('change', () => {
   previousTime=0;currentPose=null;
-  if(reduced.matches){introStarted=-1;stage.dataset.introComplete='';if(nextScenario){activeScenario=nextScenario;nextScenario=null;}applicationFlight='';if(cargoPickupStart>=0)cargoPickupStart=performance.now()-3200;}
+  if(reduced.matches){introStarted=-1;hero.classList.remove('is-arriving');document.documentElement.classList.remove('intro-pending');queueSupportScenes();if(nextScenario){activeScenario=nextScenario;nextScenario=null;}applicationFlight='';if(cargoPickupStart>=0)cargoPickupStart=performance.now()-3200;}
   requestFrame();
 });
 document.addEventListener('visibilitychange', () => {
@@ -650,8 +678,5 @@ document.addEventListener('visibilitychange', () => {
 });
 canvas.addEventListener('webglcontextlost', event => { event.preventDefault(); contextLost = true; cancelAnimationFrame(frame); frame = 0; stage.classList.remove('is-ready'); stage.dataset.state = 'fallback'; clipFallback(); requestFrame(); window.dispatchEvent(new Event('drone:error')); });
 canvas.addEventListener('webglcontextrestored', () => { contextLost = false; shadowPoseKey=''; if (model) { stage.classList.add('is-ready'); stage.dataset.state = 'ready'; window.dispatchEvent(new Event('drone:ready')); requestFrame(); } });
-stage.dataset.jsMotion='';
-if(!reduced.matches&&scrollY<=10){introElapsed=Math.min((performance.now()-(window.__agroIntroStart??performance.now()))/1000,2.3);introStarted=introElapsed<2.3?performance.now():-1;if(introStarted<0)stage.dataset.introComplete='';}
-else stage.dataset.introComplete='';
 resize();
 init();

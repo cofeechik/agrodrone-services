@@ -40,14 +40,13 @@ h3{font-size:28px}
 .flight-runway{position:absolute;left:var(--gutter);right:var(--gutter);bottom:26px;border-top:1px solid var(--line)}
 .drone-stage{position:fixed;inset:var(--header) 0 0;z-index:4;pointer-events:none;overflow:hidden}
 .drone-stage.is-offscreen{visibility:hidden}
-#drone-canvas{width:100%;height:100%;display:block;opacity:0;transition:opacity .45s ease}
+#drone-canvas{width:100%;height:100%;display:block;opacity:0}
 .drone-stage.is-ready #drone-canvas{opacity:1}
-.model-fallback{position:absolute;object-fit:contain;width:86%;height:58%;left:7%;top:10%;transform-origin:center;animation:fallback-arrival 2.3s cubic-bezier(.2,.72,.22,1) both}
-.model-fallback{opacity:1;transition:opacity .45s ease}
-.drone-stage.is-ready .model-fallback{opacity:0}
-@keyframes fallback-arrival{0%{transform:translate(18vw,8vh) scale(.035) rotate(18deg)}52%{transform:translate(-4vw,-2vh) scale(.62) rotate(-7deg)}100%{transform:none}}
-.drone-stage[data-intro-complete] .model-fallback{animation:none;transform:none}
-.drone-stage[data-js-motion] .model-fallback{animation:none}
+.model-fallback{position:absolute;object-fit:contain;width:86%;height:58%;left:7%;top:10%}
+.drone-stage.is-ready .model-fallback{display:none}
+.flight-heading,.flight-bottom{transition:opacity .4s ease,transform .5s cubic-bezier(.16,1,.3,1)}
+.intro-pending .flight-heading,.intro-pending .flight-bottom,.flight.is-arriving .flight-heading,.flight.is-arriving .flight-bottom{opacity:0;transform:translateY(12px);pointer-events:none}
+.intro-pending .model-fallback{visibility:hidden}
 .section{padding:80px var(--gutter);position:relative;scroll-margin-top:0}
 .section-top{display:flex;align-items:flex-end;justify-content:space-between;gap:40px;padding-bottom:30px}
 .section-top>p{color:var(--muted);font-size:17px;max-width:28ch}
