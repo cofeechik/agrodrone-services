@@ -4,7 +4,7 @@ const fs=require('node:fs'),assert=require('node:assert/strict');
  const browser=await chromium.launch({executablePath:'C:/Program Files/Google/Chrome/Application/chrome.exe',headless:true,args:['--no-proxy-server','--enable-webgl','--use-angle=swiftshader','--enable-unsafe-swiftshader']});
  try{
   const page=await browser.newPage({viewport:{width:1440,height:1000}}),errors=[];page.on('pageerror',e=>errors.push(e.message));
-  await page.route('**/prototype-3d.js',r=>{
+  await page.route('**/prototype-3d.js*',r=>{
    let body=fs.readFileSync('prototype-3d.js','utf8');body=body.replace('renderer.render(scene, camera);','renderer.render(scene, camera); if(introStarted>=0)(window.__arrival ||= []).push({at:performance.now(),progress:introElapsed/2.3,scale:model.scale.x,roll:model.rotation.z});');
    r.fulfill({contentType:'text/javascript',body});
   });

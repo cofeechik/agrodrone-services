@@ -1,18 +1,18 @@
 (() => {
   const scenarios = {
-    spray: { title: 'Опрыскивание', description: 'Внесение средств защиты растений и листовых подкормок над посевами, садами и виноградниками.', module: 'RevoSpray 5 · этот модуль показан в 3D', image: 'assets/service-spray.jpg', alt: 'XAG P150 MAX распыляет раствор над посадками', request: 'Рассчитать опрыскивание' },
-    spread: { title: 'Удобрения и посев', description: 'Разбрасывание гранулированных удобрений, семян трав, риса, рапса и сидератов.', module: 'RevoCast 5 · внешняя реконструкция сменного модуля в 3D', image: 'assets/service-spread.jpg', alt: 'XAG P150 MAX с бункером RevoCast разбрасывает гранулы', request: 'Рассчитать внесение' },
-    cargo: { title: 'Доставка грузов', description: 'Перевозка саженцев, удобрений и урожая на склонах и участках без подъездной дороги.', module: 'RevoSling · подвес укорочен; захват ящика — условная анимация, не схема работы подвеса', image: 'assets/service-cargo.jpg', alt: 'XAG P150 MAX с грузовой платформой перевозит груз', request: 'Обсудить маршрут' },
-    map: { title: 'Карты полей', description: 'Выберите участок в окрестностях Кокшетау и посмотрите демонстрационный проход со съёмкой. После полёта камера покажет покрытие и рельеф.', module: 'Настоящие карта и рельеф · границы участков и миссия демонстрационные', image: 'assets/mapping.png', alt: 'Интерфейс XAG с примером планирования полётного маршрута', request: 'Обсудить съёмку' }
+    spray: { title: 'Опрыскивание', description: 'Внесение средств защиты растений и листовых подкормок над посевами, садами и виноградниками.', module: 'RevoSpray 5', image: 'assets/service-spray.jpg', alt: 'XAG P150 MAX распыляет раствор над посадками', request: 'Рассчитать опрыскивание' },
+    spread: { title: 'Удобрения и посев', description: 'Разбрасывание гранулированных удобрений, семян трав, риса, рапса и сидератов.', module: 'RevoCast 5', image: 'assets/service-spread.jpg', alt: 'XAG P150 MAX с бункером RevoCast разбрасывает гранулы', request: 'Рассчитать внесение' },
+    cargo: { title: 'Доставка грузов', description: 'Перевозка саженцев, удобрений и урожая на склонах и участках без подъездной дороги.', module: 'RevoSling', image: 'assets/service-cargo.jpg', alt: 'XAG P150 MAX с грузовой платформой перевозит груз', request: 'Обсудить маршрут' },
+    map: { title: 'Карты полей', description: 'Съёмка участка и планирование маршрутов обработки. Выберите поле на карте, чтобы посмотреть, как дрон проходит его по заданному маршруту.', module: 'RealTerra', image: 'assets/mapping.png', alt: 'Интерфейс XAG для планирования полётного маршрута', request: 'Обсудить съёмку' }
   };
   const parts = {
     all: { value: '80 <span>кг</span>', title: 'Полезная нагрузка', description: 'Одна платформа для опрыскивания, внесения гранул, карт полей и перевозки грузов. Модуль выбирается под задачу.', stats: [['20 м/с','максимальная скорость платформы'],['13,8 м/с','максимум с RevoSling'],['IPX6K','защита от воды']] },
-    tank: { value: '80 <span>л</span>', title: 'Бак RevoSpray 5', description: 'Ёмкость для рабочего раствора. Выделен сам бак: распылители показаны отдельно во вкладке «Опрыскивание».', stats: [['80 л','объём при двух аккумуляторах'],['50 л','ограничение при одном аккумуляторе'],['RevoSpray 5','система внесения раствора']] },
-    spray: { value: '32 <span>л/мин</span>', title: 'Центробежные распылители', description: 'Два распылителя под задними лучами дозируют раствор и формируют каплю. Подсвечены распылители и их наружные подводящие шланги.', stats: [['46 л/мин','с комплектом из четырёх форсунок'],['60–500 мкм','регулируемый размер капли'],['5–10 м','ширина обработки']] },
+    tank: { value: '80 <span>л</span>', title: 'Бак RevoSpray 5', description: 'Ёмкость для рабочего раствора. Объём подбирается с учётом площади обработки и нормы внесения.', stats: [['80 л','объём при двух аккумуляторах'],['50 л','ограничение при одном аккумуляторе'],['RevoSpray 5','система внесения раствора']] },
+    spray: { value: '32 <span>л/мин</span>', title: 'Центробежные распылители', description: 'Два распылителя под задними лучами дозируют раствор и формируют каплю. Размер капли и подачу настраивают под препарат и культуру.', stats: [['46 л/мин','с комплектом из четырёх форсунок'],['60–500 мкм','регулируемый размер капли'],['5–10 м','ширина обработки']] },
     rotors: { value: '1600 <span>мм</span>', title: 'Карбоновые винты', description: 'Четыре складных винта создают подъёмную силу и нисходящий поток для проникновения раствора в растительный полог.', stats: [['4 × 63″','диаметр и количество винтов'],['до 80 кг','полезная нагрузка всей платформы'],['до 20 м/с','скорость платформы, не обороты винтов']] },
     battery: { value: '1050 <span>Вт·ч</span>', title: 'Аккумулятор B141050', description: 'Быстрая смена батарей сокращает паузы между вылетами. В режиме одного аккумулятора бак ограничен 50 л, нагрузка RevoCast — 40 кг.', stats: [['≈7 мин','30–95% с двумя зарядными устройствами'],['≈12 мин','30–95% с одним CM13600S'],['до 1500','циклов; гарантия — 1500 циклов или 12 месяцев']] },
-    navigation: { value: '±10 <span>см</span>', title: 'Навигация и препятствия', description: '4D-радар обнаруживает препятствия, а две антенны поддерживают точное позиционирование. Через половину крышки видна антенная решётка по изображению XAG в презентации; это не заводской разрез. Карты RealTerra строятся по фотографиям, не лидаром.', stats: [['1,5–100 м','дальность обнаружения 4D-радара'],['до 20 га','картографирование за один полёт'],['XRTK 7','мобильная станция для RTK']] },
-    spread: { value: '115 <span>л</span>', title: 'Бункер RevoCast 5', description: 'Сменный модуль для семян и удобрений. В 3D показана внешняя реконструкция RevoCast 5 с бункером, шнековой подачей и разбрасывающим диском.', stats: [['до 300 кг/мин','подача; испытания на комплексном удобрении'],['5–9 м','ширина разбрасывания'],['1–10 мм','размер гранул']] }
+    navigation: { value: '±10 <span>см</span>', title: 'Навигация и препятствия', description: '4D-радар обнаруживает препятствия, а две антенны поддерживают точное позиционирование. RealTerra помогает создавать карты полей по фотографиям и планировать маршруты.', stats: [['1,5–100 м','дальность обнаружения 4D-радара'],['до 20 га','картографирование за один полёт'],['XRTK 7','мобильная станция для RTK']] },
+    spread: { value: '115 <span>л</span>', title: 'Бункер RevoCast 5', description: 'Сменный модуль для семян и удобрений. Шнек подаёт материал к разбрасывающему диску, а настройки подачи определяют норму внесения.', stats: [['до 300 кг/мин','подача комплексного удобрения'],['5–9 м','ширина разбрасывания'],['1–10 мм','размер гранул']] }
   };
   const stage = document.querySelector('#drone-stage');
   const status = document.querySelector('#model-status');
@@ -40,7 +40,8 @@
   const area = document.querySelector('#request-area');
   const crop = document.querySelector('#request-crop');
   const requestStatus = document.querySelector('#request-status');
-  const retry = document.querySelector('#request-retry');
+  const preparedRequest = document.querySelector('#prepared-request');
+  const requestText = document.querySelector('#request-text');
   const applicationAirspace = document.querySelector('.scenario-airspace');
   const applicationStatus = document.querySelector('#application-model-status');
   const applicationNote = document.querySelector('.application-stage-note');
@@ -58,12 +59,11 @@
     applicationAirspace.dataset.state = state;
     const photoOnly = activeScenario === 'cargo' && stage.dataset.cargoState !== 'ready';
     applicationPhoto.hidden = !photoOnly && state !== 'fallback';
-    applicationNote.textContent = scenarios[activeScenario].title + (photoOnly || state === 'fallback'
-      ? ' · фото производителя' : ' · демонстрационная 3D-сцена');
+    applicationNote.textContent = scenarios[activeScenario].title;
     document.querySelector('#application-scene-description').textContent = photoOnly || state === 'fallback'
-      ? 'Материал производителя XAG, демонстрация техники.' : activeScenario === 'map'
-      ? 'Открытые данные Кокшетау. Участки и покрытие демонстрационные, не результат реальной съёмки.'
-      : 'Внешняя 3D-реконструкция техники и иллюстрация её работы.';
+      ? 'XAG P150 MAX в работе.' : activeScenario === 'map'
+      ? 'Планирование маршрута над выбранным полем.'
+      : 'XAG P150 MAX с модулем '+scenarios[activeScenario].module+'.';
     applicationStatus.hidden = photoOnly || state === 'ready';
     applicationStatus.textContent = message || (state === 'ready' ? '' : state === 'loading'
       ? 'Загружаем 3D-сцену. Фото производителя доступно ниже.'
@@ -111,7 +111,7 @@
     }
   });
 
-  function clearMessage() { requestStatus.textContent = ''; retry.hidden = true; retry.removeAttribute('href'); }
+  function clearMessage() { requestStatus.textContent = ''; preparedRequest.hidden = true; requestText.value = ''; }
   function updateRequirements() {
     const needed = ['Опрыскивание', 'Удобрения и посев'].includes(service.value);
     area.required = crop.required = needed;
@@ -149,7 +149,7 @@
       applicationPhoto.src = item.image; applicationPhoto.width = image.naturalWidth; applicationPhoto.height = image.naturalHeight;
       applicationPhoto.hidden = !(activeScenario === 'cargo' && stage.dataset.cargoState !== 'ready') && applicationAirspace.dataset.state !== 'fallback';
       document.querySelector('.scenario-photo').dataset.scenario = key;
-      document.querySelector('#scenario-credit').textContent = key === 'map' ? 'Материал производителя XAG · демонстрационный интерфейс' : 'Фото производителя XAG · демонстрация работы техники';
+      document.querySelector('#scenario-credit').textContent = 'XAG';
     }).catch(() => {
       if (sequence !== photoRequest) return;
       document.querySelector('#scenario-credit').textContent = 'Фото выбранного сценария не загрузилось. Пока показан предыдущий снимок.';
@@ -238,8 +238,8 @@
   for (const input of [crop, document.querySelector('#request-location')]) input.addEventListener('input', () => {
     input.setCustomValidity(input.value && !input.value.trim() ? 'Введите данные, а не только пробелы.' : '');
   });
-  form.addEventListener('input', clearMessage);
-  form.addEventListener('submit', event => {
+  form.addEventListener('input', event => {if(event.target!==requestText)clearMessage();});
+  form.addEventListener('submit', async event => {
     event.preventDefault();
     if (!form.reportValidity()) return;
     const data = new FormData(form);
@@ -248,9 +248,14 @@
       const value = String(data.get(key) || '').trim();
       if (value) lines.push(`${label}: ${value}`);
     }
-    const url = `https://wa.me/77477386296?text=${encodeURIComponent(lines.join('\n'))}`;
-    retry.href = url; retry.hidden = false;
-    requestStatus.textContent = 'Сообщение подготовлено, но ещё не отправлено. Если WhatsApp не открылся, нажмите ссылку ниже.';
-    try { window.open(url, '_blank', 'noopener,noreferrer'); } catch { /* Retry stays available. */ }
+    const message=lines.join('\n');
+    requestText.value=message;preparedRequest.hidden=false;
+    try{
+      await navigator.clipboard.writeText(message);
+      requestStatus.textContent='Запрос скопирован. Его можно вставить в переписку.';
+    }catch{
+      requestText.focus();requestText.select();
+      requestStatus.textContent='Запрос готов. Скопируйте текст ниже.';
+    }
   });
 })();

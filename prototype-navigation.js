@@ -6,12 +6,11 @@ import {createStudioEnvironment} from './prototype-studio.js';
 export function createNavigationViewer(template){
   const reduced=matchMedia('(prefers-reduced-motion: reduce)');
   const wrap=document.createElement('div');wrap.className='navigation-viewer';wrap.hidden=true;
-  wrap.innerHTML=`<canvas aria-label="Карта северных окрестностей Кокшетау; выберите демонстрационный участок кнопками ниже"></canvas>
-    <div class="navigation-heading"><span>Кокшетау · озеро Копа</span><span class="navigation-coordinate">53,33° N · 69,42° E</span></div>
-    <div class="navigation-controls"><div class="navigation-fields" role="group" aria-label="Демонстрационные участки"><button type="button" data-field="0" aria-pressed="false">Участок А</button><button type="button" data-field="1" aria-pressed="false">Участок Б</button><button type="button" data-field="2" aria-pressed="false">Участок В</button></div>
-    <p class="navigation-status" role="status">Загружаем карту и рельеф…</p><button class="navigation-back" type="button" hidden>Обзор участков</button>
-    <p class="navigation-disclaimer">Настоящий рельеф. Границы и сканирование — пример; дрон увеличен для показа.</p>
-    <p class="navigation-attribution"><a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">© OpenStreetMap</a> · <a href="https://registry.opendata.aws/terrain-tiles/" target="_blank" rel="noopener">Mapzen / SRTM</a> · <a href="https://github.com/tilezen/joerd/blob/master/docs/attribution.md" target="_blank" rel="noopener" title="SRTM / GMTED2010 terrain data courtesy of the U.S. Geological Survey">данные USGS</a> · высоты ×12</p></div>`;
+  wrap.innerHTML=`<canvas aria-label="Карта окрестностей Кокшетау; выберите участок для планирования маршрута"></canvas>
+    <div class="navigation-heading"><span>Кокшетау · озеро Копа</span></div>
+    <div class="navigation-controls"><div class="navigation-fields" role="group" aria-label="Выберите участок"><button type="button" data-field="0" aria-pressed="false">Участок А</button><button type="button" data-field="1" aria-pressed="false">Участок Б</button><button type="button" data-field="2" aria-pressed="false">Участок В</button></div>
+    <p class="navigation-status" role="status">Загружаем карту…</p><button class="navigation-back" type="button" hidden>Обзор участков</button>
+    <details class="navigation-attribution"><summary>© OpenStreetMap</summary><p><a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">© OpenStreetMap contributors · ODbL</a><br><a href="https://registry.opendata.aws/terrain-tiles/" target="_blank" rel="noopener">Mapzen / SRTM</a> · <a href="https://github.com/tilezen/joerd/blob/master/docs/attribution.md" target="_blank" rel="noopener">USGS</a></p></details></div>`;
   const canvas=wrap.querySelector('canvas'),status=wrap.querySelector('.navigation-status'),back=wrap.querySelector('.navigation-back');
   let host=null,renderer=null,scene,camera,aircraft,terrain,voxels,scan,routeLine,terrainData;
   let ready=false,failed=false,frame=0,previous=0,clock=0,missionTime=0,state='overview',selected=-1,path;
@@ -70,7 +69,7 @@ export function createNavigationViewer(template){
     for(const label of labels)label.scale.set(labelScale,labelScale,1);
   }
   const resizeObserver=new ResizeObserver(resize);
-  function overview(){state='overview';selected=-1;missionTime=0;back.hidden=true;status.textContent=ready?'Выберите небольшой демонстрационный участок.':'Загружаем карту и рельеф…';for(const b of wrap.querySelectorAll('[data-field]'))b.setAttribute('aria-pressed','false');if(aircraft)aircraft.visible=false;wrap.dataset.state=state;request();}
+  function overview(){state='overview';selected=-1;missionTime=0;back.hidden=true;status.textContent=ready?'Выберите поле для планирования маршрута.':'Загружаем карту…';for(const b of wrap.querySelectorAll('[data-field]'))b.setAttribute('aria-pressed','false');if(aircraft)aircraft.visible=false;wrap.dataset.state=state;request();}
   function select(index){
     if(!ready)return;selected=index;missionTime=0;state=reduced.matches?'result':'approach';back.hidden=false;
     wrap.querySelectorAll('[data-field]').forEach(b=>b.setAttribute('aria-pressed',String(+b.dataset.field===index)));
@@ -84,7 +83,7 @@ export function createNavigationViewer(template){
         path.add(new THREE.CubicBezierCurve3(end,c1,c2,next));}
     }
     routeLine.geometry.dispose();routeLine.geometry=new THREE.BufferGeometry().setFromPoints(path.getPoints(100).map(p=>new THREE.Vector3(p.x,h(p.x,p.z)+.006,p.z)));routeLine.computeLineDistances();
-    status.textContent=reduced.matches?`Участок ${f.name}: демонстрационная карта покрытия.`:`Участок ${f.name}: подлетаем к маршруту.`;
+    status.textContent=reduced.matches?`Участок ${f.name}: покрытие маршрута.`:`Участок ${f.name}: подлёт к маршруту.`;
     if(reduced.matches)markCoverage(1);updateVoxels();wrap.dataset.state=state;request();
   }
   function footprint(p){
@@ -204,8 +203,8 @@ export function createNavigationViewer(template){
     if(selected>=0){
       missionTime+=dt;
       progress=state==='result'?1:Math.min(1,Math.max(0,(missionTime-3.2)/16));
-      if(state==='approach'&&missionTime>=3.2){state='flight';status.textContent=`Участок ${f.name}: сканируем · демонстрация`;}
-      if(state==='flight'&&missionTime>=19.2){state='result';status.textContent=`Участок ${f.name}: проход завершён. Показаны покрытие и открытый рельеф, не результат реальной съёмки.`;}
+      if(state==='approach'&&missionTime>=3.2){state='flight';status.textContent=`Участок ${f.name}: маршрут облёта`;}
+      if(state==='flight'&&missionTime>=19.2){state='result';status.textContent=`Участок ${f.name}: покрытие маршрута.`;}
       dronePoint.copy(path.getPointAt(progress));const tangent=path.getTangentAt(Math.min(.999,progress));
       if(state==='approach'){
         const t=THREE.MathUtils.smoothstep(missionTime/3.2,0,1);

@@ -3,7 +3,7 @@ import { GLTFLoader } from './assets/vendor/three/loaders/GLTFLoader.js';
 import { MeshoptDecoder } from './assets/vendor/three/meshopt_decoder.module.js';
 import { createStudioEnvironment, tuneSurface } from './prototype-studio.js';
 import { createFieldStudy, createApplicationParticles } from './prototype-field.js';
-import { createNavigationViewer } from './prototype-navigation.js';
+import { createNavigationViewer } from './prototype-navigation.js?v=20261009-customer';
 import { refineNavigationHardware } from './prototype-navigation-hardware.js';
 
 const stage = document.querySelector('#drone-stage');

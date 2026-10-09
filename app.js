@@ -1,5 +1,4 @@
-// The visitor sends the prepared message; no data is submitted to a server.
-const siteConfig = { whatsapp: '77477386296' };
+// Contact details are unconfirmed; prepare a copyable request without sending it.
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 const menuButton = document.querySelector('.menu-toggle');
 const navigation = document.querySelector('#navigation');
@@ -89,7 +88,7 @@ const retry = form.querySelector('#whatsapp-retry');
 function clearPreparedMessage() {
   status.textContent = '';
   retry.hidden = true;
-  retry.removeAttribute('href');
+  retry.value = '';
 }
 function updateService() {
   const fieldWork = ['Опрыскивание', 'Удобрения и посев'].includes(service.value);
@@ -120,7 +119,7 @@ document.querySelectorAll('[data-service]').forEach(link => {
     updateService();
   });
 });
-form.addEventListener('submit', event => {
+form.addEventListener('submit', async event => {
   event.preventDefault();
   if (!form.reportValidity()) return;
   const data = new FormData(form);
@@ -130,11 +129,9 @@ form.addEventListener('submit', event => {
     const value = String(data.get(key) || '').trim();
     if (value) lines.push(`${label}: ${value}`);
   }
-  const url = `https://wa.me/${siteConfig.whatsapp}?text=${encodeURIComponent(lines.join('\n'))}`;
-  retry.href = url;
+  const message=lines.join('\n');
+  retry.value = message;
   retry.hidden = false;
-  status.textContent = 'Сообщение подготовлено. Если WhatsApp не открылся, воспользуйтесь ссылкой ниже.';
-  // noopener may return null even when a new tab opened. Do not infer success.
-  try { window.open(url, '_blank', 'noopener,noreferrer'); }
-  catch { /* The ordinary retry link remains available. */ }
+  try { await navigator.clipboard.writeText(message);status.textContent='Запрос скопирован. Его можно вставить в переписку.'; }
+  catch { retry.focus();retry.select();status.textContent='Запрос готов. Скопируйте текст ниже.'; }
 });

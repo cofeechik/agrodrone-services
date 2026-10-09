@@ -5,11 +5,12 @@ html{scroll-behavior:smooth;scroll-padding-top:calc(var(--header) + 20px);scroll
 body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.55 Golos,sans-serif}
 ::selection{background:var(--ink);color:var(--paper)}
 a{color:inherit;text-underline-offset:.25em}
-button,input,select{font:inherit;color:inherit}
-button,a,input,select{-webkit-tap-highlight-color:transparent}
+button,input,select,textarea{font:inherit;color:inherit}
+button,a,input,select,textarea{-webkit-tap-highlight-color:transparent}
 button{cursor:pointer}
 :focus-visible{outline:2px solid var(--accent);outline-offset:5px}
 [hidden]{display:none!important}
+.visually-hidden{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip-path:inset(50%)!important;white-space:nowrap!important;border:0!important}
 h1,h2,h3,p,figure{margin:0}
 h1,h2,h3{font-weight:450;letter-spacing:-.035em;line-height:1.06;text-wrap:balance}
 p{max-width:70ch}
@@ -70,7 +71,6 @@ h3{font-size:28px}
 .cargo-pickup{position:absolute;bottom:16px;left:16px;z-index:7;background:var(--ink);color:var(--paper);border:0;padding:12px 18px;min-height:44px;font-size:13px}
 .cargo-pickup:disabled{opacity:.65;cursor:wait}
 .navigation-viewer[data-state=approach] .navigation-controls,.navigation-viewer[data-state=flight] .navigation-controls{top:60px;bottom:auto;padding:8px 12px;background:var(--paper)}
-.navigation-viewer[data-state=approach] .navigation-disclaimer,.navigation-viewer[data-state=flight] .navigation-disclaimer{display:none}
 .navigation-viewer[data-state=approach] .navigation-fields button,.navigation-viewer[data-state=flight] .navigation-fields button{min-height:44px;padding:8px 12px}
 .navigation-viewer[data-state=approach] .navigation-back,.navigation-viewer[data-state=flight] .navigation-back{min-height:44px;margin-top:4px;padding:8px 12px}
 .navigation-viewer[data-state=approach] .navigation-status,.navigation-viewer[data-state=flight] .navigation-status{margin-top:4px;font-size:12px}
@@ -122,8 +122,10 @@ h3{font-size:28px}
 .navigation-fields button:hover,.navigation-back:hover{border-color:var(--accent)}
 .navigation-status{font-size:13px;line-height:1.5;margin-top:8px;color:var(--ink)}
 .navigation-back{margin-top:8px}
-.navigation-disclaimer,.navigation-attribution{font-size:11px;line-height:1.5;color:var(--muted);margin-top:6px}
-.navigation-attribution{margin-top:2px}
+.navigation-attribution{position:relative;margin-top:2px;color:var(--muted);font-size:11px;line-height:1.5;text-align:right}
+.navigation-attribution summary{cursor:pointer;list-style:none;min-height:28px;padding:6px 0}
+.navigation-attribution summary::-webkit-details-marker{display:none}
+.navigation-attribution p{position:absolute;right:0;bottom:32px;z-index:8;background:var(--paper);border:1px solid var(--line);padding:12px 16px;text-align:left;white-space:nowrap;max-width:100%}
 .machine-airspace[data-navigation=true]{min-height:max(560px,66svh)}
 @media(max-width:700px){.scenario-airspace[data-navigation=true],.machine-airspace[data-navigation=true]{height:550px;min-height:550px}.navigation-heading{left:16px;right:16px;top:16px;flex-direction:column;gap:0}.navigation-controls{left:12px;right:12px;padding:10px 12px}.navigation-fields{gap:4px}.navigation-fields button{padding:8px;font-size:12px}}
 .part-panel{grid-column:2;grid-row:2;align-self:start;min-width:0;padding:4px 0 20px;overflow-wrap:anywhere}
@@ -156,7 +158,9 @@ form{display:flex;flex-direction:column;gap:10px;align-self:start}
 form h3{margin-bottom:20px}
 form label{font-size:13px;margin-top:12px}
 form label span{color:var(--muted);font-size:11px}
-input,select{width:100%;min-height:52px;padding:12px 14px;background:transparent;border:1px solid var(--line);border-radius:0;font-size:16px;caret-color:var(--accent)}
+input,select,textarea{width:100%;min-height:52px;padding:12px 14px;background:transparent;border:1px solid var(--line);border-radius:0;font-size:16px;caret-color:var(--accent)}
+textarea{resize:vertical;line-height:1.6}
+#prepared-request{display:grid;gap:10px}
 input::placeholder{color:var(--muted)}
 input:focus,select:focus{border-color:var(--ink)}
 .form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
@@ -174,7 +178,7 @@ footer a{text-decoration:none}
  .flight-bottom{bottom:30px;display:grid;gap:18px}.flight-copy h1{font-size:32px}.flight-copy p{font-size:14px;margin-top:12px}.flight-actions{display:flex;align-items:center;justify-content:space-between;gap:14px}.flight-actions .button{font-size:12px;padding:12px 14px;gap:15px}.scroll-link{font-size:11px;gap:12px}.flight-runway{bottom:14px}
  .section{padding:52px var(--gutter)}.section-top{display:block;padding-bottom:24px}.section-top>p{font-size:14px;margin-top:18px}.section-top>p br{display:none}.section-top>p br::after{content:' '}
  .scenario-layout{display:flex;flex-direction:column;gap:24px;padding-top:16px}.scenario-copy{display:contents}.scenario-selector{display:flex;width:100%;max-width:100%;min-width:0;gap:22px;overflow-x:auto;order:0;padding:0 3px 8px}.scenario-selector button{flex-shrink:0;white-space:nowrap;font-size:16px;min-height:48px}.scenario-selector button[aria-pressed=true]::after{width:6px;height:6px;margin-left:9px}
- .scenario-visual{display:contents}.scenario-stage{order:1}.scenario-airspace{height:max(330px,43svh)}.scenario-panel{order:2;max-width:45ch}.scenario-panel h3{font-size:24px}.scenario-panel>p{font-size:16px}.scenario-panel .module-note{font-size:12px}
+ .scenario-visual{display:contents}.scenario-stage{order:1;width:100%}.scenario-airspace{height:max(330px,43svh)}.scenario-panel{order:2;max-width:45ch}.scenario-panel h3{font-size:24px}.scenario-panel>p{font-size:16px}.scenario-panel .module-note{font-size:12px}
  .scenario-visual>.model-status{order:1;margin-top:-12px}.scenario-reference{order:3;margin-top:0}.scenario-photo{max-width:100%;margin:4px 0 0}.scenario-photo img{height:260px}
  .machine-layout{grid-template-columns:1fr;grid-template-rows:auto auto auto;gap:18px}.part-navigation{min-width:0}.part-groups{gap:20px}.part-groups button{font-size:13px}.part-selector{gap:24px;overflow-x:auto;padding:0 3px}.part-selector button{font-size:14px;white-space:nowrap}.machine-airspace{grid-column:1;grid-row:2;min-height:max(300px,43svh)}.part-panel{grid-column:1;grid-row:3;padding:8px 0;display:block}.part-value{font-size:64px;margin-bottom:20px}.part-panel h3{font-size:22px;margin:0 0 12px}.part-panel>p:not(.part-value){font-size:16px}.part-panel button{font-size:14px}.part-stats{margin-top:20px}.part-stats dd{font-size:24px}
  .spec-strip{gap:12px}.spec-strip>div{padding:16px 0}.spec-strip span{font-size:12px;min-height:38px}.spec-strip strong{font-size:24px}.spec-note{font-size:12px}

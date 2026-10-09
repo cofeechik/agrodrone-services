@@ -3,12 +3,12 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Интерактивный прототип услуг агродронами: сценарии применения и устройство XAG P150 MAX.">
+  <meta name="description" content="AGRODRON — опрыскивание, внесение удобрений и посев, доставка грузов и съёмка полей с XAG P150 MAX.">
   <meta name="theme-color" content="#f7fafb">
   <title>AGRODRON — полёт над вашим полем</title>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="preload" href="assets/golos-variable.ttf" as="font" type="font/ttf" crossorigin>
-  <link rel="stylesheet" href="prototype.css">
+  <link rel="stylesheet" href="prototype.css?v=20261009-customer">
   <script type="importmap">{"imports":{"three":"./assets/vendor/three/three.module.js"}}</script>
   <link rel="modulepreload" href="assets/vendor/three/three.module.js">
   <link rel="preload" href="models/revocast-5/xag-p150-max-v08-configurable-web.glb" as="fetch" crossorigin>
@@ -19,16 +19,16 @@
       addEventListener('scroll',()=>{if(scrollY>10){document.documentElement.classList.remove('intro-pending');document.querySelector('#flight')?.classList.remove('is-arriving')}},{passive:true});
     }
   </script>
-  <script src="prototype-ui.js?v=20261009-equipment-fix" defer></script>
-  <script type="module" src="prototype-3d.js"></script>
+  <script src="prototype-ui.js?v=20261009-customer" defer></script>
+  <script type="module" src="prototype-3d.js?v=20261009-customer"></script>
   <script type="module" src="prototype-motion.js?v=20261009-equipment-fix"></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Перейти к содержимому</a>
   <header class="header">
     <a class="brand" href="#flight" aria-label="AGRODRON — начало страницы">AGRODRON</a>
-    <nav aria-label="Основное меню"><a href="#uses">Применение</a><a href="#machine">Техника</a><a href="#contact">Контакты</a></nav>
-    <details class="mobile-nav"><summary aria-label="Открыть меню разделов">Разделы</summary><nav aria-label="Разделы страницы"><a href="#uses">Применение</a><a href="#machine">Техника</a><a href="#contact">Контакты</a></nav></details>
+    <nav aria-label="Основное меню"><a href="#uses">Применение</a><a href="#machine">Техника</a><a href="#contact">Расчёт</a></nav>
+    <details class="mobile-nav"><summary aria-label="Открыть меню разделов">Разделы</summary><nav aria-label="Разделы страницы"><a href="#uses">Применение</a><a href="#machine">Техника</a><a href="#contact">Расчёт</a></nav></details>
     <a class="button header-cta" href="#contact">Запросить расчёт <span class="direction-icon" aria-hidden="true"></span></a>
   </header>
   <div class="drone-stage" id="drone-stage" aria-hidden="true">
@@ -45,7 +45,7 @@
       </div>
       <div class="flight-runway" aria-hidden="true"></div>
       </div>
-      <noscript><style>#prototype-request,.scenario-selector,.part-selector,#isolation-toggle{display:none}.drone-stage{position:absolute;height:580px}.model-status{display:none}</style><p class="no-script">Для 3D и формы нужен JavaScript. Вы можете написать нам по ссылке WhatsApp в контактах.</p></noscript>
+      <noscript><style>#prototype-request,.scenario-selector,.part-navigation,#isolation-toggle{display:none}.drone-stage{position:absolute;height:580px}.model-status{display:none}</style><p class="no-script">Включите JavaScript, чтобы посмотреть технику и подготовить запрос.</p></noscript>
     </section>
 
     <section class="uses section" id="uses" aria-labelledby="uses-title">
@@ -60,22 +60,22 @@
           </div>
           <div id="scenario-panel" class="scenario-panel" aria-live="polite" aria-atomic="true">
             <h3 id="scenario-title">Опрыскивание</h3><p id="scenario-description">Внесение средств защиты растений и листовых подкормок над посевами, садами и виноградниками.</p>
-            <p class="module-note" id="scenario-module">RevoSpray 5 · этот модуль показан в 3D</p>
+            <p class="module-note" id="scenario-module">RevoSpray 5</p>
             <a class="text-link" id="scenario-request" href="#contact">Рассчитать опрыскивание <span class="direction-icon" aria-hidden="true"></span></a>
           </div>
         </div>
         <div class="scenario-visual">
           <figure class="scenario-stage">
             <div class="scenario-airspace" data-scenario="spray" data-state="loading" role="img" aria-labelledby="application-stage-note" aria-describedby="application-scene-description"><img id="application-photo" src="assets/service-spray.jpg" alt="" width="1500" height="2390" loading="lazy" decoding="async" hidden></div>
-            <figcaption>
-              <p class="application-stage-note" id="application-stage-note" aria-live="polite" aria-atomic="true">Опрыскивание · демонстрационная 3D-сцена</p>
-              <p id="application-scene-description">Внешняя 3D-реконструкция техники и иллюстрация её работы.</p>
+            <figcaption class="visually-hidden">
+              <p class="application-stage-note" id="application-stage-note" aria-live="polite" aria-atomic="true">Опрыскивание</p>
+              <p id="application-scene-description">XAG P150 MAX с модулем RevoSpray 5.</p>
             </figcaption>
           </figure>
           <p class="model-status" id="application-model-status" role="status">Загружаем 3D-сцену. Фото производителя доступно ниже.</p>
           <details class="scenario-reference">
-            <summary>Фото и материалы производителя</summary>
-            <figure class="scenario-photo"><img id="scenario-image" src="assets/service-spray.jpg" width="1500" height="2390" alt="XAG P150 MAX распыляет раствор над посадками" loading="lazy" decoding="async"><figcaption id="scenario-credit">Фото производителя XAG · демонстрация работы техники</figcaption></figure>
+            <summary>Фотографии техники</summary>
+            <figure class="scenario-photo"><img id="scenario-image" src="assets/service-spray.jpg" width="1500" height="2390" alt="XAG P150 MAX распыляет раствор над посадками" loading="lazy" decoding="async"><figcaption id="scenario-credit">XAG</figcaption></figure>
           </details>
         </div>
       </div>
@@ -100,20 +100,20 @@
             <button type="button" data-part="navigation" data-group="navigation" aria-pressed="false" aria-controls="part-panel" hidden>Датчики и навигация</button>
           </div>
         </div>
-        <div class="machine-airspace"><img id="machine-photo" src="assets/service-spread.jpg" alt="XAG P150 MAX с бункером RevoCast 5 для гранул" loading="lazy" hidden><p class="machine-field-note" id="machine-field-note" hidden>Условный участок и проход съёмки — не реальные данные и не LiDAR.</p></div>
+        <div class="machine-airspace"><img id="machine-photo" src="assets/service-spread.jpg" alt="XAG P150 MAX с бункером RevoCast 5 для гранул" loading="lazy" hidden><p class="machine-field-note" id="machine-field-note" hidden></p></div>
         <div class="part-panel" id="part-panel" aria-live="polite" aria-atomic="true"><p class="part-value" id="part-value">80 <span>кг</span></p><h3 id="part-title">Полезная нагрузка</h3><p id="part-description">Одна платформа для опрыскивания, внесения гранул, карт полей и перевозки грузов. Модуль выбирается под задачу.</p><dl class="part-stats" id="part-stats"><div><dt>максимальная скорость платформы</dt><dd>20 м/с</dd></div><div><dt>максимум с RevoSling</dt><dd>13,8 м/с</dd></div><div><dt>защита от воды</dt><dd>IPX6K</dd></div></dl><button class="text-link" id="isolation-toggle" type="button" aria-pressed="true" hidden>Показать остальной дрон</button></div>
       </div>
       <div class="spec-strip"><div><span>Полезная нагрузка</span><strong>до 80 кг</strong></div><div><span>Бункер RevoCast 5</span><strong>115 л</strong></div><div><span>Точность с RTK</span><strong>±10 см</strong></div></div>
       <p class="model-status" id="model-status" role="status">Загружаем 3D. Пока показываем сохранённый рендер.</p>
-      <details class="spec-note"><summary>О данных и 3D-модели</summary><p>Характеристики XAG зависят от комплектации и условий работы. Зарядка — лабораторный замер 30–95%. Модель восстановлена по фотографиям, это не заводской CAD; вращение винтов демонстрационное.</p></details>
+      <p class="spec-note">Параметры зависят от комплектации и условий работы.</p>
       <a class="text-link" href="https://www.xa.com/en/p150max" target="_blank" rel="noopener noreferrer">Характеристики производителя <span class="direction-icon" aria-hidden="true"></span></a>
     </section>
 
     <section class="contact section" id="contact" aria-labelledby="contact-title">
-      <div class="contact-copy"><h2 id="contact-title">Обсудим<br>ваш участок.</h2><p>Пришлите площадь, культуру и расположение поля. Уточним задачу и условия выезда.</p><p class="service-area-note">Возможность выезда зависит от адреса и задачи.</p><div class="contact-person"><span>Бурабаев Сайранбек</span><a href="tel:+77477386296">+7 747 738 62 96</a></div><div class="contact-person"><span>Асанов Данияр</span><a href="tel:+77051507557">+7 705 150 75 57</a></div><a class="text-link" href="https://wa.me/77477386296" target="_blank" rel="noopener noreferrer">Написать в WhatsApp <span class="direction-icon" aria-hidden="true"></span></a></div>
-      <form id="prototype-request"><h3>Данные для расчёта</h3><label for="request-service">Услуга</label><select id="request-service" name="service" required><option>Опрыскивание</option><option>Удобрения и посев</option><option>Доставка грузов</option><option>Карты полей</option></select><div class="form-row"><div><label for="request-area">Площадь, га <span id="area-hint">обязательно</span></label><input id="request-area" name="area" type="number" min="0.1" step="any" inputmode="decimal" required placeholder="Например, 150"></div><div><label for="request-crop">Культура или груз <span id="crop-hint">обязательно</span></label><input id="request-crop" name="crop" required pattern=".*\S.*" maxlength="120" placeholder="Например, пшеница"></div></div><label for="request-location">Расположение участка — обязательно</label><input id="request-location" name="location" required pattern=".*\S.*" maxlength="200" placeholder="Район или координаты"><button class="button" type="submit">Подготовить сообщение <span class="direction-icon" aria-hidden="true"></span></button><p class="form-note">Получатель — Бурабаев Сайранбек. Сайт готовит текст; отправить его нужно самостоятельно в WhatsApp.</p><p id="request-status" role="status" aria-live="polite"></p><a id="request-retry" class="text-link" target="_blank" rel="noopener noreferrer" hidden>Открыть сообщение в WhatsApp <span class="direction-icon" aria-hidden="true"></span></a></form>
+      <div class="contact-copy"><h2 id="contact-title">Ваш участок.<br>Ваша задача.</h2><p>Выберите услугу, укажите площадь, культуру и расположение поля. Подготовленный запрос можно скопировать и сохранить для обсуждения.</p><p class="service-area-note">Возможность выезда зависит от адреса и задачи.</p></div>
+      <form id="prototype-request"><h3>Данные для расчёта</h3><label for="request-service">Услуга</label><select id="request-service" name="service" required><option>Опрыскивание</option><option>Удобрения и посев</option><option>Доставка грузов</option><option>Карты полей</option></select><div class="form-row"><div><label for="request-area">Площадь, га <span id="area-hint">обязательно</span></label><input id="request-area" name="area" type="number" min="0.1" step="any" inputmode="decimal" required placeholder="Например, 150"></div><div><label for="request-crop">Культура или груз <span id="crop-hint">обязательно</span></label><input id="request-crop" name="crop" required pattern=".*\S.*" maxlength="120" placeholder="Например, пшеница"></div></div><label for="request-location">Расположение участка — обязательно</label><input id="request-location" name="location" required pattern=".*\S.*" maxlength="200" placeholder="Район или координаты"><button class="button" type="submit">Скопировать запрос <span class="direction-icon" aria-hidden="true"></span></button><p id="request-status" role="status" aria-live="polite"></p><div id="prepared-request" hidden><label for="request-text">Текст запроса</label><textarea id="request-text" readonly rows="6"></textarea></div></form>
     </section>
   </main>
-  <footer><a class="brand" href="#flight">AGRODRON</a><p>XAG P150 MAX · услуги агродрона</p><a href="#contact">Связаться <span class="direction-icon" aria-hidden="true"></span></a></footer>
+  <footer><a class="brand" href="#flight">AGRODRON</a><p>XAG P150 MAX · услуги агродрона</p><a href="#contact">Подготовить запрос <span class="direction-icon" aria-hidden="true"></span></a></footer>
 </body>
 </html>
