@@ -171,7 +171,7 @@
   const partGroupButtons=[...document.querySelectorAll('[data-part-group]')];
   function setPartGroup(group){
     partGroupButtons.forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.partGroup===group)));
-    document.querySelectorAll('[data-part]').forEach(button=>{button.hidden=button.dataset.group!==group;});
+    document.querySelectorAll('.part-selector button[data-part]').forEach(button=>{button.hidden=button.dataset.group!==group;});
   }
   partGroupButtons.forEach(button=>button.addEventListener('click',()=>{
     const first=[...document.querySelectorAll('button[data-part]')].find(part=>part.dataset.group===button.dataset.partGroup);

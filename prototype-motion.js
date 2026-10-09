@@ -5,7 +5,7 @@ for(const selector of ['.scenario-selector','.part-selector']){
   const marker=document.createElement('span');marker.className='selection-marker';marker.setAttribute('aria-hidden','true');track.append(marker);
   const buttons=[...track.querySelectorAll('button')];
   function position(){
-    const active=buttons.find(b=>b.getAttribute('aria-pressed')==='true');if(!active)return;
+    const active=buttons.find(b=>!b.hidden&&b.getAttribute('aria-pressed')==='true');if(!active)return;
     const a=active.getBoundingClientRect(),r=track.getBoundingClientRect(),range=document.createRange();range.selectNodeContents(active);
     const text=range.getBoundingClientRect();
     const horizontal=selector==='.part-selector'||innerWidth<=700;
@@ -19,8 +19,9 @@ for(const selector of ['.scenario-selector','.part-selector']){
   new ResizeObserver(position).observe(track);document.fonts.ready.then(position);position();
   track.addEventListener('keydown',e=>{
     if(!['ArrowLeft','ArrowRight','ArrowUp','ArrowDown'].includes(e.key))return;
-    const index=buttons.indexOf(document.activeElement);if(index<0)return;
-    const next=buttons[Math.max(0,Math.min(buttons.length-1,index+(['ArrowRight','ArrowDown'].includes(e.key)?1:-1)))];
+    const visibleButtons=buttons.filter(button=>!button.hidden);
+    const index=visibleButtons.indexOf(document.activeElement);if(index<0)return;
+    const next=visibleButtons[Math.max(0,Math.min(visibleButtons.length-1,index+(['ArrowRight','ArrowDown'].includes(e.key)?1:-1)))];
     e.preventDefault();next.click();next.focus({preventScroll:true});next.scrollIntoView({block:'nearest',inline:'nearest',behavior:reduced.matches?'instant':'smooth'});
   });
   let accumulated=0,last=0,lastInput=0;
@@ -37,7 +38,9 @@ for(const selector of ['.scenario-selector','.part-selector']){
     if(Math.abs(accumulated)<70)return;accumulated=0;last=now;
     buttons[next].click();buttons[next].scrollIntoView({block:'nearest',inline:'nearest',behavior:'smooth'});
   };
-  track.addEventListener('wheel',wheel,{passive:false});area.addEventListener('wheel',wheel,{passive:false});
+  if(selector==='.scenario-selector'){
+    track.addEventListener('wheel',wheel,{passive:false});area.addEventListener('wheel',wheel,{passive:false});
+  }
 }
 const observer=new IntersectionObserver(entries=>{
   for(const entry of entries)if(entry.isIntersecting){
